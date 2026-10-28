@@ -1,7 +1,7 @@
 import type { ToolContent } from '../../types';
 
 const content: ToolContent = {
-  title: 'Image en PDF – Convertir une image en PDF gratuitement',
+  title: 'Image en PDF gratuit – Convertir une image en PDF',
   description:
     'Convertissez une image en PDF gratuitement. Réunissez des photos JPG, PNG et HEIC dans un PDF, ordonnez les pages, choisissez A4. Sans filigrane ni envoi.',
   h1: 'Convertisseur image en PDF',

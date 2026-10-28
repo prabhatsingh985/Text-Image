@@ -743,7 +743,7 @@ export const tools: Record<ToolId, ToolContent> = {
     ],
   },
   'screenshot-to-text': {
-    title: 'Screenshot to Text Converter – Free & Unlimited OCR',
+    title: 'Screenshot to Text Converter – Free, Unlimited OCR',
     description:
       'Convert screenshot to text in seconds. Paste with Ctrl+V and copy the text. A free, unlimited screenshot to text converter that runs in your browser.',
     h1: 'Screenshot to Text Converter',

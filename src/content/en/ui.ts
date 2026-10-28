@@ -30,6 +30,7 @@ export const ui: UiStrings = {
     noSignupBadge: 'No signup',
     skipToContent: 'Skip to content',
     lastUpdated: 'Last updated',
+    tagline: 'Free, unlimited image to text converter',
   },
   tool: {
     dropTitle: 'Drop images here',

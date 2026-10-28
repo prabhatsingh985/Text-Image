@@ -1,7 +1,7 @@
 import type { ToolContent } from '../../types';
 
 const content: ToolContent = {
-  title: 'Screenshot zu Text – Text aus Screenshot kopieren, kostenlos',
+  title: 'Screenshot zu Text – kostenlos in Text umwandeln',
   description:
     'Screenshot in Text umwandeln, in Sekunden. Mit Strg+V einfügen und den Text kopieren. Kostenlos, unbegrenzt und direkt im Browser – nichts wird hochgeladen.',
   h1: 'Screenshot zu Text',

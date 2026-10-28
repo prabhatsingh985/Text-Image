@@ -1,7 +1,7 @@
 import type { ToolContent } from '../../types';
 
 const content: ToolContent = {
-  title: 'Word en texte – Convertir un Word en texte gratuitement',
+  title: 'Word en texte gratuit – Convertir un Word en texte',
   description:
     'Convertissez un Word en texte gratuitement. Transformez vos fichiers DOCX, ODT et RTF en texte brut propre (TXT) en quelques secondes. Illimité, sans envoi.',
   h1: 'Convertisseur Word en texte',

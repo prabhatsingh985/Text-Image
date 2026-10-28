@@ -1,7 +1,7 @@
 import type { ToolContent } from '../../types';
 
 const content: ToolContent = {
-  title: 'JPG en Word – Convertir une image en Word gratuitement',
+  title: 'JPG en Word gratuit – Convertir une image en Word',
   description:
     'Convertissez un JPG en Word gratuitement. Ce convertisseur en ligne transforme photos et scans en documents .docx modifiables, avec paragraphes et titres.',
   h1: 'Convertisseur JPG en Word',

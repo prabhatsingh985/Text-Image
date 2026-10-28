@@ -1,7 +1,7 @@
 import type { ToolContent } from '../../types';
 
 const content: ToolContent = {
-  title: 'PPT zu Text – PowerPoint in Text umwandeln, kostenlos',
+  title: 'PPT zu Text – PowerPoint in Text umwandeln, gratis',
   description:
     'PPT kostenlos in Text umwandeln. Extrahiere Text und Sprechernotizen jeder PowerPoint-Folie (PPTX, ODP) in Sekunden. Unbegrenzt, ohne Anmeldung, ohne Upload.',
   h1: 'PPT-zu-Text-Konverter',

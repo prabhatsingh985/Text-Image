@@ -1,7 +1,7 @@
 import type { ToolContent } from '../../types';
 
 const content: ToolContent = {
-  title: 'PDF テキスト抽出 – スキャンPDFもOK、無料でテキスト化',
+  title: 'PDF テキスト抽出 – スキャンPDFも無料でテキスト化',
   description:
     'PDFからテキストを無料で抽出。スキャンしたPDFにも対応し、テキストのあるページは瞬時に、画像のページはOCRで読み取ります。無制限・登録不要・完全プライベート。',
   h1: 'PDFからテキスト抽出',

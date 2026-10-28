@@ -1,7 +1,7 @@
 import type { ToolContent } from '../../types';
 
 const content: ToolContent = {
-  title: 'PDF en texte – Convertir un PDF en texte gratuitement',
+  title: 'PDF en texte gratuit – Convertir un PDF en texte',
   description:
     'Convertissez un PDF en texte gratuitement, même numérisé. Les pages natives sont lues instantanément, les pages scannées par OCR. Illimité et entièrement privé.',
   h1: 'Convertisseur PDF en texte',

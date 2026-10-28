@@ -1,7 +1,7 @@
 import type { ToolContent } from '../../types';
 
 const content: ToolContent = {
-  title: 'Immagine in testo – Convertitore OCR online gratis e illimitato',
+  title: 'Immagine in testo – Convertitore OCR gratis e illimitato',
   description:
     'Converti un’immagine in testo online gratis. Estrai il testo da JPG, PNG, foto e screenshot con un OCR illimitato: senza registrazione e senza caricare nulla.',
   h1: 'Convertire immagine in testo',
@@ -98,12 +98,17 @@ const content: ToolContent = {
     { q: 'Come converto un’immagine in testo online?', a: 'Trascina l’immagine nel riquadro qui sopra, clicca su «Scegli file», scatta una foto col telefono o incolla uno screenshot con Ctrl+V. Lo strumento legge l’immagine con l’OCR e mostra il testo accanto, pronto da modificare, copiare o scaricare.' },
     { q: 'Come converto un JPG in testo?', a: 'Carica il tuo file JPG o JPEG in questo convertitore. Il testo dell’immagine viene riconosciuto in pochi secondi e appare in un riquadro modificabile. Copialo con un clic o scaricalo in TXT. PNG, WEBP, GIF, BMP, TIFF e HEIC funzionano allo stesso modo.' },
     { q: 'Come copio il testo da un’immagine?', a: 'Converti l’immagine in testo con questo strumento e premi Copia per mettere tutto il testo negli appunti. Per copiare una sola riga, cliccala sull’immagine. Con più immagini, Copia tutto prende il testo di tutte insieme.' },
+    { q: 'Come si scansiona il testo da un’immagine?', a: 'Non serve uno scanner. Scatta con il telefono una foto nitida della pagina, oppure aggiungi un’immagine o uno screenshot che hai già. Il motore OCR scansiona l’immagine alla ricerca di lettere e parole e le trasforma in testo modificabile. Dal telefono puoi usare il pulsante della fotocamera per fotografare direttamente la pagina.' },
     { q: 'Come copio il testo da un PDF fatto di immagini?', a: 'Usa il nostro strumento gratuito PDF in testo. Legge ogni pagina del PDF, anche quelle scansionate o composte solo da immagini, e le trasforma in testo da copiare o scaricare.' },
     { q: 'Riesce a leggere la scrittura a mano?', a: 'Una calligrafia chiara e ordinata viene spesso riconosciuta bene, ma una scrittura disordinata resta difficile per qualsiasi OCR: controlla il risultato. Le parole incerte vengono evidenziate in arancione.' },
+    { q: 'Qual è il modo migliore per estrarre il testo da un’immagine?', a: 'Il più rapido è un convertitore OCR da immagine a testo come questo: aggiungi l’immagine e il testo viene estratto in pochi secondi. Per risultati migliori usa un’immagine nitida e ben illuminata, tieni la fotocamera dritta sopra la pagina, ritaglia gli sfondi confusi e usa la versione più grande dell’immagine che hai. Ribattere tutto a mano conviene solo per poche parole.' },
+    { q: 'Come funziona questo strumento da foto a testo?', a: 'Usa l’OCR (riconoscimento ottico dei caratteri). Lo strumento individua le zone della foto che contengono scritte, le divide in righe e parole e abbina ogni forma a una lettera grazie a un modello addestrato. La lingua viene rilevata in automatico e le foto sbiadite o scure vengono migliorate e rilette se il primo risultato sembra incerto.' },
+    { q: 'Perché estrarre il testo dalle immagini?', a: 'Estrarre il testo ti evita di ribatterlo e di fare errori di battitura. Una volta fuori dall’immagine, puoi cercarlo, modificarlo, tradurlo, incollarlo in documenti o fogli di calcolo e condividerlo. È utile per appunti, screenshot, scontrini, lettere scansionate, biglietti da visita e slide delle lezioni.' },
     { q: 'È davvero gratis e illimitato?', a: 'Sì. Questo convertitore da immagine a testo è completamente gratuito, senza piani a pagamento, senza registrazione, senza filigrana e senza limiti giornalieri. Dato che l’OCR gira sul tuo dispositivo, non ci sono costi di server da limitare.' },
     { q: 'È sicuro? Le mie immagini vengono caricate?', a: 'Sì, è sicuro. Le tue immagini non vengono mai caricate su un server. Il motore OCR funziona nel browser, quindi immagini e testo restano sul tuo dispositivo.' },
     { q: 'Quali formati di immagine posso convertire in testo?', a: 'JPG, JPEG, PNG, WEBP, GIF, BMP, TIFF e HEIC (foto dell’iPhone). Per i file PDF usa lo strumento PDF in testo.' },
     { q: 'Quali lingue riconosce?', a: 'Oltre 40, tra cui italiano, inglese, spagnolo, francese, tedesco, portoghese, russo, arabo, giapponese, coreano e cinese. Non devi sceglierne una: la lingua viene rilevata in automatico per ogni immagine.' },
+    { q: 'Quanto è preciso l’OCR da immagine a testo?', a: 'Con testo stampato o a schermo ben leggibile la precisione è molto alta. Foto sfocate, scure o molto inclinate la riducono. Le parole incerte vengono evidenziate in arancione, così puoi controllare solo quelle invece di rileggere tutto.' },
     { q: 'Posso convertire un’immagine in testo dal telefono?', a: 'Sì. Funziona nel browser su Android e iPhone, senza installare nulla. Carica foto dalla galleria, anche HEIC dell’iPhone, oppure scattane una con la fotocamera.' },
     { q: 'Posso convertire più immagini insieme?', a: 'Sì. Trascina tutte le immagini che vuoi. Vengono elaborate poche alla volta e puoi copiare tutto il testo o scaricare tutti i risultati in uno ZIP.' },
   ],

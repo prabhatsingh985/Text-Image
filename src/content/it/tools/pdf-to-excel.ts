@@ -1,7 +1,7 @@
 import type { ToolContent } from '../../types';
 
 const content: ToolContent = {
-  title: 'PDF in Excel – Convertire PDF in Excel gratis online',
+  title: 'PDF in Excel – Convertire PDF in Excel gratis',
   description:
     'Converti PDF in Excel online gratis. Trasforma le tabelle di PDF digitali e scansionati in fogli Excel modificabili, uno per pagina. Senza registrazione.',
   h1: 'Convertitore da PDF a Excel',

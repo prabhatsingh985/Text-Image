@@ -15,7 +15,7 @@ export const ui: UiStrings = {
     tools: 'ツール',
     company: '運営情報',
     privacyNote: 'ファイルはブラウザ内で処理され、アップロードされることはありません。',
-    rights: 'All rights reserved.',
+    rights: '無断転載を禁じます。',
     madeIn: 'アップロード不要・登録不要・回数制限なし',
   },
   common: {
@@ -30,6 +30,7 @@ export const ui: UiStrings = {
     noSignupBadge: '登録不要',
     skipToContent: '本文へスキップ',
     lastUpdated: '最終更新日',
+    tagline: '無料・無制限の画像文字起こしツール',
   },
   tool: {
     dropTitle: 'ここに画像をドロップ',

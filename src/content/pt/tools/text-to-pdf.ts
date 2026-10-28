@@ -1,7 +1,7 @@
 import type { ToolContent } from '../../types';
 
 const content: ToolContent = {
-  title: 'Texto para PDF – Converter texto em PDF grátis online',
+  title: 'Texto para PDF – Converter texto em PDF grátis',
   description:
     'Converta texto em PDF online grátis. Digite ou cole o texto, ou abra um .txt, escolha fonte, tamanho e margens e baixe um PDF limpo. Sem cadastro e sem upload.',
   h1: 'Conversor de texto para PDF',

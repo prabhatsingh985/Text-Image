@@ -30,6 +30,7 @@ export const ui: UiStrings = {
     noSignupBadge: 'Sin registro',
     skipToContent: 'Saltar al contenido',
     lastUpdated: 'Última actualización',
+    tagline: 'Convertidor de imagen a texto gratis e ilimitado',
   },
   tool: {
     dropTitle: 'Suelta tus imágenes aquí',

@@ -1,7 +1,7 @@
 import type { ToolContent } from '../../types';
 
 const content: ToolContent = {
-  title: 'JPG en Excel – Convertir une image en Excel gratuitement',
+  title: 'JPG en Excel gratuit – Convertir image en Excel',
   description:
     'Convertissez un JPG en Excel gratuitement. Transformez photos et captures de tableaux en feuilles Excel (.xlsx) ou CSV modifiables. Illimité, sans envoi.',
   h1: 'Convertisseur JPG en Excel',

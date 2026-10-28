@@ -1,7 +1,7 @@
 import type { ToolContent } from '../../types';
 
 const content: ToolContent = {
-  title: 'Print para texto – Converter captura de tela em texto grátis',
+  title: 'Print para texto – Captura de tela em texto grátis',
   description:
     'Converta print em texto em segundos. Cole a captura de tela com Ctrl+V e copie o texto. Grátis, ilimitado e roda no seu navegador, sem enviar nada.',
   h1: 'Print para texto',

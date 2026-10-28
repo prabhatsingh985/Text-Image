@@ -56,6 +56,8 @@ export interface UiStrings {
     noSignupBadge: string;
     skipToContent: string;
     lastUpdated: string;
+    /** Site tagline, used as share-image alt text on non-tool pages. */
+    tagline: string;
   };
   tool: Record<string, string>;
 }

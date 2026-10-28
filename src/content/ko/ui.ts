@@ -15,7 +15,7 @@ export const ui: UiStrings = {
     tools: '도구',
     company: '회사',
     privacyNote: '파일은 브라우저에서 처리되며 절대 업로드되지 않습니다.',
-    rights: 'All rights reserved.',
+    rights: '모든 권리 보유.',
     madeIn: '업로드 없음 · 계정 없음 · 제한 없음',
   },
   common: {
@@ -30,6 +30,7 @@ export const ui: UiStrings = {
     noSignupBadge: '가입 불필요',
     skipToContent: '본문으로 건너뛰기',
     lastUpdated: '최종 업데이트',
+    tagline: '무료·무제한 이미지 텍스트 추출 도구',
   },
   tool: {
     dropTitle: '여기에 이미지를 놓으세요',
