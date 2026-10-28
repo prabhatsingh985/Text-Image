@@ -489,11 +489,11 @@ export const tools: Record<ToolId, ToolContent> = {
   },
 
   'text-to-pdf': {
-    title: 'Text to PDF Converter – Free, Online, No Signup',
+    title: 'Text to PDF Converter – Convert Text to PDF Free',
     description:
-      'Convert plain text or a .txt file to a clean PDF. Choose font, size, page size and margins. Free and unlimited, and your text never leaves your device.',
+      'Convert text to PDF online free. Type or paste text, or open a .txt file, choose font, size and margins, and download a clean PDF. No signup, no uploads.',
     h1: 'Text to PDF Converter',
-    lead: 'Paste text or open a .txt file. Download it as a PDF.',
+    lead: 'Convert text to PDF online, free — type or paste your text, or open a .txt file.',
     navLabel: 'Text to PDF',
     cardText: 'Turn plain text into a clean PDF.',
     howTo: {
@@ -505,7 +505,7 @@ export const tools: Record<ToolId, ToolContent> = {
       ],
     },
     features: {
-      title: 'Simple text to PDF, done right',
+      title: 'A simple text to PDF maker, done right',
       items: [
         { title: 'Clean typography', text: 'Choose a sans-serif, serif or monospace font and the size you need.' },
         { title: 'Automatic line wrapping', text: 'Long lines wrap neatly and new pages are added automatically.' },
@@ -517,27 +517,110 @@ export const tools: Record<ToolId, ToolContent> = {
     },
     sections: [
       {
-        h2: 'Make a PDF from plain text in seconds',
+        h2: 'A free text to PDF converter that takes seconds',
         paragraphs: [
-          'Plain text files look different on every device, and some upload forms only accept PDF. This text to PDF converter turns your text into a properly formatted PDF that looks the same everywhere and prints cleanly.',
-          'It is handy for notes, code snippets, logs, letters, transcripts and text you extracted with the <a href="/">image to text converter</a>.',
+          'Plain text looks different on every device, and many upload forms, teachers and offices only accept PDF. This <strong>text to PDF converter</strong> turns your text into a properly formatted PDF that looks the same everywhere and prints cleanly. Paste your text, pick a layout, click <strong>Create PDF</strong> — done.',
+          'It is a <strong>text to PDF converter free</strong> to use as often as you like: no signup, no watermark, no page limit and no daily cap. There is no software to install either; you can convert text to PDF from any browser on your computer or phone.',
         ],
       },
       {
-        h2: 'Supported characters',
+        h2: 'Type text to PDF online — no Word needed',
         paragraphs: [
-          'The current version supports English and other languages written with the basic Latin alphabet and common accents. Support for scripts such as Cyrillic, Arabic, Thai, Japanese and Korean is coming soon. If your text contains characters that cannot be shown yet, the tool tells you before you download.',
+          'You do not need Microsoft Word, Google Docs or any other editor to make a PDF. Type text to PDF online right here: write in the box, or paste text you copied from an email, a chat, a website or a note. A live word and character count shows how long your text is as you type.',
+          'Already have a text file? Click <strong>Open .txt file</strong> and its contents appear in the box, ready to turn into a PDF. You can still edit anything before you create the file.',
+        ],
+      },
+      {
+        h2: 'Why convert text to PDF?',
+        paragraphs: [
+          'A PDF keeps your text exactly as you laid it out, on every screen and printer. People use this tool to:',
+        ],
+        list: [
+          'Submit assignments, applications and statements to portals that only accept PDF.',
+          'Turn notes, lists and drafts into a document that is easy to share and print.',
+          'Save letters, poems, transcripts and meeting minutes in a tidy, permanent format.',
+          'Share code snippets, logs and configuration files without formatting getting lost.',
+          'Make a printable copy of text extracted from photos or documents.',
+        ],
+      },
+      {
+        h2: 'Choose the layout of your PDF',
+        list: [
+          '<strong>Font:</strong> sans-serif (Helvetica) for a clean modern look, serif (Times) for letters and formal documents, or monospace (Courier) for code and tables made of spaces.',
+          '<strong>Font size:</strong> from 10 to 18 pt. 12 pt is the standard for most documents; choose 14–18 pt for large print.',
+          '<strong>Page size:</strong> A4, the standard in India, the UK and most of the world, or Letter for the US and Canada.',
+          '<strong>Margins:</strong> small (half an inch) to fit more text on each page, or large (one inch), the usual margin for printed documents.',
+        ],
+      },
+      {
+        h2: 'Your text stays exactly as you wrote it',
+        paragraphs: [
+          'Every line break and every empty line in your text is kept in the same place in the PDF, so paragraphs, addresses, lists and poems keep their shape. Lines that are too long for the page wrap neatly at the nearest space, very long words or links are broken so nothing runs off the edge, and tabs become spaces. When a page is full, a new page is added automatically — a one-line note and a 50-page transcript both work.',
+        ],
+      },
+      {
+        h2: 'A real text PDF, not a picture',
+        paragraphs: [
+          'Some tools turn your text into an image and put that image in a PDF. Here the PDF contains real text in standard PDF fonts. That means you can search it, select and copy from it, and screen readers can read it aloud. The file stays very small too — usually just a few kilobytes per page — so it is easy to email or upload anywhere.',
+        ],
+      },
+      {
+        h2: 'PDF maker: text to PDF for notes, code and logs',
+        paragraphs: [
+          'Think of it as a tiny PDF maker: text to PDF with no menus to learn. It is ideal for developers and IT teams who need to share logs, error output or code. Choose the monospace font and everything lines up exactly as it does in your editor, including columns made with spaces. It is just as handy for teachers printing a worksheet, writers sending a draft, or anyone who wants a quick printable page.',
+        ],
+      },
+      {
+        h2: 'Why not just use “Print to PDF”?',
+        paragraphs: [
+          'On a computer you can open a text file in Notepad and print it to PDF, but you get the default font and margins, and the steps differ on every system. On a phone it is even more awkward — most phones have no simple way to turn a block of copied text into a PDF at all.',
+          'A dedicated text to PDF maker gives you the same result on every device, with the font, size, paper and margins you choose, in one click. No print dialogs, no printer settings and no extra apps.',
+        ],
+      },
+      {
+        h2: 'Supported languages and characters',
+        paragraphs: [
+          'The current version supports English and Western European languages written with the Latin alphabet, such as Spanish, French, German, Portuguese, Italian and Dutch, including their accents, curly quotes, dashes and the € sign.',
+          'Support for other scripts — Hindi and other Indian scripts, Cyrillic, Arabic, Thai, Chinese, Japanese and Korean — is coming soon. Until then, characters the PDF cannot show yet (including emoji) are replaced with “?”, and the tool tells you how many were replaced so you can check the result.',
+        ],
+      },
+      {
+        h2: 'Convert text to PDF on your phone',
+        paragraphs: [
+          'This online text to PDF converter works in Chrome, Safari, Edge and Firefox on Android, iPhone, tablets, Windows, Mac, Linux and Chromebook. On a phone, copy text from any app, paste it into the box and tap <strong>Create PDF</strong>; the file is saved to your downloads, ready to share on WhatsApp or email.',
+        ],
+      },
+      {
+        h2: 'Private: your text never leaves your device',
+        paragraphs: [
+          'Letters, applications and notes can be personal. Most online converters send your text to a server to build the PDF. This one does not: the PDF is created inside your browser and saved straight to your device as <strong>text.pdf</strong>. Nothing is uploaded or stored, which is also why the tool can stay free and unlimited.',
+        ],
+      },
+      {
+        h2: 'Tips for a better PDF',
+        list: [
+          'Leave an empty line between paragraphs to keep them clearly separated in the PDF.',
+          'Use the monospace font for code, logs and anything aligned with spaces.',
+          'Rename the downloaded file to something meaningful before you send it.',
+        ],
+      },
+      {
+        h2: 'Have an image or a scanned document?',
+        paragraphs: [
+          'To turn photos into a PDF, use the <a href="/image-to-pdf">image to PDF converter</a>. To get editable text from a picture first, use the <a href="/">image to text converter</a>, then paste the result here. To pull text out of an existing PDF, use <a href="/pdf-to-text">PDF to Text</a>.',
         ],
       },
     ],
     faq: [
-      { q: 'How do I convert text to PDF?', a: 'Type or paste your text into the box, or open a .txt file. Choose a font, font size, page size and margins, then click “Create PDF”. The PDF is saved instantly.' },
+      { q: 'How to convert text to PDF?', a: 'Type or paste your text into the box at the top of this page, or click “Open .txt file”. Choose a font, font size, page size and margins, then click “Create PDF”. The PDF is saved to your device instantly.' },
+      { q: 'Is this text to PDF converter free?', a: 'Yes. The text to PDF converter is free and unlimited, with no account and no watermark.' },
       { q: 'How can I convert a TXT file to PDF?', a: 'Click “Open .txt file” and choose the file from your device. The text appears in the box, and you can create the PDF with one click.' },
-      { q: 'Is the text to PDF converter free?', a: 'Yes. The text to PDF converter is free and unlimited, with no account and no watermark.' },
-      { q: 'Can I change the font, size and margins of the PDF?', a: 'Yes. Choose a sans-serif, serif or monospace font, set the font size, pick A4 or Letter paper and adjust the margins.' },
+      { q: 'Can I type text and make a PDF online?', a: 'Yes. Type directly into the box on this page, or paste text from anywhere, then click “Create PDF”. You do not need Word or any other software.' },
+      { q: 'Can I change the font, size and margins of the PDF?', a: 'Yes. Choose a sans-serif, serif or monospace font, a size from 10 to 18 pt, A4 or Letter paper, and small or large margins.' },
       { q: 'Will my line breaks be kept in the PDF?', a: 'Yes. Every line break and empty line in your text is kept exactly where it is. Long lines wrap neatly and new pages are added automatically.' },
+      { q: 'Can I search and copy the text in the PDF?', a: 'Yes. The PDF contains real text, not an image, so you can search it, select it and copy from it.' },
       { q: 'Can I convert code or log files to PDF?', a: 'Yes. Choose the monospace font so code, logs and tables made of spaces line up the same way they do in your editor.' },
-      { q: 'Which languages can I convert to PDF?', a: 'The current version supports English and other languages written with the basic Latin alphabet and common accents. Support for Cyrillic, Arabic, Thai, Japanese and Korean is coming soon. If your text has characters that cannot be shown yet, the tool tells you before you download.' },
+      { q: 'Which languages can I convert to PDF?', a: 'English and Western European languages such as Spanish, French, German, Portuguese and Italian are supported now. Hindi, Arabic, Cyrillic, Thai, Chinese, Japanese and Korean are coming soon. Characters that cannot be shown yet are replaced with “?”, and the tool tells you how many.' },
       { q: 'Is my text uploaded?', a: 'No. The PDF is generated in your browser and your text stays on your device.' },
     ],
   },
