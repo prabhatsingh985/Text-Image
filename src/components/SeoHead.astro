@@ -1,7 +1,7 @@
 ---
 import { SITE } from '../config/site';
 import type { Locale } from '../i18n/locales';
-import { alternatesFor, urlFor, type PageId } from '../i18n/routes';
+import { TOOL_IDS, alternatesFor, urlFor, type PageId } from '../i18n/routes';
 import type { FaqItem } from '../content/types';
 
 interface Props {
@@ -24,6 +24,10 @@ const canonical = abs(urlFor(pageId, locale));
 const alternates = alternatesFor(pageId);
 const xDefault = alternates.find((a) => a.locale.code === 'en');
 const fullTitle = pageId === 'image-to-text' ? title : `${title} | ${SITE.name}`;
+// 1200×630 share cards in public/og: one per tool, default.png for every other page.
+const isToolPage = (TOOL_IDS as readonly string[]).includes(pageId);
+const ogImage = abs(`/og/${isToolPage ? pageId : 'default'}.png`);
+const ogImageAlt = isToolPage ? `${breadcrumbName ?? title} – ${SITE.name}` : `${SITE.name} – ${SITE.tagline}`;
 
 const jsonLd: Record<string, unknown>[] = [];
 if (isTool) {
@@ -35,6 +39,7 @@ if (isTool) {
     operatingSystem: 'Any (web browser)',
     url: canonical,
     description,
+    image: ogImage,
     inLanguage: locale.hreflang,
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
   });
@@ -83,8 +88,15 @@ if (faq.length) {
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />
 <meta property="og:locale" content={locale.hreflang.replace('-', '_')} />
-<meta name="twitter:card" content="summary" />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={ogImageAlt} />
+<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={fullTitle} />
 <meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+<meta name="twitter:image:alt" content={ogImageAlt} />
 
 {!noindex && jsonLd.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data)} />)}
