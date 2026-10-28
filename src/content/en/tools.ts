@@ -412,23 +412,23 @@ export const tools: Record<ToolId, ToolContent> = {
     ],
   },
   'screenshot-to-text': {
-    title: 'Screenshot to Text – Copy Text from Any Screenshot Free',
+    title: 'Screenshot to Text Converter – Free & Unlimited OCR',
     description:
-      'Paste a screenshot with Ctrl+V and copy the text in seconds. Free, unlimited screenshot OCR in your browser — nothing is uploaded and no signup needed.',
-    h1: 'Screenshot to Text',
-    lead: 'Paste a screenshot with Ctrl+V and copy the text.',
+      'Convert screenshot to text in seconds. Paste with Ctrl+V and copy the text. A free, unlimited screenshot to text converter that runs in your browser.',
+    h1: 'Screenshot to Text Converter',
+    lead: 'Paste a screenshot with Ctrl+V and convert it to text you can copy, edit or download.',
     navLabel: 'Screenshot to Text',
     cardText: 'Paste a screenshot and copy its text instantly.',
     howTo: {
-      title: 'How to copy text from a screenshot',
+      title: 'How to convert a screenshot to text',
       steps: [
-        '<strong>Take a screenshot.</strong> Press Win+Shift+S on Windows, Cmd+Shift+4 on Mac, or use your phone’s screenshot buttons.',
+        '<strong>Take a screenshot.</strong> Press Win+Shift+S on Windows, Cmd+Ctrl+Shift+4 on Mac, or use your phone’s screenshot buttons.',
         '<strong>Paste it here.</strong> Press Ctrl+V (Cmd+V on Mac) anywhere on this page, or drop the saved image into the box.',
         '<strong>Copy the text.</strong> Edit it in the box, click a single line on the image to copy just that line, or download a TXT file.',
       ],
     },
     features: {
-      title: 'Built for screenshots',
+      title: 'Why this screenshot to text converter is built for screenshots',
       items: [
         { title: 'Paste, don’t upload', text: 'Straight from the clipboard with Ctrl+V. No need to save the screenshot as a file first.' },
         { title: 'Sharp on screen text', text: 'Screen text is clean and high-contrast, so results are usually near-perfect.' },
@@ -440,10 +440,62 @@ export const tools: Record<ToolId, ToolContent> = {
     },
     sections: [
       {
-        h2: 'Why convert a screenshot to text?',
+        h2: 'A free screenshot to text converter: paste and copy',
         paragraphs: [
-          'Plenty of text can be seen but not selected: an error dialog, a frame of a video, a slide in a meeting, a message in an app that blocks copying, or a website that turns text into images. A screenshot captures it; this tool turns it back into text you can paste anywhere.',
-          'Developers use it to copy error messages and stack traces, students to grab text from lecture slides, and support teams to quote from customer screenshots.',
+          'Plenty of text on your screen can be seen but not selected: an error dialog, a frame of a video, a slide in an online meeting, a message in an app that blocks copying, or a website that shows text as an image. A screenshot captures it, and this <strong>screenshot to text converter</strong> turns it back into real text that you can copy, edit and paste anywhere.',
+          'There is no file to save and nothing to upload. Take the screenshot, press Ctrl+V on this page and the text appears in a few seconds. It is completely free, with no signup, no watermark and no daily limit, so you can convert screenshot to text as often as you need — ten times a day or a hundred.',
+        ],
+      },
+      {
+        h2: 'How to take a screenshot on any device',
+        paragraphs: [
+          'The quickest way to convert a screenshot to text is to copy the screenshot straight to your clipboard and paste it here. These shortcuts do that:',
+        ],
+        list: [
+          '<strong>Windows:</strong> press Win+Shift+S, select the area you need, then press Ctrl+V on this page. Print Screen copies the whole screen.',
+          '<strong>Mac:</strong> press Cmd+Ctrl+Shift+4 and drag over the area to copy it, then press Cmd+V here. Cmd+Shift+4 saves a file instead, which you can drop into the box.',
+          '<strong>Chromebook:</strong> press Ctrl+Shift+Show windows, select the area, then paste it here.',
+          '<strong>Android:</strong> press Power and Volume Down together, then tap “Choose files” and pick the screenshot.',
+          '<strong>iPhone:</strong> press the Side button and Volume Up together, then tap “Choose files” and pick it from Photos.',
+        ],
+      },
+      {
+        h2: 'Screenshot to text copy in one click',
+        paragraphs: [
+          'Reading the text is only half the job; getting it out quickly is the other half. After you convert a screenshot to text, the result appears in an editable box next to your image, so you can fix a word or remove a line before copying. Press <strong>Copy</strong> to put all the text on your clipboard.',
+          'Often you need just one thing from a busy screenshot: a phone number, an order ID, a link or a single line of an error. Every line the tool finds is outlined on the screenshot, and clicking a line copies only that line. This makes screenshot to text copy faster than selecting and trimming text by hand.',
+          'Working through several screenshots? Paste them one after another. Each one is read separately, and you can use <strong>Copy all</strong> or download every result together in one ZIP file.',
+        ],
+      },
+      {
+        h2: 'What people convert from screenshots',
+        list: [
+          'Error messages, stack traces and log output that a developer needs to search for or share.',
+          'Code shown in a video tutorial, a slide or an image someone posted.',
+          'Chat messages, emails and social media posts that you want to quote or translate.',
+          'Slides from an online class or meeting, so you can keep the notes as text.',
+          'Text in apps and websites that block copying, such as some PDFs, menus and image-based pages.',
+          'Order numbers, tracking codes, addresses and phone numbers from a confirmation screen.',
+        ],
+      },
+      {
+        h2: 'Why screenshots give such accurate results',
+        paragraphs: [
+          'The tool uses OCR (optical character recognition) to recognise letters and words in your image. Screenshots are the easiest images for OCR to read: the text is perfectly straight, sharp and high-contrast, with no shadows, blur or curved pages. That is why a screenshot to text conversion is usually near-perfect, even for small fonts.',
+          'The language is detected automatically for every screenshot. English, Hindi, Arabic, Chinese, Japanese, Russian and more than 40 other languages are recognised without any setting, and right-to-left text such as Arabic and Urdu is shown in the correct direction. If a word looks doubtful, it is outlined in amber so you know what to check.',
+        ],
+      },
+      {
+        h2: 'Convert screenshot to text in any format',
+        paragraphs: [
+          'Screenshots are saved in different formats depending on your device. Windows and Android usually save PNG files, iPhones save screenshots as PNG and photos as HEIC, and some apps save JPG or WEBP. This tool accepts all of them — PNG, JPG, JPEG, WEBP, GIF, BMP, TIFF and HEIC — so you can convert screenshot to text without changing the file type first.',
+          'You do not need to install an app or a browser extension either. The screenshot to text converter works in Chrome, Edge, Firefox and Safari on Windows, Mac, Linux, Chromebook, Android and iPhone. Bookmark this page and it is always one paste away.',
+        ],
+      },
+      {
+        h2: 'Private: your screenshots never leave your device',
+        paragraphs: [
+          'Screenshots often contain private things: chats, bank details, passwords in an error log, customer information. Most online OCR tools upload your image to their server. This one does not. The OCR engine runs inside your browser, so your screenshot and its text stay on your computer or phone. After the first visit the engine is cached, and the next conversion starts even faster.',
         ],
       },
       {
@@ -451,20 +503,28 @@ export const tools: Record<ToolId, ToolContent> = {
         list: [
           'Capture only the part you need. Less clutter means cleaner text.',
           'Zoom in before you take the screenshot if the text is very small.',
+          'Avoid screenshots that have been resized or heavily compressed in a chat app; use the original if you can.',
+          'Light text on a busy background, such as a photo or video, is harder to read. Pause on a clear frame first.',
+          'Check code before pasting it into an editor. Indentation may be simplified.',
         ],
       },
       {
-        h2: 'Have a photo instead?',
+        h2: 'Have a photo or a document instead?',
         paragraphs: [
-          'For phone photos of paper documents, the <a href="/">image to text converter</a> cleans up dim or faded photos automatically. To keep layout and headings, use <a href="/jpg-to-word">JPG to Word</a>.',
+          'For phone photos of paper documents, the <a href="/">image to text converter</a> cleans up dim or faded photos automatically. To keep layout and headings, use <a href="/jpg-to-word">JPG to Word</a>. If your screenshot shows a table, the <a href="/jpg-to-excel">image to Excel converter</a> rebuilds it as a spreadsheet, and <a href="/pdf-to-text">PDF to Text</a> reads whole PDF files.',
         ],
       },
     ],
     faq: [
-      { q: 'How do I paste a screenshot?', a: 'Take the screenshot so it is on your clipboard, then press Ctrl+V (Cmd+V on Mac) anywhere on this page. It starts reading straight away.' },
-      { q: 'Does it work on my phone?', a: 'Yes. Tap “Choose files” and pick the screenshot from your gallery.' },
-      { q: 'Is my screenshot uploaded?', a: 'No. Text recognition runs inside your browser, so the image never leaves your device.' },
-      { q: 'Can it read code from a screenshot?', a: 'Yes. Code, error messages and logs read well. Indentation may be simplified, so check it before pasting into an editor.' },
+      { q: 'How do I convert a screenshot to text?', a: 'Take a screenshot, then press Ctrl+V (Cmd+V on Mac) anywhere on this page, or drop the image file into the box. The screenshot to text converter reads it in a few seconds and shows the text, ready to copy, edit or download.' },
+      { q: 'How do I paste a screenshot here?', a: 'Copy the screenshot to your clipboard with Win+Shift+S on Windows or Cmd+Ctrl+Shift+4 on Mac, then press Ctrl+V or Cmd+V anywhere on this page. It starts reading straight away. No need to save it as a file.' },
+      { q: 'How do I copy text from a screenshot?', a: 'Convert the screenshot to text here, then press Copy to copy all of it. To copy just one line, click that line where it is outlined on the screenshot. With several screenshots, Copy all copies the text from every one at once.' },
+      { q: 'Is this screenshot to text converter free?', a: 'Yes. It is completely free, with no signup, no watermark and no daily limit. You can convert as many screenshots to text as you like.' },
+      { q: 'Can I convert a screenshot to text on my phone?', a: 'Yes. It works in the browser on Android and iPhone. Take the screenshot, tap “Choose files” and pick it from your gallery or Photos. The text appears in a few seconds.' },
+      { q: 'Is my screenshot uploaded to a server?', a: 'No. Text recognition runs inside your browser, so your screenshot and the text in it never leave your device. This keeps private chats, emails and error logs private.' },
+      { q: 'Can it read code from a screenshot?', a: 'Yes. Code, error messages and logs read well because screen text is sharp. Indentation may be simplified, so check it before pasting into an editor.' },
+      { q: 'Which languages can it read from screenshots?', a: 'More than 40, including English, Hindi, Arabic, Chinese, Japanese, Korean, Russian, Spanish and French. The language is detected automatically, so there is nothing to choose.' },
+      { q: 'Can I convert several screenshots at once?', a: 'Yes. Paste or drop as many screenshots as you like. Each one is converted separately, and you can copy all the text or download every result in one ZIP file.' },
     ],
   },
   'pdf-to-excel': {
