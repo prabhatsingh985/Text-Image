@@ -979,15 +979,15 @@ export const tools: Record<ToolId, ToolContent> = {
     ],
   },
   'ppt-to-text': {
-    title: 'PPT to Text – Extract Text from PowerPoint Slides Free',
+    title: 'PPT to Text Converter – Convert PPT to Text Free',
     description:
-      'Extract all text from PowerPoint slides (PPTX, ODP), including speaker notes. Free, unlimited and private — files never leave your device.',
+      'Convert PPT to text online free. Extract the text and speaker notes of every PowerPoint slide (PPTX, ODP) in seconds. Unlimited, no signup, no uploads.',
     h1: 'PPT to Text Converter',
-    lead: 'Extract text and speaker notes from PowerPoint slides.',
+    lead: 'Convert PPT to text online, free — every slide and its speaker notes as plain text.',
     navLabel: 'PPT to Text',
     cardText: 'Extract slide text and speaker notes from PPTX.',
     howTo: {
-      title: 'How to extract text from PowerPoint',
+      title: 'How to convert PPT to text',
       steps: [
         '<strong>Add your presentation.</strong> Drop one or more .pptx or .odp files into the box.',
         '<strong>Get every slide.</strong> Text comes out slide by slide with slide numbers, and speaker notes are added below each slide automatically.',
@@ -995,7 +995,7 @@ export const tools: Record<ToolId, ToolContent> = {
       ],
     },
     features: {
-      title: 'Every slide, in order',
+      title: 'A PPT to text converter that keeps every slide in order',
       items: [
         { title: 'Slide order kept', text: 'Text follows the real order of your slides, even if they were rearranged.' },
         { title: 'Speaker notes', text: 'Presenter notes are included under each slide automatically.' },
@@ -1007,12 +1007,62 @@ export const tools: Record<ToolId, ToolContent> = {
     },
     sections: [
       {
-        h2: 'What people use it for',
+        h2: 'A free PPT to text converter for every slide',
+        paragraphs: [
+          'Getting the words out of a PowerPoint presentation is surprisingly tedious. You click into each text box, copy, switch windows, paste, and repeat for every slide — then do it again for the speaker notes. This <strong>PPT to text converter</strong> does it all at once: drop in your presentation and you get the text of every slide, in order, as clean plain text.',
+          'It is completely free, with no signup, no watermark and no limit on slides or files. Because it is a <strong>PPT to text converter online</strong>, there is nothing to install and you do not even need PowerPoint on your computer. Open the page, add your file, and convert PPT to text in a second.',
+        ],
+      },
+      {
+        h2: 'Why convert PPT to text?',
+        paragraphs: [
+          'Slides are great for presenting but awkward for anything else. Plain text is easy to edit, search, share and reuse. People convert PPT to text to:',
+        ],
         list: [
-          'Turning lecture slides into study notes.',
-          'Reusing a deck’s content in a report, blog post or email.',
-          'Pasting slide text into a translator, a grammar checker or an AI assistant.',
-          'Pulling the speaker notes out as a script for a talk or video.',
+          'Turn lecture slides into study notes they can highlight and revise.',
+          'Reuse a deck’s content in a report, blog post, handout or email.',
+          'Paste slide text into a translator, a grammar checker or an AI assistant to summarise it.',
+          'Pull the speaker notes out as a script for a talk, webinar or video.',
+          'Count words, proofread or check spelling across the whole presentation at once.',
+          'Search old presentations for a fact, a figure or a quote.',
+        ],
+      },
+      {
+        h2: 'Speaker notes included automatically',
+        paragraphs: [
+          'The notes under your slides often contain more detail than the slides themselves — the full explanation, the talking points, the script. Most tools ignore them. This converter reads the notes of every slide and places them right below that slide’s text, marked “Notes:”, so you always know which notes belong to which slide. There is nothing to switch on: if your presentation has notes, you get them.',
+        ],
+      },
+      {
+        h2: 'Why not copy text from PowerPoint by hand?',
+        paragraphs: [
+          'PowerPoint keeps every title, bullet list and caption in a separate text box, so there is no simple “select all” for a whole deck. Copying slide by slide is slow, easy to get out of order, and you still miss the speaker notes unless you switch to the notes view. Outline view helps a little, but it skips text boxes that are not placeholders and tables entirely.',
+          'A dedicated tool that can convert PPT to text reads every text box, table and note in one pass, keeps the slide order and labels each slide, so a 60-slide deck becomes a tidy document in a second.',
+        ],
+      },
+      {
+        h2: 'What you get from each slide',
+        list: [
+          '<strong>Slide markers:</strong> each slide starts with “— Slide 1 —”, “— Slide 2 —” and so on, in the order the slides appear in your presentation.',
+          '<strong>Titles and text boxes:</strong> all the text on the slide, shape by shape, including grouped shapes.',
+          '<strong>Bullets:</strong> bullet and numbered points start with a “•”, so lists stay readable.',
+          '<strong>Tables:</strong> each table row becomes one line with cells separated by tabs, ready to paste into a spreadsheet.',
+          '<strong>Speaker notes:</strong> added below each slide when the deck has them.',
+          '<strong>Left out:</strong> slide numbers, dates and footers, plus text inside pictures, charts and SmartArt graphics.',
+        ],
+      },
+      {
+        h2: 'How the PPT to text converter works',
+        paragraphs: [
+          'A .pptx file is a zip archive that stores each slide as structured XML. The converter opens it inside your browser, follows the presentation’s own slide list so the order is always right, and reads the text directly from each slide and notes page. There is no OCR and no guessing, so every word comes out exactly as it was typed — even for a 150-slide deck, the result takes about a second.',
+          'The text appears in an editable box with a live word and character count. Fix anything you like, then copy it or save it as a TXT file.',
+        ],
+      },
+      {
+        h2: 'PPTX, ODP and other presentation formats',
+        paragraphs: [
+          'You can convert <strong>PPTX</strong>, <strong>PPTM</strong>, <strong>PPSX</strong> and <strong>POTX</strong> files from Microsoft PowerPoint, and <strong>ODP</strong> and <strong>OTP</strong> files from LibreOffice Impress and OpenOffice.',
+          'Using Google Slides? Choose File → Download → Microsoft PowerPoint (.pptx) and drop that file here. From Apple Keynote, use File → Export To → PowerPoint. Either way, you convert PPT to text with the same clean result.',
         ],
       },
       {
@@ -1022,21 +1072,55 @@ export const tools: Record<ToolId, ToolContent> = {
         ],
       },
       {
-        h2: 'Text inside slide pictures',
+        h2: 'Convert many presentations at once',
         paragraphs: [
-          'Text that is part of an image on a slide cannot be extracted this way. Take a screenshot of the slide and use <a href="/screenshot-to-text">Screenshot to Text</a> instead.',
+          'Have a whole semester of lecture decks or a folder of sales presentations? Drop them all in at once. Each file is converted separately with its slide count shown, and you can use <strong>Copy all</strong> to grab everything or download every TXT file together in one ZIP.',
+        ],
+      },
+      {
+        h2: 'Convert PPT to text online on any device',
+        paragraphs: [
+          'This PPT to text converter online works in Chrome, Edge, Firefox and Safari on Windows, Mac, Linux, Chromebook, Android and iPhone. Got a presentation as an email or WhatsApp attachment on your phone? Save it, open this page, tap the box and pick the file — the slide text is ready to copy a moment later, without the PowerPoint app.',
+        ],
+      },
+      {
+        h2: 'Works with every language',
+        paragraphs: [
+          'Because the text is read straight from the file, any language comes out correctly: English, Hindi, Arabic, Chinese, Japanese, Russian and every other script. TXT files are saved in UTF-8, so even Windows Notepad shows non-English text properly.',
+        ],
+      },
+      {
+        h2: 'Private: your slides stay on your device',
+        paragraphs: [
+          'Presentations often contain unreleased plans, client names, sales figures or exam material. Most online converters upload your file to a server. This one does not: the presentation is opened and read inside your browser and never leaves your computer or phone. Nothing is stored online, which is also why the tool can stay free and unlimited.',
+        ],
+      },
+      {
+        h2: 'Tips for the best results',
+        list: [
+          'If a slide’s text is part of a picture, take a screenshot of that slide and use Screenshot to Text.',
+          'Hidden slides are read too; delete them first if you do not want their text.',
+          'Need the slides as a PDF first? Export them from PowerPoint and use PDF to Text instead.',
+        ],
+      },
+      {
+        h2: 'Text inside slide pictures and other files',
+        paragraphs: [
+          'Text that is part of an image on a slide cannot be extracted this way. Take a screenshot of the slide and use <a href="/screenshot-to-text">Screenshot to Text</a> instead. For documents, the <a href="/word-to-text">Word to text converter</a> works the same way, and the <a href="/pdf-to-text">PDF to text converter</a> handles PDF files, including scanned ones.',
         ],
       },
     ],
     faq: [
-      { q: 'How do I extract text from a PowerPoint presentation?', a: 'Drop one or more .pptx or .odp files into the box. The text comes out slide by slide, with speaker notes below each slide. Copy it, save it as TXT, or download several presentations as a ZIP.' },
-      { q: 'How can I convert PPT to text for free?', a: 'Use this free PPT to text converter. There is no signup and no limit. Open your .pptx file and copy or download the text of every slide.' },
-      { q: 'Which PowerPoint formats are supported?', a: 'PPTX, PPTM, PPSX and POTX from PowerPoint, and ODP from LibreOffice Impress. Old .ppt files need to be saved as .pptx first.' },
-      { q: 'Can I get the speaker notes from a PowerPoint?', a: 'Yes. If the presentation has notes, they appear below each slide’s text automatically.' },
+      { q: 'How do I convert PPT to text?', a: 'Drop one or more .pptx or .odp files into the box at the top of this page. The text of every slide comes out in order, with speaker notes below each slide. Copy it, save it as TXT, or download several presentations as a ZIP.' },
+      { q: 'Is this PPT to text converter free?', a: 'Yes. It is completely free, with no signup, no watermark and no limit on slides or files.' },
+      { q: 'Which PowerPoint formats are supported?', a: 'PPTX, PPTM, PPSX and POTX from PowerPoint, and ODP and OTP from LibreOffice Impress. Old .ppt files need to be saved as .pptx first.' },
+      { q: 'Can I get the speaker notes from a PowerPoint?', a: 'Yes. If the presentation has notes, they appear below each slide’s text automatically, marked “Notes:”.' },
       { q: 'Is the slide order kept?', a: 'Yes. Text follows the real order of your slides, with a slide number for each, even if the slides were rearranged.' },
       { q: 'Can I convert an old .ppt file to text?', a: 'Not directly. Open the .ppt file in PowerPoint, Google Slides or LibreOffice Impress, save it as .pptx, then convert it here.' },
-      { q: 'Can it extract text from pictures on slides?', a: 'No. Text that is part of an image cannot be extracted this way. Take a screenshot of the slide and use Screenshot to Text instead.' },
+      { q: 'Can it extract text from pictures, charts or SmartArt on slides?', a: 'No. Only real text in text boxes, titles, tables and notes is extracted. For text inside a picture, take a screenshot of the slide and use Screenshot to Text instead.' },
       { q: 'Does it work with Google Slides?', a: 'Yes. In Google Slides choose File → Download → Microsoft PowerPoint (.pptx), then open that file here.' },
+      { q: 'Can I convert PPT to text online on my phone?', a: 'Yes. This PPT to text converter online works in the browser on Android and iPhone. Save the presentation to your phone, open this page and pick the file.' },
+      { q: 'Can I convert several presentations at once?', a: 'Yes. Drop as many files as you like and download every TXT file together in one ZIP.' },
       { q: 'Is my presentation uploaded?', a: 'No. Everything is read inside your browser and the file never leaves your device.' },
     ],
   },
