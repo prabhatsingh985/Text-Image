@@ -56,7 +56,7 @@ const content: ToolContent = {
     {
       h2: 'Choisissez la mise en page de votre PDF',
       list: [
-        '<strong>Police :</strong> sans empattement (Helvetica) pour un rendu net et moderne, avec empattement (Times) pour les lettres et documents officiels, ou à chasse fixe (Courier) pour le code et les tableaux faits d’espaces.',
+        '<strong>Police :</strong> sans empattement (Helvetica) pour un rendu net et moderne, avec empattement (Times) pour les lettres et documents officiels, ou à chasse fixe (Courier) pour le code et les tableaux faits d’espaces. Le texte dans d’autres écritures, comme le japonais, le coréen, le chinois, le grec ou le cyrillique, utilise la police Noto correspondante : Noto Serif si vous choisissez avec empattement, Noto Sans sinon.',
         '<strong>Taille du texte :</strong> de 10 à 18 pt. 12 pt est la norme pour la plupart des documents ; choisissez 14 à 18 pt pour un gros caractère.',
         '<strong>Format de page :</strong> A4, la norme en France et dans la plupart des pays, ou Lettre US pour les États-Unis et le Canada.',
         '<strong>Marges :</strong> petite (un demi-pouce) pour mettre plus de texte par page, ou grande (un pouce), la marge habituelle des documents imprimés.',
@@ -65,13 +65,13 @@ const content: ToolContent = {
     {
       h2: 'Votre texte reste exactement tel que vous l’avez écrit',
       paragraphs: [
-        'Chaque retour à la ligne et chaque ligne vide de votre texte restent à la même place dans le PDF : paragraphes, adresses, listes et poèmes gardent leur forme. Les lignes trop longues passent à la ligne à l’espace le plus proche, les mots ou liens très longs sont coupés pour ne pas dépasser, et les tabulations deviennent des espaces. Quand une page est pleine, une nouvelle s’ajoute automatiquement — une note d’une ligne comme une transcription de 50 pages.',
+        'Chaque retour à la ligne et chaque ligne vide de votre texte restent à la même place dans le PDF : paragraphes, adresses, listes et poèmes gardent leur forme. Les lignes trop longues passent à la ligne à l’espace le plus proche (le chinois et le japonais, qui n’ont pas d’espaces, passent à la ligne entre deux caractères, sans qu’une ponctuation fermante comme 。 ou 」 ne commence une ligne), les mots ou liens très longs sont coupés pour ne pas dépasser, et les tabulations deviennent des espaces. Quand une page est pleine, une nouvelle s’ajoute automatiquement — une note d’une ligne comme une transcription de 50 pages.',
       ],
     },
     {
       h2: 'Un vrai PDF texte, pas une image',
       paragraphs: [
-        'Certains outils transforment votre texte en image puis la placent dans un PDF. Ici, le PDF contient du vrai texte avec des polices PDF standard. Vous pouvez donc y rechercher, sélectionner et copier, et les lecteurs d’écran peuvent le lire à voix haute. Le fichier reste aussi très léger — généralement quelques kilo-octets par page — et s’envoie facilement.',
+        'Certains outils transforment votre texte en image puis la placent dans un PDF. Ici, le PDF contient du vrai texte, dans les polices PDF standard ou, pour les autres écritures, dans des polices Noto intégrées. Vous pouvez donc y rechercher, sélectionner et copier, et les lecteurs d’écran peuvent le lire à voix haute. Le fichier reste aussi léger, car seuls les caractères utilisés sont intégrés : quelques kilo-octets par page en français, et en général de quelques dizaines à quelques centaines de kilo-octets pour un texte en japonais, coréen ou chinois. Il s’envoie donc facilement.',
       ],
     },
     {
@@ -90,8 +90,9 @@ const content: ToolContent = {
     {
       h2: 'Langues et caractères pris en charge',
       paragraphs: [
-        'La version actuelle prend en charge le français et les autres langues d’Europe de l’Ouest écrites en alphabet latin, comme l’anglais, l’espagnol, l’allemand, l’italien et le portugais, avec leurs accents, la cédille, les guillemets typographiques, les tirets et le symbole €.',
-        'D’autres alphabets arrivent bientôt : cyrillique, arabe, hindi, thaï, chinois, japonais et coréen. En attendant, les caractères que le PDF ne peut pas encore afficher (y compris les emojis) sont remplacés par « ? », et l’outil indique combien ont été remplacés pour que vous puissiez vérifier.',
+        'L’outil prend en charge le français et les autres langues écrites en alphabet latin, comme l’anglais, l’espagnol, l’allemand, l’italien, le portugais, le polonais, le tchèque, le turc, le roumain et le vietnamien, avec leurs accents, la cédille, les guillemets typographiques, les tirets et le symbole €, ainsi que <strong>le japonais, le coréen, le chinois (simplifié et traditionnel), le russe et les autres langues en cyrillique, et le grec</strong>. Vous pouvez les mélanger dans un même document.',
+        'Le texte en français et dans les autres langues d’Europe de l’Ouest utilise les polices PDF standard. Pour le reste, votre navigateur télécharge uniquement les parties des polices gratuites Noto dont votre texte a besoin, depuis le réseau public jsDelivr et la première fois qu’elles sont nécessaires, et le PDF n’intègre que les caractères utilisés. Les lignes en chinois et en japonais passent à la ligne entre deux caractères, sans laisser de ponctuation fermante en début de ligne.',
+        'Le hindi et les autres écritures indiennes, l’arabe, l’hébreu, le thaï et les emojis ne sont pas encore pris en charge. Les caractères que le PDF ne peut pas afficher sont remplacés par « ? », et l’outil indique combien ont été remplacés pour que vous puissiez vérifier.',
       ],
     },
     {
@@ -103,7 +104,7 @@ const content: ToolContent = {
     {
       h2: 'Privé : votre texte ne quitte jamais votre appareil',
       paragraphs: [
-        'Lettres, candidatures et notes peuvent être personnelles. La plupart des convertisseurs en ligne envoient votre texte sur un serveur pour créer le PDF. Pas celui-ci : le PDF est créé dans votre navigateur et enregistré directement sur votre appareil sous le nom <strong>text.pdf</strong>. Rien n’est envoyé ni stocké, et c’est pourquoi l’outil peut rester gratuit et illimité.',
+        'Lettres, candidatures et notes peuvent être personnelles. La plupart des convertisseurs en ligne envoient votre texte sur un serveur pour créer le PDF. Pas celui-ci : le PDF est créé dans votre navigateur et enregistré directement sur votre appareil sous le nom <strong>text.pdf</strong>. Si votre texte contient par exemple du japonais ou du cyrillique, le navigateur télécharge les polices correspondantes depuis jsDelivr ; ces requêtes ne font que récupérer des polices et ne contiennent pas votre texte. Rien n’est envoyé ni stocké, et c’est pourquoi l’outil peut rester gratuit et illimité.',
       ],
     },
     {
@@ -130,7 +131,8 @@ const content: ToolContent = {
     { q: 'Mes retours à la ligne sont-ils conservés dans le PDF ?', a: 'Oui. Chaque retour à la ligne et chaque ligne vide restent exactement à leur place. Les longues lignes passent à la ligne et de nouvelles pages s’ajoutent automatiquement.' },
     { q: 'Puis-je rechercher et copier le texte du PDF ?', a: 'Oui. Le PDF contient du vrai texte, pas une image : vous pouvez y rechercher, le sélectionner et le copier.' },
     { q: 'Puis-je convertir du code ou des journaux en PDF ?', a: 'Oui. Choisissez la police à chasse fixe pour que le code, les journaux et les tableaux faits d’espaces s’alignent comme dans votre éditeur.' },
-    { q: 'Quelles langues puis-je convertir en PDF ?', a: 'Le français et les langues d’Europe de l’Ouest comme l’anglais, l’espagnol, l’allemand, l’italien et le portugais sont pris en charge, avec accents et cédille. Le cyrillique, l’arabe, le hindi, le chinois, le japonais et le coréen arrivent bientôt. Les caractères pas encore affichables sont remplacés par « ? », et l’outil indique combien.' },
+    { q: 'Quelles langues puis-je convertir en PDF ?', a: 'Le français et les autres langues en alphabet latin (dont le polonais, le turc et le vietnamien), le japonais, le coréen, le chinois, le russe et les autres langues en cyrillique, et le grec. Le hindi, l’arabe, l’hébreu, le thaï et les emojis ne sont pas encore pris en charge : ces caractères sont remplacés par « ? », et l’outil indique combien.' },
+    { q: 'Puis-je convertir un texte en japonais, coréen ou chinois en PDF ?', a: 'Oui. Collez le texte et cliquez sur « Créer le PDF ». Ces caractères sont composés en Noto Sans ou Noto Serif : le PDF les affiche correctement et le texte reste consultable et copiable. La première fois, le téléchargement des polices prend quelques secondes.' },
     { q: 'Mon texte est-il envoyé ?', a: 'Non. Le PDF est généré dans votre navigateur et votre texte reste sur votre appareil.' },
   ],
 };

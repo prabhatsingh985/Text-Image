@@ -56,7 +56,7 @@ const content: ToolContent = {
     {
       h2: 'Wähle das Layout deines PDFs',
       list: [
-        '<strong>Schrift:</strong> serifenlos (Helvetica) für einen klaren, modernen Look, mit Serifen (Times) für Briefe und förmliche Dokumente oder Monospace (Courier) für Code und mit Leerzeichen ausgerichtete Tabellen.',
+        '<strong>Schrift:</strong> serifenlos (Helvetica) für einen klaren, modernen Look, mit Serifen (Times) für Briefe und förmliche Dokumente oder Monospace (Courier) für Code und mit Leerzeichen ausgerichtete Tabellen. Text in anderen Schriften, etwa Japanisch, Koreanisch, Chinesisch, Griechisch oder Kyrillisch, wird in der passenden Noto-Schrift gesetzt: Noto Serif, wenn du die Serifenschrift wählst, sonst Noto Sans.',
         '<strong>Schriftgröße:</strong> von 10 bis 18 pt. 12 pt ist der Standard für die meisten Dokumente; für Großdruck nimm 14–18 pt.',
         '<strong>Seitengröße:</strong> A4, der Standard in Deutschland und fast überall, oder US-Letter für die USA und Kanada.',
         '<strong>Ränder:</strong> klein (ein halber Zoll) für mehr Text pro Seite oder groß (ein Zoll), der übliche Rand für gedruckte Dokumente.',
@@ -65,13 +65,13 @@ const content: ToolContent = {
     {
       h2: 'Dein Text bleibt genau so, wie du ihn geschrieben hast',
       paragraphs: [
-        'Jeder Zeilenumbruch und jede Leerzeile bleibt im PDF an derselben Stelle – Absätze, Adressen, Listen und Gedichte behalten ihre Form. Zu lange Zeilen brechen am nächsten Leerzeichen um, sehr lange Wörter oder Links werden getrennt, damit nichts über den Rand läuft, und Tabs werden zu Leerzeichen. Ist eine Seite voll, kommt automatisch eine neue dazu – für eine einzeilige Notiz genauso wie für ein 50-seitiges Transkript.',
+        'Jeder Zeilenumbruch und jede Leerzeile bleibt im PDF an derselben Stelle – Absätze, Adressen, Listen und Gedichte behalten ihre Form. Zu lange Zeilen brechen am nächsten Leerzeichen um (Chinesisch und Japanisch, die keine Leerzeichen kennen, brechen zwischen zwei Zeichen um, ohne dass schließende Satzzeichen wie 。 oder 」 eine Zeile beginnen), sehr lange Wörter oder Links werden getrennt, damit nichts über den Rand läuft, und Tabs werden zu Leerzeichen. Ist eine Seite voll, kommt automatisch eine neue dazu – für eine einzeilige Notiz genauso wie für ein 50-seitiges Transkript.',
       ],
     },
     {
       h2: 'Ein echtes Text-PDF, kein Bild',
       paragraphs: [
-        'Manche Tools machen aus deinem Text ein Bild und packen dieses Bild in ein PDF. Hier enthält das PDF echten Text in Standard-PDF-Schriften. Du kannst es also durchsuchen, markieren und daraus kopieren, und Screenreader können es vorlesen. Die Datei bleibt außerdem sehr klein – meist nur ein paar Kilobyte pro Seite – und lässt sich leicht mailen oder hochladen.',
+        'Manche Tools machen aus deinem Text ein Bild und packen dieses Bild in ein PDF. Hier enthält das PDF echten Text, in Standard-PDF-Schriften oder, für andere Schriftsysteme, in eingebetteten Noto-Schriften. Du kannst es also durchsuchen, markieren und daraus kopieren, und Screenreader können es vorlesen. Die Datei bleibt außerdem klein, weil nur die verwendeten Zeichen eingebettet werden: ein paar Kilobyte pro Seite bei deutschem Text und meist einige Dutzend bis einige Hundert Kilobyte bei japanischem, koreanischem oder chinesischem Text. So lässt sie sich leicht mailen oder hochladen.',
       ],
     },
     {
@@ -90,8 +90,9 @@ const content: ToolContent = {
     {
       h2: 'Unterstützte Sprachen und Zeichen',
       paragraphs: [
-        'Die aktuelle Version unterstützt Deutsch und die anderen westeuropäischen Sprachen mit lateinischem Alphabet, etwa Englisch, Französisch, Spanisch, Italienisch und Portugiesisch – inklusive Umlauten, ß, typografischen Anführungszeichen, Gedankenstrichen und dem €-Zeichen.',
-        'Andere Schriften folgen bald: Kyrillisch, Arabisch, Hindi, Thai, Chinesisch, Japanisch und Koreanisch. Bis dahin werden Zeichen, die das PDF noch nicht darstellen kann (auch Emojis), durch „?“ ersetzt, und das Tool zeigt an, wie viele ersetzt wurden, damit du das Ergebnis prüfen kannst.',
+        'Das Tool unterstützt Deutsch und die anderen Sprachen mit lateinischem Alphabet, etwa Englisch, Französisch, Spanisch, Italienisch, Portugiesisch, Polnisch, Tschechisch, Türkisch, Rumänisch und Vietnamesisch – inklusive Umlauten, ß, typografischen Anführungszeichen, Gedankenstrichen und dem €-Zeichen –, außerdem <strong>Japanisch, Koreanisch, Chinesisch (vereinfacht und traditionell), Russisch und andere kyrillisch geschriebene Sprachen sowie Griechisch</strong>. Du kannst sie in einem Dokument mischen.',
+        'Deutscher und anderer westeuropäischer Text nutzt die Standard-PDF-Schriften. Für alles andere lädt dein Browser beim ersten Bedarf nur die Teile der kostenlosen Noto-Schriften, die dein Text braucht, aus dem öffentlichen Netzwerk jsDelivr, und das PDF bettet nur die verwendeten Zeichen ein. Chinesische und japanische Zeilen brechen zwischen zwei Zeichen um, ohne schließende Satzzeichen an den Zeilenanfang zu setzen.',
+        'Hindi und andere indische Schriften, Arabisch, Hebräisch, Thai und Emojis werden noch nicht unterstützt. Zeichen, die das PDF nicht darstellen kann, werden durch „?“ ersetzt, und das Tool zeigt an, wie viele ersetzt wurden, damit du das Ergebnis prüfen kannst.',
       ],
     },
     {
@@ -103,7 +104,7 @@ const content: ToolContent = {
     {
       h2: 'Privat: Dein Text verlässt dein Gerät nie',
       paragraphs: [
-        'Briefe, Bewerbungen und Notizen können persönlich sein. Die meisten Online-Konverter schicken deinen Text an einen Server, um das PDF zu bauen. Dieser nicht: Das PDF wird in deinem Browser erstellt und direkt als <strong>text.pdf</strong> auf deinem Gerät gespeichert. Nichts wird hochgeladen oder gespeichert – darum kann das Tool kostenlos und unbegrenzt bleiben.',
+        'Briefe, Bewerbungen und Notizen können persönlich sein. Die meisten Online-Konverter schicken deinen Text an einen Server, um das PDF zu bauen. Dieser nicht: Das PDF wird in deinem Browser erstellt und direkt als <strong>text.pdf</strong> auf deinem Gerät gespeichert. Enthält dein Text etwa japanische oder kyrillische Zeichen, lädt der Browser die passenden Schriftdateien von jsDelivr; diese Anfragen holen nur Schriften und enthalten deinen Text nicht. Nichts wird hochgeladen oder gespeichert – darum kann das Tool kostenlos und unbegrenzt bleiben.',
       ],
     },
     {
@@ -130,7 +131,8 @@ const content: ToolContent = {
     { q: 'Bleiben meine Zeilenumbrüche im PDF erhalten?', a: 'Ja. Jeder Zeilenumbruch und jede Leerzeile bleibt genau dort, wo sie ist. Lange Zeilen brechen sauber um, neue Seiten werden automatisch angelegt.' },
     { q: 'Kann ich im PDF suchen und Text kopieren?', a: 'Ja. Das PDF enthält echten Text, kein Bild – du kannst es durchsuchen, markieren und daraus kopieren.' },
     { q: 'Kann ich Code oder Logdateien in PDF umwandeln?', a: 'Ja. Wähle die Monospace-Schrift, damit Code, Logs und mit Leerzeichen gebaute Tabellen so ausgerichtet bleiben wie in deinem Editor.' },
-    { q: 'Welche Sprachen kann ich in PDF umwandeln?', a: 'Deutsch und westeuropäische Sprachen wie Englisch, Französisch, Spanisch, Italienisch und Portugiesisch werden unterstützt, inklusive Umlauten und ß. Kyrillisch, Arabisch, Hindi, Chinesisch, Japanisch und Koreanisch kommen bald. Zeichen, die noch nicht darstellbar sind, werden durch „?“ ersetzt, und das Tool zeigt an, wie viele.' },
+    { q: 'Welche Sprachen kann ich in PDF umwandeln?', a: 'Deutsch und die anderen Sprachen mit lateinischem Alphabet (auch Polnisch, Türkisch und Vietnamesisch), Japanisch, Koreanisch, Chinesisch, Russisch und andere kyrillisch geschriebene Sprachen sowie Griechisch. Hindi, Arabisch, Hebräisch, Thai und Emojis werden noch nicht unterstützt; diese Zeichen werden durch „?“ ersetzt, und das Tool zeigt an, wie viele.' },
+    { q: 'Kann ich japanischen, koreanischen oder chinesischen Text in PDF umwandeln?', a: 'Ja. Füge den Text ein und klicke auf „PDF erstellen“. Diese Zeichen werden in Noto Sans oder Noto Serif gesetzt, sodass das PDF sie korrekt zeigt und der Text durchsuchbar und kopierbar bleibt. Beim ersten Mal dauert das Laden der Schriften ein paar Sekunden.' },
     { q: 'Wird mein Text hochgeladen?', a: 'Nein. Das PDF wird in deinem Browser erzeugt, und dein Text bleibt auf deinem Gerät.' },
   ],
 };

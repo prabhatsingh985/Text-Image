@@ -88,20 +88,26 @@ const t = Astro.props.ui.tool;
         return;
       }
       btn.disabled = true;
+      const label = btn.textContent;
       try {
-        const { bytes, replaced } = await textToPdf(text.value, {
-          font: $<HTMLSelectElement>('[data-font]').value as FontChoice,
-          fontSize: Number($<HTMLSelectElement>('[data-size]').value),
-          size: $<HTMLSelectElement>('[data-page]').value as 'a4' | 'letter',
-          margin: Number($<HTMLSelectElement>('[data-margin]').value),
-        });
+        const { bytes, replaced, fontsFailed } = await textToPdf(
+          text.value,
+          {
+            font: $<HTMLSelectElement>('[data-font]').value as FontChoice,
+            fontSize: Number($<HTMLSelectElement>('[data-size]').value),
+            size: $<HTMLSelectElement>('[data-page]').value as 'a4' | 'letter',
+            margin: Number($<HTMLSelectElement>('[data-margin]').value),
+          },
+          () => (btn.textContent = t.loadingFonts),
+        );
         warning.hidden = !replaced;
-        warning.textContent = fmt(t.replaced, { n: replaced });
+        warning.textContent = fmt(fontsFailed ? t.fontsFailed : t.replaced, { n: replaced });
         downloadBlob(new Blob([bytes as BlobPart], { type: 'application/pdf' }), 'text.pdf');
       } catch (err) {
         console.error(err);
         toast(t.failed);
       } finally {
+        btn.textContent = label;
         btn.disabled = false;
       }
     });

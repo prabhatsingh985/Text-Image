@@ -52,7 +52,7 @@ export const pages: Record<StaticId, StaticContent> = {
     title: 'Datenschutzerklärung',
     description: `Wie ${SITE.name} mit deinen Daten umgeht: Dateien werden im Browser verarbeitet und nie hochgeladen.`,
     h1: 'Datenschutzerklärung',
-    updated: '28. Oktober 2026',
+    updated: '29. Oktober 2026',
     sections: [
       {
         h2: 'Kurz gesagt',
@@ -70,7 +70,7 @@ export const pages: Record<StaticId, StaticContent> = {
       {
         h2: 'Dateien, die dein Browser lädt',
         paragraphs: [
-          'Zum Lesen von Text lädt dein Browser die OCR-Engine und die Sprachdaten beim ersten Bedarf vom öffentlichen Content-Delivery-Netzwerk jsDelivr (cdn.jsdelivr.net). Wie jede Website erhält dieses Netzwerk die üblichen Anfragedaten wie deine IP-Adresse und deinen Browsertyp. Deine Dateien erhält es nicht.',
+          'Zum Lesen von Text lädt dein Browser die OCR-Engine und die Sprachdaten beim ersten Bedarf vom öffentlichen Content-Delivery-Netzwerk jsDelivr (cdn.jsdelivr.net). Wenn du ein PDF aus Text in Schriften wie Japanisch, Koreanisch, Chinesisch oder Kyrillisch erstellst, lädt er außerdem die passenden Schriftdateien aus demselben Netzwerk. Wie jede Website erhält dieses Netzwerk die üblichen Anfragedaten wie deine IP-Adresse und deinen Browsertyp. Deine Dateien und deinen Text erhält es nicht.',
         ],
       },
       {

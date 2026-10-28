@@ -102,6 +102,8 @@ export const ui: UiStrings = {
     fontMono: 'Monoespaçada',
     fontSize: 'Tamanho',
     replaced: '{n} caracteres ainda não são compatíveis e foram trocados por “?”.',
+    loadingFonts: 'Baixando fontes…',
+    fontsFailed: '{n} caracteres foram trocados por “?” porque não foi possível baixar uma fonte. Verifique sua conexão e tente de novo.',
     emptyText: 'Adicione algum texto primeiro.',
     dropTitleScreenshot: 'Cole seu print',
     dropHintScreenshot: 'Pressione Ctrl+V (⌘+V no Mac) em qualquer lugar da página ou solte a imagem aqui',

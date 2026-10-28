@@ -52,7 +52,7 @@ export const pages: Record<StaticId, StaticContent> = {
     title: 'Privacy Policy',
     description: `How ${SITE.name} handles your data: files are processed in your browser and never uploaded.`,
     h1: 'Privacy Policy',
-    updated: '28 October 2026',
+    updated: '29 October 2026',
     sections: [
       {
         h2: 'The short version',
@@ -70,7 +70,7 @@ export const pages: Record<StaticId, StaticContent> = {
       {
         h2: 'Files your browser downloads',
         paragraphs: [
-          'To read text, your browser downloads the OCR engine and language data from the public content delivery network jsDelivr (cdn.jsdelivr.net) the first time they are needed. Like any website, that network receives standard request information such as your IP address and browser type. It does not receive your files.',
+          'To read text, your browser downloads the OCR engine and language data from the public content delivery network jsDelivr (cdn.jsdelivr.net) the first time they are needed. When you create a PDF from text in scripts such as Japanese, Korean, Chinese or Cyrillic, it also downloads the matching font files from the same network. Like any website, that network receives standard request information such as your IP address and browser type. It does not receive your files or your text.',
         ],
       },
       {

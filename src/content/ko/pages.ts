@@ -52,7 +52,7 @@ export const pages: Record<StaticId, StaticContent> = {
     title: '개인정보 처리방침',
     description: `${SITE.name}의 데이터 처리 방식: 파일은 브라우저에서 처리되며 절대 업로드되지 않습니다.`,
     h1: '개인정보 처리방침',
-    updated: '2026년 10월 28일',
+    updated: '2026년 10월 29일',
     sections: [
       {
         h2: '요약',
@@ -70,7 +70,7 @@ export const pages: Record<StaticId, StaticContent> = {
       {
         h2: '브라우저가 내려받는 파일',
         paragraphs: [
-          '텍스트를 읽기 위해 브라우저는 필요할 때 처음 한 번, 공개 콘텐츠 전송 네트워크 jsDelivr(cdn.jsdelivr.net)에서 OCR 엔진과 언어 데이터를 내려받습니다. 다른 웹사이트와 마찬가지로 이 네트워크는 IP 주소, 브라우저 종류 같은 일반적인 요청 정보를 받지만, 파일은 받지 않습니다.',
+          '텍스트를 읽기 위해 브라우저는 필요할 때 처음 한 번, 공개 콘텐츠 전송 네트워크 jsDelivr(cdn.jsdelivr.net)에서 OCR 엔진과 언어 데이터를 내려받습니다. 한국어, 일본어, 중국어, 키릴 문자 같은 텍스트로 PDF를 만들 때는 맞는 글꼴 파일도 같은 네트워크에서 내려받습니다. 다른 웹사이트와 마찬가지로 이 네트워크는 IP 주소, 브라우저 종류 같은 일반적인 요청 정보를 받지만, 파일이나 텍스트는 받지 않습니다.',
         ],
       },
       {

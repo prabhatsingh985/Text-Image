@@ -102,6 +102,8 @@ export const ui: UiStrings = {
     fontMono: 'Monospace',
     fontSize: 'Größe',
     replaced: '{n} Zeichen werden noch nicht unterstützt und wurden durch „?“ ersetzt.',
+    loadingFonts: 'Schriften werden geladen…',
+    fontsFailed: '{n} Zeichen wurden durch „?“ ersetzt, weil eine Schrift nicht geladen werden konnte. Prüfe deine Verbindung und versuche es erneut.',
     emptyText: 'Füge zuerst etwas Text ein.',
     dropTitleScreenshot: 'Screenshot einfügen',
     dropHintScreenshot: 'Drücke Strg+V (⌘+V auf dem Mac) irgendwo auf der Seite oder lege das Bild hier ab',

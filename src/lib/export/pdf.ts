@@ -53,18 +53,55 @@ export interface TextPdfOptions {
   margin: number;
 }
 
+export interface TextPdfResult {
+  bytes: Uint8Array;
+  /** Characters no font could draw, each replaced with "?". */
+  replaced: number;
+  /** A font download failed, so some of the replaced characters may draw fine when online. */
+  fontsFailed: boolean;
+}
+
+// Line breaking for Chinese and Japanese, which have no spaces: a line may break after any
+// ideograph or kana, except before closing punctuation or small kana, or after an opening bracket.
+// Korean puts spaces between words, so it wraps at spaces like Latin text.
+const BREAK_ANY = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Bopomofo}\u3000-\u303f\uff00-\uffef]/u;
+const NO_START = new Set('、。，．・：；？！ー）」』】〕〉》〙〗｝］’”ぁぃぅぇぉっゃゅょゎゕゖァィゥェォッャュョヮヵヶ々〻ゝゞヽヾ〜～…‥');
+const NO_END = new Set('（「『【〔〈《〘〖｛［‘“');
+
+/** Splits a line into pieces that must stay together: words, runs of spaces, and single CJK characters. */
+function breakUnits(line: string): string[] {
+  const units: string[] = [];
+  let kind = '';
+  for (const ch of line) {
+    const next = /\s/.test(ch) ? 'space' : BREAK_ANY.test(ch) ? 'cjk' : 'word';
+    const last = units[units.length - 1];
+    const join =
+      last !== undefined &&
+      ((next === kind && next !== 'cjk') ||
+        (next !== 'space' && kind !== 'space' && (NO_START.has(ch) || NO_END.has([...last].pop()!))));
+    if (join) units[units.length - 1] += ch;
+    else units.push(ch);
+    kind = next;
+  }
+  return units;
+}
+
 /**
- * Plain text → PDF. This version uses the standard PDF fonts, which cover Latin text
- * (Windows-1252). Characters outside that set are replaced with "?" and counted, so the
- * page can warn the user. Noto fonts for other scripts come in Phase 1b (PLAN.md §13).
+ * Plain text → PDF. Latin text (Windows-1252) uses the standard PDF fonts. Other scripts use Noto
+ * fonts, downloaded only when the text needs them (see pdf-fonts.ts). Characters no font covers
+ * are replaced with "?" and counted, so the page can warn the user.
  */
-export async function textToPdf(text: string, opts: TextPdfOptions): Promise<{ bytes: Uint8Array; replaced: number }> {
+export async function textToPdf(
+  text: string,
+  opts: TextPdfOptions,
+  onFontsLoading?: () => void,
+): Promise<TextPdfResult> {
   const { PDFDocument, StandardFonts, rgb } = await import('pdf-lib');
+  type PDFFont = import('pdf-lib').PDFFont;
   const pdf = await PDFDocument.create();
   const fontName = { sans: StandardFonts.Helvetica, serif: StandardFonts.TimesRoman, mono: StandardFonts.Courier }[opts.font];
   const font = await pdf.embedFont(fontName);
 
-  let replaced = 0;
   const encodable = (ch: string) => {
     try {
       font.encodeText(ch);
@@ -74,43 +111,77 @@ export async function textToPdf(text: string, opts: TextPdfOptions): Promise<{ b
     }
   };
   const cache = new Map<string, boolean>();
+  const standard = (ch: string) => {
+    if (!cache.has(ch)) cache.set(ch, encodable(ch));
+    return cache.get(ch)!;
+  };
+
+  // NFC turns letters typed as base + combining accent into the single character the fonts have.
+  // Split before cleaning: line breaks are not drawable characters and must not be replaced.
+  const sources = text.normalize('NFC').replace(/\t/g, '    ').replace(/\r\n?/g, '\n').split('\n');
+
+  const missing = new Set<string>();
+  for (const source of sources) for (const ch of source) if (!standard(ch)) missing.add(ch);
+  let fallback = new Map<string, PDFFont>();
+  let fontsFailed = false;
+  if (missing.size) {
+    onFontsLoading?.();
+    const { embedFallbackFonts } = await import('./pdf-fonts');
+    ({ fonts: fallback, failed: fontsFailed } = await embedFallbackFonts(pdf, missing, text, opts.font));
+  }
+  const fontOf = (ch: string) => fallback.get(ch) ?? font;
+
+  let replaced = 0;
   const clean = (s: string) =>
-    [...s.replace(/\t/g, '    ')]
+    [...s]
       .map((ch) => {
-        if (!cache.has(ch)) cache.set(ch, encodable(ch));
-        if (cache.get(ch)) return ch;
+        if (standard(ch) || fallback.has(ch)) return ch;
+        // Invisible characters such as zero-width joiners and variation selectors are simply left out.
+        if (/\p{Default_Ignorable_Code_Point}/u.test(ch)) return '';
         replaced++;
         return '?';
       })
       .join('');
 
+  /** Consecutive characters that share a font. */
+  const runs = (s: string) => {
+    const out: { text: string; font: PDFFont }[] = [];
+    for (const ch of s) {
+      const f = fontOf(ch);
+      const last = out[out.length - 1];
+      if (last?.font === f) last.text += ch;
+      else out.push({ text: ch, font: f });
+    }
+    return out;
+  };
+
   const [pw, ph] = SIZES[opts.size];
   const maxW = pw - opts.margin * 2;
   const lineH = opts.fontSize * 1.4;
-  const width = (s: string) => font.widthOfTextAtSize(s, opts.fontSize);
+  const width = (s: string) => runs(s).reduce((w, r) => w + r.font.widthOfTextAtSize(r.text, opts.fontSize), 0);
 
-  // Wrap every source line to the page width; long words are broken by character.
+  // Wrap every source line to the page width; units too long for a line are broken by character.
   const lines: string[] = [];
-  // Split first: line breaks are not drawable characters and must not be replaced.
-  for (const source of text.replace(/\r\n?/g, '\n').split('\n')) {
+  for (const source of sources) {
     const raw = clean(source);
     if (!raw) {
       lines.push('');
       continue;
     }
     let current = '';
-    for (const word of raw.split(/(\s+)/)) {
-      if (width(current + word) <= maxW) {
-        current += word;
+    for (const unit of breakUnits(raw)) {
+      if (width(current + unit) <= maxW) {
+        current += unit;
         continue;
       }
       if (current.trim()) lines.push(current.trimEnd());
-      current = word.trimStart();
+      current = unit.trimStart();
       while (width(current) > maxW) {
-        let cut = current.length;
-        while (cut > 1 && width(current.slice(0, cut)) > maxW) cut--;
-        lines.push(current.slice(0, cut));
-        current = current.slice(cut);
+        const chars = [...current];
+        let cut = chars.length;
+        while (cut > 1 && width(chars.slice(0, cut).join('')) > maxW) cut--;
+        lines.push(chars.slice(0, cut).join(''));
+        current = chars.slice(cut).join('');
       }
     }
     lines.push(current.trimEnd());
@@ -123,8 +194,12 @@ export async function textToPdf(text: string, opts: TextPdfOptions): Promise<{ b
       page = pdf.addPage([pw, ph]);
       y = ph - opts.margin - opts.fontSize;
     }
-    if (line) page.drawText(line, { x: opts.margin, y, size: opts.fontSize, font, color: rgb(0.07, 0.07, 0.1) });
+    let x = opts.margin;
+    for (const run of runs(line)) {
+      page.drawText(run.text, { x, y, size: opts.fontSize, font: run.font, color: rgb(0.07, 0.07, 0.1) });
+      x += run.font.widthOfTextAtSize(run.text, opts.fontSize);
+    }
     y -= lineH;
   }
-  return { bytes: await pdf.save(), replaced };
+  return { bytes: await pdf.save(), replaced, fontsFailed };
 }

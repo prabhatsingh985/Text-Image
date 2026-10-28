@@ -22,7 +22,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
     // Pre-bundle the lazily imported libraries so the dev server never re-optimizes mid-session.
     optimizeDeps: {
-      include: ['tesseract.js', 'pdfjs-dist', 'pdf-lib', 'docx', 'jszip', 'xlsx'],
+      include: ['tesseract.js', 'pdfjs-dist', 'pdf-lib', '@pdf-lib/fontkit', 'docx', 'jszip', 'xlsx'],
       exclude: ['heic2any'],
     },
   },

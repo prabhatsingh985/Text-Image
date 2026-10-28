@@ -52,7 +52,7 @@ export const pages: Record<StaticId, StaticContent> = {
     title: 'Politique de confidentialité',
     description: `Comment ${SITE.name} traite vos données : les fichiers sont traités dans votre navigateur et jamais envoyés.`,
     h1: 'Politique de confidentialité',
-    updated: '28 octobre 2026',
+    updated: '29 octobre 2026',
     sections: [
       {
         h2: 'En bref',
@@ -70,7 +70,7 @@ export const pages: Record<StaticId, StaticContent> = {
       {
         h2: 'Les fichiers que votre navigateur télécharge',
         paragraphs: [
-          'Pour lire le texte, votre navigateur télécharge le moteur OCR et les données de langue depuis le réseau public de diffusion de contenu jsDelivr (cdn.jsdelivr.net) la première fois qu’ils sont nécessaires. Comme tout site web, ce réseau reçoit les informations standard de la requête, comme votre adresse IP et votre type de navigateur. Il ne reçoit pas vos fichiers.',
+          'Pour lire le texte, votre navigateur télécharge le moteur OCR et les données de langue depuis le réseau public de diffusion de contenu jsDelivr (cdn.jsdelivr.net) la première fois qu’ils sont nécessaires. Si vous créez un PDF à partir d’un texte en japonais, coréen, chinois ou cyrillique, par exemple, il télécharge aussi les polices correspondantes depuis ce même réseau. Comme tout site web, ce réseau reçoit les informations standard de la requête, comme votre adresse IP et votre type de navigateur. Il ne reçoit ni vos fichiers ni votre texte.',
         ],
       },
       {

@@ -102,6 +102,8 @@ export const ui: UiStrings = {
     fontMono: '고정폭',
     fontSize: '크기',
     replaced: '아직 지원하지 않는 {n}개 문자를 “?”로 바꿨습니다.',
+    loadingFonts: '글꼴 내려받는 중…',
+    fontsFailed: '글꼴을 내려받지 못해 {n}개 문자를 “?”로 바꿨습니다. 연결을 확인한 뒤 다시 시도해 주세요.',
     emptyText: '먼저 텍스트를 입력해 주세요.',
     dropTitleScreenshot: '스크린샷을 붙여넣으세요',
     dropHintScreenshot: '페이지 어디서든 Ctrl+V(Mac은 ⌘+V)를 누르거나 여기에 이미지를 놓으세요',

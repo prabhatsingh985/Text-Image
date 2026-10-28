@@ -52,7 +52,7 @@ export const pages: Record<StaticId, StaticContent> = {
     title: 'Política de privacidade',
     description: `Como o ${SITE.name} trata seus dados: os arquivos são processados no navegador e nunca enviados.`,
     h1: 'Política de privacidade',
-    updated: '28 de outubro de 2026',
+    updated: '29 de outubro de 2026',
     sections: [
       {
         h2: 'Resumindo',
@@ -70,7 +70,7 @@ export const pages: Record<StaticId, StaticContent> = {
       {
         h2: 'Arquivos que o seu navegador baixa',
         paragraphs: [
-          'Para ler texto, seu navegador baixa o motor de OCR e os dados de idioma da rede pública de distribuição de conteúdo jsDelivr (cdn.jsdelivr.net) na primeira vez que são necessários. Como qualquer site, essa rede recebe informações padrão da requisição, como seu endereço IP e o tipo de navegador. Ela não recebe seus arquivos.',
+          'Para ler texto, seu navegador baixa o motor de OCR e os dados de idioma da rede pública de distribuição de conteúdo jsDelivr (cdn.jsdelivr.net) na primeira vez que são necessários. Ao criar um PDF a partir de texto em alfabetos como japonês, coreano, chinês ou cirílico, ele também baixa as fontes correspondentes dessa mesma rede. Como qualquer site, essa rede recebe informações padrão da requisição, como seu endereço IP e o tipo de navegador. Ela não recebe seus arquivos nem seu texto.',
         ],
       },
       {

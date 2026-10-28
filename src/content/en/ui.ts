@@ -102,6 +102,8 @@ export const ui: UiStrings = {
     fontMono: 'Monospace',
     fontSize: 'Size',
     replaced: '{n} characters are not supported yet and were replaced with “?”.',
+    loadingFonts: 'Downloading fonts…',
+    fontsFailed: '{n} characters were replaced with “?” because a font could not be downloaded. Check your connection and try again.',
     emptyText: 'Add some text first.',
     dropTitleScreenshot: 'Paste your screenshot',
     dropHintScreenshot: 'Press Ctrl+V (⌘+V on Mac) anywhere on this page, or drop the image here',

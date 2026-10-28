@@ -102,6 +102,8 @@ export const ui: UiStrings = {
     fontMono: 'Chasse fixe',
     fontSize: 'Taille',
     replaced: '{n} caractères ne sont pas encore pris en charge et ont été remplacés par « ? ».',
+    loadingFonts: 'Téléchargement des polices…',
+    fontsFailed: '{n} caractères ont été remplacés par « ? » car une police n’a pas pu être téléchargée. Vérifiez votre connexion et réessayez.',
     emptyText: 'Ajoutez d’abord du texte.',
     dropTitleScreenshot: 'Collez votre capture d’écran',
     dropHintScreenshot: 'Appuyez sur Ctrl+V (⌘+V sur Mac) n’importe où sur la page, ou déposez l’image ici',

@@ -102,6 +102,8 @@ export const ui: UiStrings = {
     fontMono: '等幅',
     fontSize: 'サイズ',
     replaced: '{n}文字はまだ対応していないため「?」に置き換えました。',
+    loadingFonts: 'フォントをダウンロード中…',
+    fontsFailed: 'フォントをダウンロードできなかったため、{n}文字を「?」に置き換えました。接続を確認してもう一度お試しください。',
     emptyText: '先にテキストを入力してください。',
     dropTitleScreenshot: 'スクリーンショットを貼り付け',
     dropHintScreenshot: 'ページ内のどこでもCtrl+V（Macは⌘+V）を押すか、ここに画像をドロップ',
