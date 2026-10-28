@@ -93,7 +93,7 @@ export const tools: Record<ToolId, ToolContent> = {
       {
         h2: 'Need Word, Excel or PDF instead of plain text?',
         paragraphs: [
-          'This image to text converter free tool gives you plain text. If you want to keep paragraphs and headings, use the <a href="/jpg-to-word">JPG to Word converter</a>. For tables, the <a href="/jpg-to-excel">image to Excel converter</a> rebuilds rows and columns in a spreadsheet. To pull text out of a scanned document, use <a href="/pdf-to-text">PDF to Text</a>, and for quick grabs from your screen, try <a href="/screenshot-to-text">Screenshot to Text</a>.',
+          'This image to text converter free tool gives you plain text. If you want to keep paragraphs and headings, use the <a href="/jpg-to-word">JPG to Word converter</a>. For tables, the <a href="/jpg-to-excel">JPG to Excel converter</a> rebuilds rows and columns in a spreadsheet. To pull text out of a scanned document, use <a href="/pdf-to-text">PDF to Text</a>, and for quick grabs from your screen, try <a href="/screenshot-to-text">Screenshot to Text</a>.',
         ],
       },
     ],
@@ -231,15 +231,15 @@ export const tools: Record<ToolId, ToolContent> = {
   },
 
   'jpg-to-excel': {
-    title: 'Image to Excel Converter – JPG Table to Excel Free',
+    title: 'JPG to Excel Converter – Convert JPG to Excel Free',
     description:
-      'Convert a photo or screenshot of a table into an editable Excel spreadsheet (.xlsx) or CSV. Free and unlimited, no signup, and your images stay on your device.',
-    h1: 'Image to Excel Converter',
-    lead: 'Turn a photo of a table into an editable Excel sheet.',
+      'Convert JPG to Excel online free. Turn photos and screenshots of tables into editable Excel (.xlsx) or CSV files. Unlimited, no signup, nothing uploaded.',
+    h1: 'JPG to Excel Converter',
+    lead: 'Convert JPG to Excel online, free. Turn a photo or screenshot of a table into an editable Excel sheet.',
     navLabel: 'JPG to Excel',
     cardText: 'Rebuild tables from images as .xlsx or CSV.',
     howTo: {
-      title: 'How to convert an image to Excel',
+      title: 'How to convert JPG to Excel',
       steps: [
         '<strong>Add a picture of a table.</strong> Upload a JPG, PNG or phone photo, or paste a screenshot with Ctrl+V.',
         '<strong>Review the table.</strong> The tool finds the rows and columns and shows them in a grid. Click any cell to correct it.',
@@ -247,7 +247,7 @@ export const tools: Record<ToolId, ToolContent> = {
       ],
     },
     features: {
-      title: 'What the image to Excel converter does for you',
+      title: 'What the JPG to Excel converter does for you',
       items: [
         { title: 'Finds rows and columns', text: 'Text is grouped into rows and columns by its position, even when the table has no lines.' },
         { title: 'Numbers stay numbers', text: 'Values such as 1,250.50 are saved as real numbers, so Excel formulas work immediately.' },
@@ -259,36 +259,93 @@ export const tools: Record<ToolId, ToolContent> = {
     },
     sections: [
       {
-        h2: 'Stop copying tables by hand',
+        h2: 'A free JPG to Excel converter for tables in pictures',
         paragraphs: [
-          'Typing a printed price list, a bank statement or a table from a report into a spreadsheet takes ages and invites errors. This image to Excel converter reads the text in your picture, works out which words belong to which row and column, and gives you a ready-made spreadsheet.',
-          'It works with screenshots of tables from websites and PDFs, photos of printed sheets, timetables, invoices, receipts with item lists and simple forms. Because you see the result in a grid before downloading, you can correct anything the OCR misread.',
+          'Typing a printed price list, a bank statement or a table from a report into a spreadsheet takes ages and invites errors. This <strong>JPG to Excel converter</strong> reads the text in your picture with OCR (optical character recognition), works out which words belong to which row and column, and gives you a ready-made Excel spreadsheet in a few seconds.',
+          'It is a <strong>JPG to Excel converter online free</strong> of the usual limits: no signup, no watermark, no trial and no daily cap. Convert one table or fifty, as often as you need. Everything runs in your browser, so you can convert JPG to Excel online without installing Excel add-ins or desktop software.',
+        ],
+      },
+      {
+        h2: 'What you can convert from JPG to Excel',
+        paragraphs: [
+          'Any picture that shows information in rows and columns can become a spreadsheet. People use this tool for:',
+        ],
+        list: [
+          'Price lists, product catalogues and stock sheets.',
+          'Bank statements, invoices and receipts with item lists.',
+          'Timetables, attendance sheets and exam results.',
+          'Tables in reports, research papers and textbooks.',
+          'Screenshots of tables from websites, PDFs and apps that do not let you copy.',
+          'Simple printed forms and registers.',
+        ],
+      },
+      {
+        h2: 'Why convert JPG to Excel instead of retyping',
+        paragraphs: [
+          'Retyping a table of fifty rows and five columns means entering 250 values by hand, and a single wrong digit can break a total or a report. Converting the image does the bulk of the work in seconds, and you only check the result instead of typing everything.',
+          'It also keeps the structure. Copying text out of a picture with a plain OCR tool gives you one long list of words; you would still have to split it into columns yourself. A JPG to Excel converter places every value in its own cell, so the spreadsheet is ready to sort, filter and calculate the moment you open it.',
         ],
       },
       {
         h2: 'How tables are rebuilt',
         paragraphs: [
-          'First, every word in the image is located. Words that sit on the same horizontal line are grouped into a row. The tool then looks for vertical gaps that run down the whole table — those gaps are the borders between columns. Each word is placed in the cell where it belongs, and numbers are converted so Excel can calculate with them.',
+          'First, every word in the image is located and recognised. The language is detected automatically, so tables in English, Hindi, Spanish, Arabic, Chinese and 40+ other languages all work. Words that sit on the same horizontal line are grouped into a row.',
+          'The tool then looks for vertical gaps that run down the whole table — those gaps are the borders between columns. That is why tables without any lines convert just as well as tables with borders. Each word is placed in the cell where it belongs, and the columns in your Excel file are sized to fit their content.',
           'Clean, printed tables give the best results. Tables photographed at a strong angle, with merged cells or with handwriting may need a few manual fixes in the preview grid.',
+        ],
+      },
+      {
+        h2: 'Numbers that work in Excel formulas',
+        paragraphs: [
+          'A spreadsheet is only useful if you can calculate with it. When you convert JPG to Excel here, plain numbers such as 42, 3.75 or 1,250.50 are saved as real numbers, so SUM, AVERAGE, sorting and charts work straight away — no “number stored as text” warnings.',
+          'Some values must not be changed, so they are kept exactly as written: phone numbers and IDs that start with zero, and values with currency symbols, units or letters. Nothing is lost, and you decide how to format those columns in Excel.',
+        ],
+      },
+      {
+        h2: 'Check and fix the table before you download',
+        paragraphs: [
+          'OCR is fast but not perfect, so the result is shown in an editable grid before you download anything. Click any cell to correct a misread number or word, and your changes go straight into the file.',
+          'When the table looks right, download it as an Excel (.xlsx) file for Microsoft Excel, Google Sheets, LibreOffice Calc and Numbers, or as a CSV file for any other program. You can also press <strong>Copy</strong> and paste the table directly into an open spreadsheet — the cells land in the right columns.',
+        ],
+      },
+      {
+        h2: 'Many images, one Excel workbook',
+        paragraphs: [
+          'Long tables often span several photos or screenshots. Add them all at once: each image is read separately, and you can download everything together as one Excel workbook, with a separate sheet for each image named after its file. It is the quickest way to turn a stack of pages into a single spreadsheet.',
+        ],
+      },
+      {
+        h2: 'Convert JPG to Excel online, on any device',
+        paragraphs: [
+          'This JPG to Excel converter online works in Chrome, Edge, Firefox and Safari on Windows, Mac, Linux, Chromebook, Android and iPhone. On a phone, take a photo of a printed table with your camera and get an Excel file a moment later. Besides JPG, you can convert PNG, WEBP, GIF, BMP, TIFF and iPhone HEIC images.',
+          'Your images are never uploaded. The table is read and the spreadsheet is created inside your browser, so bank statements, salary sheets and customer lists stay on your own device. After your first visit, the OCR engine is cached, and the next conversion starts even faster.',
         ],
       },
       {
         h2: 'Tips for better spreadsheets',
         list: [
           'Crop the image to the table only, without surrounding text.',
-          'Make sure the photo is straight and evenly lit.',
+          'Make sure the photo is straight and evenly lit, taken from directly above.',
+          'Use the sharpest, largest version of the image you have. Small, blurry numbers are the most common cause of mistakes.',
           'For very long tables, use several screenshots — each becomes its own sheet.',
           'Check columns with currency symbols or units; they are kept as text so nothing is lost.',
         ],
       },
+      {
+        h2: 'Need a different format?',
+        paragraphs: [
+          'If your table is inside a PDF file, the <a href="/pdf-to-excel">PDF to Excel converter</a> reads every page directly. For documents with paragraphs and headings, use <a href="/jpg-to-word">JPG to Word</a>, and to simply copy the text from a picture, use the <a href="/">image to text converter</a>.',
+        ],
+      },
     ],
     faq: [
-      { q: 'How do I convert an image to Excel?', a: 'Upload a photo or screenshot of a table, or paste it with Ctrl+V. The image to Excel converter finds the rows and columns and shows them in a grid. Check the cells, then download an Excel (.xlsx) or CSV file.' },
-      { q: 'How can I convert JPG to Excel for free?', a: 'Use this free JPG to Excel converter. There is no signup, no watermark and no limit on how many tables you convert. Add your JPG, review the table and download the spreadsheet.' },
+      { q: 'How do I convert JPG to Excel?', a: 'Upload a JPG photo or screenshot of a table, or paste it with Ctrl+V. The JPG to Excel converter finds the rows and columns and shows them in a grid. Check the cells, then download an Excel (.xlsx) or CSV file.' },
+      { q: 'Is this JPG to Excel converter online free?', a: 'Yes. It is completely free, with no signup, no watermark and no limit on how many tables you convert.' },
+      { q: 'How long does a JPG to Excel convert take?', a: 'Usually a few seconds per image. The first conversion takes a little longer while the OCR engine loads; after that it is cached in your browser.' },
       { q: 'Can I convert a table without borders to Excel?', a: 'Yes. Columns are found from the spacing between words, so tables without visible lines convert to Excel just as well as tables with borders.' },
       { q: 'Can I edit the table before downloading the Excel file?', a: 'Yes. Click any cell in the preview grid to change it. Your edits are included in the Excel or CSV file you download.' },
-      { q: 'Will numbers from the image work in Excel formulas?', a: 'Plain numbers such as 42, 1,250 or 3.75 are saved as real numbers, so SUM and other formulas work straight away. Values with currency symbols or units are kept as text so nothing is lost.' },
-      { q: 'Can I convert several images into one Excel workbook?', a: 'Yes. Add all your images, then download them together as one workbook. Each image becomes its own sheet.' },
+      { q: 'Will numbers from the image work in Excel formulas?', a: 'Plain numbers such as 42, 1,250 or 3.75 are saved as real numbers, so SUM and other formulas work straight away. Values with currency symbols, units or leading zeros are kept as text so nothing is lost.' },
+      { q: 'Can I convert several JPG images into one Excel workbook?', a: 'Yes. Add all your images, then download them together as one workbook. Each image becomes its own sheet.' },
       { q: 'Which image formats can I convert to Excel?', a: 'JPG, JPEG, PNG, WEBP, GIF, BMP, TIFF and iPhone HEIC photos. You can also paste a screenshot of a table directly with Ctrl+V.' },
       { q: 'Can I open the converted file in Google Sheets?', a: 'Yes. Upload the .xlsx file to Google Drive, or import the CSV file into Google Sheets.' },
       { q: 'Are my images uploaded to a server?', a: 'No. The table is read and the spreadsheet is created in your browser, so your images never leave your device.' },
@@ -458,7 +515,7 @@ export const tools: Record<ToolId, ToolContent> = {
       {
         h2: 'Want an editable document instead?',
         paragraphs: [
-          'If you have images of pages rather than a PDF, the <a href="/jpg-to-word">JPG to Word converter</a> gives you a formatted .docx file. For tables, try the <a href="/jpg-to-excel">image to Excel converter</a>.',
+          'If you have images of pages rather than a PDF, the <a href="/jpg-to-word">JPG to Word converter</a> gives you a formatted .docx file. For tables, try the <a href="/jpg-to-excel">JPG to Excel converter</a>.',
         ],
       },
     ],
@@ -573,7 +630,7 @@ export const tools: Record<ToolId, ToolContent> = {
       {
         h2: 'Have a photo or a document instead?',
         paragraphs: [
-          'For phone photos of paper documents, the <a href="/">image to text converter</a> cleans up dim or faded photos automatically. To keep layout and headings, use <a href="/jpg-to-word">JPG to Word</a>. If your screenshot shows a table, the <a href="/jpg-to-excel">image to Excel converter</a> rebuilds it as a spreadsheet, and <a href="/pdf-to-text">PDF to Text</a> reads whole PDF files.',
+          'For phone photos of paper documents, the <a href="/">image to text converter</a> cleans up dim or faded photos automatically. To keep layout and headings, use <a href="/jpg-to-word">JPG to Word</a>. If your screenshot shows a table, the <a href="/jpg-to-excel">JPG to Excel converter</a> rebuilds it as a spreadsheet, and <a href="/pdf-to-text">PDF to Text</a> reads whole PDF files.',
         ],
       },
     ],
@@ -633,7 +690,7 @@ export const tools: Record<ToolId, ToolContent> = {
       {
         h2: 'Have a photo of a table?',
         paragraphs: [
-          'Use the <a href="/jpg-to-excel">image to Excel converter</a> for photos and screenshots of tables. For plain text, try <a href="/pdf-to-text">PDF to Text</a>.',
+          'Use the <a href="/jpg-to-excel">JPG to Excel converter</a> for photos and screenshots of tables. For plain text, try <a href="/pdf-to-text">PDF to Text</a>.',
         ],
       },
     ],

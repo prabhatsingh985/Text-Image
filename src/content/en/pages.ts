@@ -20,7 +20,7 @@ export const pages: Record<StaticId, StaticContent> = {
         list: [
           '<a href="/">Image to Text</a> — copy text out of photos and screenshots.',
           '<a href="/jpg-to-word">JPG to Word</a> — turn images into editable Word documents.',
-          '<a href="/jpg-to-excel">Image to Excel</a> — rebuild tables from images as spreadsheets.',
+          '<a href="/jpg-to-excel">JPG to Excel</a> — rebuild tables from images as spreadsheets.',
           '<a href="/image-to-pdf">Image to PDF</a> — combine images into one PDF.',
           '<a href="/text-to-pdf">Text to PDF</a> — turn plain text into a clean PDF.',
           '<a href="/pdf-to-text">PDF to Text</a> — extract text from digital and scanned PDFs.',
