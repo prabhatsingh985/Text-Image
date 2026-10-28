@@ -837,11 +837,11 @@ export const tools: Record<ToolId, ToolContent> = {
     ],
   },
   'word-to-text': {
-    title: 'Word to Text Converter – DOCX to TXT Free Online',
+    title: 'Word to Text Converter – Convert Word to Text Free',
     description:
-      'Convert Word documents (DOCX, ODT, RTF) to plain text for free. Instant, unlimited and private — your files are read in your browser, never uploaded.',
+      'Convert Word to text online free. Turn DOCX, ODT and RTF files into clean plain text (TXT) in seconds. Unlimited, no signup, files never uploaded.',
     h1: 'Word to Text Converter',
-    lead: 'Get plain text from DOCX, ODT and RTF files.',
+    lead: 'Convert Word to text online, free — clean plain text from DOCX, ODT and RTF files.',
     navLabel: 'Word to Text',
     cardText: 'Get plain text out of DOCX, ODT and RTF files.',
     howTo: {
@@ -853,7 +853,7 @@ export const tools: Record<ToolId, ToolContent> = {
       ],
     },
     features: {
-      title: 'Clean text, no formatting baggage',
+      title: 'A Word to text converter with no formatting baggage',
       items: [
         { title: 'Instant', text: 'No OCR needed — text is read straight from the file, so even long documents take a second.' },
         { title: 'Keeps the structure', text: 'Paragraphs stay paragraphs, list items get bullets and table rows become tab-separated lines.' },
@@ -865,30 +865,113 @@ export const tools: Record<ToolId, ToolContent> = {
     },
     sections: [
       {
-        h2: 'Why convert a Word document to plain text?',
+        h2: 'A free Word to text converter for clean plain text',
         paragraphs: [
-          'Plain text pastes cleanly into code, CMS editors, emails, AI tools and spreadsheets without bringing fonts, colours and hidden formatting along. It is also the safest format for archiving and for counting words.',
+          'Copying text out of a Word document looks easy until you paste it somewhere else. Fonts, colours, odd spacing, hidden styles and smart formatting come along for the ride and break the layout of your email, website or code. This <strong>Word to text converter</strong> strips all of that away and gives you clean, plain text that pastes perfectly anywhere.',
+          'It is a <strong>Word to text converter online free</strong> of limits: no signup, no watermark, no file cap and no daily quota. Drop in a single page or a hundred documents. There is nothing to install and no need to open Microsoft Word — you can convert Word to text from any browser in a second.',
+        ],
+      },
+      {
+        h2: 'Why convert Word to text?',
+        paragraphs: [
+          'Plain text is the universal format. Every program can open it, it never carries hidden formatting, and it stays readable for decades. People convert Word to text to:',
+        ],
+        list: [
+          'Paste content into a website, blog or CMS editor without messing up its styling.',
+          'Feed documents into AI assistants, translators, grammar checkers and other online tools.',
+          'Copy text into code, scripts, configuration files and databases.',
+          'Count words and characters exactly, for essays, articles and translations.',
+          'Archive documents in a format that will open on any device, now and in the future.',
+          'Send clean text by email or chat, without attachments.',
+        ],
+      },
+      {
+        h2: 'Why not just copy and paste from Word?',
+        paragraphs: [
+          'Copying from Word takes the formatting with it. Many editors, website builders and email apps accept that hidden styling and suddenly your text has the wrong font, strange spacing or broken bullet points. Even “paste as plain text” can leave curly quotes, odd line breaks and stray characters, and it only works one document at a time.',
+          'When you convert Word to text with a dedicated tool, you get the whole document as clean text in one step, with tables turned into tidy tab-separated rows and lists marked clearly. For many files at once, it is far quicker than opening each document and copying by hand.',
+        ],
+      },
+      {
+        h2: 'What is kept and what is removed',
+        paragraphs: [
+          'The goal is text you can use straight away, so the converter keeps the structure that matters and drops everything else:',
+        ],
+        list: [
+          '<strong>Kept:</strong> every paragraph in order, line breaks, tabs and blank lines (several blank lines in a row become one).',
+          '<strong>Lists:</strong> bullet and numbered list items start with a “•”, so lists stay readable.',
+          '<strong>Tables:</strong> each row becomes one line with cells separated by tabs — paste it into Excel or Google Sheets and the columns line up.',
+          '<strong>Removed:</strong> fonts, colours, bold, italic, images, deleted tracked changes, field codes and hidden markup.',
+          '<strong>Not included:</strong> headers, footers, footnotes and comments. Only the main body text is extracted.',
+        ],
+      },
+      {
+        h2: 'How the converter reads your document',
+        paragraphs: [
+          'A .docx file is really a small zip archive with the text stored inside as structured XML. This tool opens that archive in your browser and reads the text directly — no OCR, no guessing and no recognition errors. Every character comes out exactly as you typed it, which is why the result is instant even for a 200-page document.',
+          'The text then appears in an editable box with a live word and character count. Fix anything you like before you copy it or save it as a TXT file.',
+        ],
+      },
+      {
+        h2: 'DOCX to TXT and other formats',
+        paragraphs: [
+          'The converter works with the document formats people actually use: <strong>DOCX</strong>, <strong>DOCM</strong> and <strong>DOTX</strong> from Microsoft Word, <strong>ODT</strong> and <strong>OTT</strong> from LibreOffice and OpenOffice, and <strong>RTF</strong> files from WordPad and other editors.',
+          'Working in Google Docs? Choose File → Download → Microsoft Word (.docx), then drop that file here. From Apple Pages, use File → Export To → Word. Either way, you get the same clean plain text.',
         ],
       },
       {
         h2: 'Old .doc files',
         paragraphs: [
-          'The old binary .doc format (Word 97–2003) is not supported. Open the file in Word, Google Docs or LibreOffice and save it as .docx, then convert it here.',
+          'The old binary .doc format (Word 97–2003) is not supported. Open the file in Word, Google Docs or LibreOffice and save it as .docx, then convert it here. It takes a few seconds and gives you a much better result.',
         ],
       },
       {
-        h2: 'Only have a scan or photo of the document?',
+        h2: 'Convert many Word files to text at once',
         paragraphs: [
-          'Use the <a href="/">image to text converter</a> for photos and the <a href="/pdf-to-text">PDF to text converter</a> for scanned PDFs.',
+          'Have a folder full of documents? Drop dozens of files into the box at once. Each one is converted separately and shown with its own text, so you can check them one by one. When you are done, use <strong>Copy all</strong> to grab everything, or download every TXT file together in one ZIP.',
+        ],
+      },
+      {
+        h2: 'Convert Word to text on your phone',
+        paragraphs: [
+          'Got a Word file as an email or WhatsApp attachment? You do not need the Word app. Save the attachment to your phone, open this page in Chrome or Safari on Android or iPhone, tap the box and pick the file. The plain text appears a moment later, ready to copy into a message, a note or another app. It works the same way on tablets, Chromebooks, Windows, Mac and Linux.',
+        ],
+      },
+      {
+        h2: 'Works with every language',
+        paragraphs: [
+          'Because the text is read straight from the file, any language your document is written in comes out correctly — English, Hindi, Arabic, Chinese, Japanese, Russian and every other script. TXT files are saved in UTF-8, so even Windows Notepad opens non-English text with the right characters.',
+        ],
+      },
+      {
+        h2: 'Private, free and unlimited',
+        paragraphs: [
+          'Contracts, CVs, school work and business plans often contain private information. Most online converters upload your document to a server. This one does not: the file is opened and read inside your browser, so it never leaves your computer or phone and nothing is stored online. That is also why this Word to text converter is free and unlimited — there is no server cost to limit.',
+        ],
+      },
+      {
+        h2: 'Tips for the best plain text',
+        list: [
+          'Accept or reject tracked changes in Word first if you want to be sure which version of the text you get.',
+          'Text inside images is not extracted. Use the image to text converter for that.',
+          'If a document looks empty, check that it is not an old .doc file renamed to .docx.',
+        ],
+      },
+      {
+        h2: 'Only have a scan, photo or PDF?',
+        paragraphs: [
+          'Use the <a href="/">image to text converter</a> for photos and screenshots, and the <a href="/pdf-to-text">PDF to text converter</a> for PDF files, including scanned ones. For presentations, the <a href="/ppt-to-text">PPT to text converter</a> extracts every slide and its speaker notes.',
         ],
       },
     ],
     faq: [
-      { q: 'How do I convert Word to text?', a: 'Drop one or more Word files into the box. The text appears in seconds with paragraphs, lists and tables in order. Copy it, save it as a TXT file, or download all files as a ZIP.' },
-      { q: 'How can I convert DOCX to TXT for free?', a: 'Use this free Word to text converter. Open your .docx file and download the plain text as a TXT file. There is no signup and no limit.' },
-      { q: 'Which Word formats are supported?', a: 'DOCX, DOCM and DOTX from Microsoft Word, ODT from LibreOffice and OpenOffice, and RTF. Old .doc files need to be saved as .docx first.' },
+      { q: 'How do I convert Word to text?', a: 'Drop one or more Word files into the box at the top of this page. The text appears in seconds with paragraphs, lists and tables in order. Copy it, save it as a TXT file, or download all files as a ZIP.' },
+      { q: 'Is this Word to text converter online free?', a: 'Yes. It is completely free, with no signup, no watermark and no limit on the number of documents.' },
+      { q: 'How can I convert DOCX to TXT?', a: 'Open your .docx file here and click the TXT button to download the plain text. The file is saved in UTF-8, so it opens correctly in Notepad and every other editor.' },
+      { q: 'Which Word formats are supported?', a: 'DOCX, DOCM and DOTX from Microsoft Word, ODT and OTT from LibreOffice and OpenOffice, and RTF. Old .doc files need to be saved as .docx first.' },
       { q: 'Can I convert an old .doc file to text?', a: 'Not directly. Open the .doc file in Word, Google Docs or LibreOffice, save it as .docx, then convert it here.' },
       { q: 'Are tables kept when converting Word to text?', a: 'Yes. Each table row becomes one line, with cells separated by tabs, so you can paste it into a spreadsheet.' },
+      { q: 'Are headers, footers and comments included?', a: 'No. Only the main body text of the document is extracted. Headers, footers, footnotes and comments are left out.' },
       { q: 'Can I convert many Word documents to text at once?', a: 'Yes. Drop dozens of documents at once and download every TXT file together in one ZIP.' },
       { q: 'How do I convert a Google Docs document to plain text?', a: 'In Google Docs, choose File → Download → Microsoft Word (.docx), then open that file here to get clean plain text.' },
       { q: 'Is text inside images converted?', a: 'No. Only real text is extracted. For text inside pictures, use the image to text converter.' },
