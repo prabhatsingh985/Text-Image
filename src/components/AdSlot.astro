@@ -1,0 +1,26 @@
+---
+import { SITE } from '../config/site';
+
+interface Props {
+  /** Reserved height in px so the page never jumps when the ad loads (PLAN.md §12.1). */
+  height?: number;
+  slot?: string;
+}
+
+const { height = 280, slot = '' } = Astro.props;
+---
+
+{
+  SITE.adsEnabled && SITE.adsenseClient && (
+    <div class="mx-auto my-8 flex max-w-3xl items-center justify-center overflow-hidden" style={`min-height:${height}px`}>
+      <ins
+        class="adsbygoogle block w-full"
+        style={`min-height:${height}px`}
+        data-ad-client={SITE.adsenseClient}
+        data-ad-slot={slot}
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      />
+    </div>
+  )
+}

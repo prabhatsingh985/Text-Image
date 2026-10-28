@@ -1,0 +1,23 @@
+---
+import { TOOL_META } from '../config/tool-meta';
+import type { ToolId } from '../i18n/routes';
+
+interface Props {
+  id: ToolId;
+  class?: string;
+}
+
+const { id, class: className = 'h-5 w-5' } = Astro.props;
+---
+
+<svg
+  class={className}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  set:html={TOOL_META[id].icon}
+/>

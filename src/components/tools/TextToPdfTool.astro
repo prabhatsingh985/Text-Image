@@ -1,0 +1,109 @@
+---
+import type { UiStrings } from '../../content/types';
+
+interface Props {
+  ui: UiStrings;
+}
+
+const t = Astro.props.ui.tool;
+---
+
+<section class="mx-auto max-w-4xl px-4" data-text-pdf data-i18n={JSON.stringify(t)}>
+  <div class="card rounded-[2.5rem] p-4 sm:p-5">
+    <textarea class="field min-h-80 w-full resize-y rounded-2xl bg-surface-2/50 p-5 text-[0.95rem] leading-7" placeholder={t.textPlaceholder} dir="auto" data-text></textarea>
+    <div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3 px-1 text-sm">
+      <label class="btn-secondary btn-sm focus-within:outline-2 focus-within:outline-brand-500">
+        {t.openTxt}
+        <input type="file" accept=".txt,text/plain" class="sr-only" data-file />
+      </label>
+      <label class="inline-flex items-center gap-2">
+        <span class="font-medium text-ink-muted">{t.font}</span>
+        <select class="field py-1.5" data-font>
+          <option value="sans">{t.fontSans}</option>
+          <option value="serif">{t.fontSerif}</option>
+          <option value="mono">{t.fontMono}</option>
+        </select>
+      </label>
+      <label class="inline-flex items-center gap-2">
+        <span class="font-medium text-ink-muted">{t.fontSize}</span>
+        <select class="field py-1.5" data-size>
+          {[10, 11, 12, 14, 16, 18].map((s) => <option value={s} selected={s === 12}>{s} pt</option>)}
+        </select>
+      </label>
+      <label class="inline-flex items-center gap-2">
+        <span class="font-medium text-ink-muted">{t.pageSize}</span>
+        <select class="field py-1.5" data-page>
+          <option value="a4">{t.sizeA4}</option>
+          <option value="letter">{t.sizeLetter}</option>
+        </select>
+      </label>
+      <label class="inline-flex items-center gap-2">
+        <span class="font-medium text-ink-muted">{t.margin}</span>
+        <select class="field py-1.5" data-margin>
+          <option value="36">{t.marginSmall}</option>
+          <option value="72" selected>{t.marginLarge}</option>
+        </select>
+      </label>
+    </div>
+    <div class="mt-4 flex flex-wrap items-center gap-3 border-t border-line px-1 pt-4">
+      <span class="me-auto text-xs text-ink-muted" data-count></span>
+      <button type="button" class="btn-primary px-6 py-3" data-create>{t.createPdf}</button>
+    </div>
+    <p class="mt-3 text-xs text-amber-700 dark:text-amber-300" data-warning hidden></p>
+  </div>
+</section>
+
+<script>
+  import { downloadBlob } from '../../lib/export/download';
+  import { textToPdf, type FontChoice } from '../../lib/export/pdf';
+  import { countWords, fmt } from '../../lib/text';
+  import { toast } from '../../lib/ui/toast';
+
+  document.querySelectorAll<HTMLElement>('[data-text-pdf]').forEach((root) => {
+    const t: Record<string, string> = JSON.parse(root.dataset.i18n || '{}');
+    const $ = <T extends Element = HTMLElement>(s: string) => root.querySelector<T>(s)!;
+    const text = $<HTMLTextAreaElement>('[data-text]');
+    const file = $<HTMLInputElement>('[data-file]');
+    const count = $('[data-count]');
+    const warning = $('[data-warning]');
+    const btn = $<HTMLButtonElement>('[data-create]');
+
+    const updateCount = () => {
+      count.textContent = text.value ? `${fmt(t.words, { n: countWords(text.value) })} · ${fmt(t.chars, { n: text.value.length })}` : '';
+    };
+    text.addEventListener('input', updateCount);
+    file.addEventListener('change', async () => {
+      const f = file.files?.[0];
+      if (f) {
+        text.value = await f.text();
+        updateCount();
+      }
+      file.value = '';
+    });
+
+    btn.addEventListener('click', async () => {
+      if (!text.value.trim()) {
+        toast(t.emptyText);
+        text.focus();
+        return;
+      }
+      btn.disabled = true;
+      try {
+        const { bytes, replaced } = await textToPdf(text.value, {
+          font: $<HTMLSelectElement>('[data-font]').value as FontChoice,
+          fontSize: Number($<HTMLSelectElement>('[data-size]').value),
+          size: $<HTMLSelectElement>('[data-page]').value as 'a4' | 'letter',
+          margin: Number($<HTMLSelectElement>('[data-margin]').value),
+        });
+        warning.hidden = !replaced;
+        warning.textContent = fmt(t.replaced, { n: replaced });
+        downloadBlob(new Blob([bytes as BlobPart], { type: 'application/pdf' }), 'text.pdf');
+      } catch (err) {
+        console.error(err);
+        toast(t.failed);
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  });
+</script>

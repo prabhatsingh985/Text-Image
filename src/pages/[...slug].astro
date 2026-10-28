@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolHero from '../components/ToolHero.astro';
+import ToolArticle from '../components/ToolArticle.astro';
+import OcrTool, { type OcrMode } from '../components/tools/OcrTool.astro';
+import ImageToPdfTool from '../components/tools/ImageToPdfTool.astro';
+import TextToPdfTool from '../components/tools/TextToPdfTool.astro';
+import DocTextTool, { type DocMode } from '../components/tools/DocTextTool.astro';
+import { ACTIVE_LOCALES, getLocale } from '../i18n/locales';
+import { STATIC_IDS, TOOL_IDS, pathFor, type PageId, type StaticId, type ToolId } from '../i18n/routes';
+import { contentFor } from '../content';
+
+// One route builds every page in every enabled locale (PLAN.md §5).
+export function getStaticPaths() {
+  return ACTIVE_LOCALES.flatMap((locale) =>
+    [...TOOL_IDS, ...STATIC_IDS].map((id) => ({
+      params: { slug: pathFor(id, locale) || undefined },
+      props: { id: id as PageId, localeCode: locale.code },
+    })),
+  );
+}
+
+const { id, localeCode } = Astro.props;
+const locale = getLocale(localeCode);
+const { ui, tools, pages } = contentFor(locale.code);
+const isTool = (TOOL_IDS as readonly string[]).includes(id);
+
+const OCR_MODES: Partial<Record<ToolId, OcrMode>> = {
+  'image-to-text': 'text',
+  'screenshot-to-text': 'screenshot',
+  'jpg-to-word': 'word',
+  'jpg-to-excel': 'excel',
+  'pdf-to-text': 'pdf',
+  'pdf-to-excel': 'pdf-excel',
+};
+const DOC_MODES: Partial<Record<ToolId, DocMode>> = {
+  'word-to-text': 'word',
+  'ppt-to-text': 'slides',
+};
+
+const tool = isTool ? tools[id as ToolId] : null;
+const page = isTool ? null : pages[id as StaticId];
+const ocrMode = OCR_MODES[id as ToolId];
+const docMode = DOC_MODES[id as ToolId];
+---
+
+{
+  tool ? (
+    <BaseLayout
+      title={tool.title}
+      description={tool.description}
+      pageId={id}
+      locale={locale}
+      isTool
+      faq={tool.faq}
+      breadcrumbName={tool.h1}
+    >
+      <ToolHero toolId={id as ToolId} h1={tool.h1} lead={tool.lead} ui={ui} />
+      {ocrMode && <OcrTool mode={ocrMode} locale={locale} ui={ui} />}
+      {docMode && <DocTextTool mode={docMode} ui={ui} />}
+      {id === 'image-to-pdf' && <ImageToPdfTool ui={ui} />}
+      {id === 'text-to-pdf' && <TextToPdfTool ui={ui} />}
+      <ToolArticle toolId={id as ToolId} content={tool} ui={ui} locale={locale} />
+    </BaseLayout>
+  ) : (
+    page && (
+      <BaseLayout title={page.title} description={page.description} pageId={id} locale={locale} breadcrumbName={page.h1}>
+        <article class="prose-page mx-auto max-w-3xl px-4 pt-16 sm:pt-24">
+          <h1 class="font-display text-5xl leading-none sm:text-6xl">{page.h1}</h1>
+          {page.updated && <p class="mt-3 text-sm text-ink-soft">Last updated: {page.updated}</p>}
+          {page.sections.map((s) => (
+            <section>
+              <h2>{s.h2}</h2>
+              {s.paragraphs?.map((p) => <p set:html={p} />)}
+              {s.list && (
+                <ul>
+                  {s.list.map((li) => (
+                    <li set:html={li} />
+                  ))}
+                </ul>
+              )}
+            </section>
+          ))}
+        </article>
+      </BaseLayout>
+    )
+  )
+}

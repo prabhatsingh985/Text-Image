@@ -1,0 +1,33 @@
+---
+import type { UiStrings } from '../content/types';
+import type { ToolId } from '../i18n/routes';
+
+interface Props {
+  toolId: ToolId;
+  h1: string;
+  lead: string;
+  ui: UiStrings;
+}
+
+const { h1, lead, ui } = Astro.props;
+const points = [ui.common.unlimitedBadge, ui.common.noSignupBadge, ui.common.privacyBadge];
+---
+
+<section class="mx-auto max-w-3xl px-4 pt-6 pb-7 text-center sm:pt-8 sm:pb-8">
+  <h1 class="animate-fade-up font-display text-4xl leading-none text-balance sm:text-[3.5rem]">{h1}</h1>
+  <p class="mx-auto mt-3 max-w-xl animate-fade-up text-base leading-7 text-pretty text-ink-muted [animation-delay:60ms] sm:text-lg">
+    {lead}
+  </p>
+  <ul class="mt-4 flex animate-fade-up flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-semibold [animation-delay:120ms]">
+    {
+      points.map((p) => (
+        <li class="inline-flex items-center gap-2">
+          <svg class="h-4 w-4 text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m5 12.5 4.5 4.5L19 7.5" />
+          </svg>
+          {p}
+        </li>
+      ))
+    }
+  </ul>
+</section>

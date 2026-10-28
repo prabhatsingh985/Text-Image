@@ -1,0 +1,57 @@
+---
+import '../styles/global.css';
+import SeoHead from '../components/SeoHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import type { Locale } from '../i18n/locales';
+import type { PageId } from '../i18n/routes';
+import type { FaqItem } from '../content/types';
+
+interface Props {
+  title: string;
+  description: string;
+  pageId: PageId;
+  locale: Locale;
+  isTool?: boolean;
+  faq?: FaqItem[];
+  breadcrumbName?: string;
+  noindex?: boolean;
+}
+
+const props = Astro.props;
+const { locale, pageId } = props;
+---
+
+<!doctype html>
+<html lang={locale.hreflang} dir={locale.dir}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f3ede4" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#181613" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <script is:inline>
+      (function () {
+        var t = null;
+        try {
+          t = localStorage.getItem('theme');
+        } catch (e) {}
+        if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+    <SeoHead {...props} />
+  </head>
+  <body class="min-h-screen">
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-surface focus:px-4 focus:py-2">
+      Skip to content
+    </a>
+    <Header locale={locale} pageId={pageId} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer locale={locale} pageId={pageId} />
+  </body>
+</html>

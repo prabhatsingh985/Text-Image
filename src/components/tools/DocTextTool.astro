@@ -1,0 +1,71 @@
+---
+import Dropzone from '../Dropzone.astro';
+import { DOC_ACCEPT, SLIDE_ACCEPT } from '../../lib/input/office';
+import type { UiStrings } from '../../content/types';
+
+export type DocMode = 'word' | 'slides';
+
+interface Props {
+  mode: DocMode;
+  ui: UiStrings;
+}
+
+const { mode, ui } = Astro.props;
+const t = ui.tool;
+const slides = mode === 'slides';
+---
+
+<section class="mx-auto max-w-5xl px-4" data-doc-tool data-mode={mode} data-i18n={JSON.stringify(t)}>
+  <div class="card relative rounded-[2rem] p-2.5 sm:p-3">
+    <Dropzone
+      title={slides ? t.dropTitlePpt : t.dropTitleDoc}
+      hint={slides ? t.dropHintPpt : t.dropHintDoc}
+      label={slides ? t.browsePpt : t.browseDoc}
+      formats={slides ? ['PPTX', 'PPSX', 'ODP'] : ['DOCX', 'ODT', 'RTF']}
+    >
+      <label class="btn-primary px-6 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-brand-500">
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 16V4M7 9l5-5 5 5M5 20h14"></path>
+        </svg>
+        {slides ? t.browsePpt : t.browseDoc}
+        <input type="file" multiple accept={slides ? SLIDE_ACCEPT : DOC_ACCEPT} class="sr-only" data-input />
+      </label>
+    </Dropzone>
+
+  </div>
+
+  <div class="mt-6 flex flex-wrap items-center gap-2" data-toolbar hidden>
+    <span class="me-auto text-sm font-semibold" data-summary></span>
+  </div>
+
+  <ol class="mt-4 space-y-4" data-results aria-live="polite"></ol>
+
+  <template data-item-template>
+    <li class="card animate-fade-up overflow-hidden" data-item>
+      <div class="flex items-center gap-3 border-b border-line px-5 py-3.5">
+        <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-surface-2 font-mono text-[0.6rem] font-bold text-ink-muted" data-ext></span>
+        <span class="min-w-0 truncate text-sm font-semibold" data-name></span>
+        <span class="ms-auto shrink-0 rounded-full bg-surface-2 px-2.5 py-1 text-xs font-medium text-ink-muted" data-status></span>
+        <button type="button" class="btn-ghost btn-sm -me-2 h-8 w-8 p-0!" data-remove aria-label={t.remove}>
+          <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path d="M5.3 5.3a1 1 0 0 1 1.4 0L10 8.6l3.3-3.3a1 1 0 1 1 1.4 1.4L11.4 10l3.3 3.3a1 1 0 0 1-1.4 1.4L10 11.4l-3.3 3.3a1 1 0 0 1-1.4-1.4L8.6 10 5.3 6.7a1 1 0 0 1 0-1.4Z"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="p-4 sm:p-5">
+        <textarea class="field min-h-72 w-full resize-y rounded-2xl bg-surface-2/50 p-4 leading-7" spellcheck="false" dir="auto" data-text></textarea>
+        <p class="mt-2 text-xs text-amber-700 dark:text-amber-300" data-note hidden></p>
+        <div class="mt-3 flex flex-wrap items-center gap-2">
+          <span class="me-auto text-xs font-medium text-ink-soft" data-count></span>
+          <button type="button" class="btn-secondary btn-sm" data-copy>{t.copy}</button>
+          <button type="button" class="btn-primary btn-sm" data-download>{t.downloadTxt}</button>
+        </div>
+      </div>
+    </li>
+  </template>
+</section>
+
+<script>
+  import { initDocTool } from '../../scripts/doc-text';
+  document.querySelectorAll<HTMLElement>('[data-doc-tool]').forEach(initDocTool);
+</script>

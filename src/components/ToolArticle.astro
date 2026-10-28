@@ -1,0 +1,148 @@
+---
+import AdSlot from './AdSlot.astro';
+import ToolIcon from './ToolIcon.astro';
+import type { ToolContent, UiStrings } from '../content/types';
+import type { Locale } from '../i18n/locales';
+import { TOOL_META } from '../config/tool-meta';
+import { TOOL_IDS, urlFor, type ToolId } from '../i18n/routes';
+import { contentFor } from '../content';
+
+interface Props {
+  toolId: ToolId;
+  content: ToolContent;
+  ui: UiStrings;
+  locale: Locale;
+}
+
+const { toolId, content, ui, locale } = Astro.props;
+const { tools } = contentFor(locale.code);
+// Same-group tools first: they are the likeliest next step.
+const group = TOOL_META[toolId].group;
+const related = TOOL_IDS.filter((id) => id !== toolId).sort(
+  (a, b) => Number(TOOL_META[b].group === group) - Number(TOOL_META[a].group === group),
+);
+---
+
+<div class="mx-auto max-w-6xl px-4">
+  <section class="mt-28" aria-labelledby="how-to">
+    <div class="mx-auto max-w-2xl text-center">
+      <p class="eyebrow">{ui.common.howTo}</p>
+      <h2 id="how-to" class="mt-4 font-display text-[2.6rem] leading-none text-balance sm:text-[3.75rem]">{content.howTo.title}</h2>
+    </div>
+    <ol class="mt-10 grid gap-4 md:grid-cols-3">
+      {
+        content.howTo.steps.map((step, i) => (
+          <li class="card relative overflow-hidden rounded-[2.5rem] p-7">
+            <span class="pointer-events-none absolute -end-1 -top-4 font-display text-[8rem] leading-none text-surface-3 select-none" aria-hidden="true">
+              {i + 1}
+            </span>
+            <span class="relative grid h-9 w-9 place-items-center rounded-full bg-brand-300 text-base font-bold text-[#202020]">{i + 1}</span>
+            <p class="relative mt-5 text-[0.95rem] leading-7 text-ink-muted [&_strong]:mb-1 [&_strong]:block [&_strong]:text-lg [&_strong]:font-semibold [&_strong]:text-ink" set:html={step} />
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="mt-28" aria-labelledby="features">
+    <div class="grid gap-10 lg:grid-cols-[1fr_2fr]">
+      <div class="lg:sticky lg:top-24 lg:self-start">
+        <p class="eyebrow">{ui.common.features}</p>
+        <h2 id="features" class="mt-4 font-display text-[2.6rem] leading-none text-balance sm:text-[3.75rem]">{content.features.title}</h2>
+      </div>
+      <div class="grid gap-3 rounded-[2.5rem] bg-surface-3 p-3 sm:grid-cols-2 sm:p-4">
+        {
+          content.features.items.map((f) => (
+            <div class="rounded-3xl bg-surface p-6">
+              <span class="grid h-9 w-9 place-items-center rounded-full bg-brand-300 text-[#202020]">
+                <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="m5 12.5 4.5 4.5L19 7.5" />
+                </svg>
+              </span>
+              <h3 class="mt-4 text-lg font-semibold">{f.title}</h3>
+              <p class="mt-1.5 text-sm leading-6 text-ink-muted">{f.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <AdSlot />
+
+  <article class="prose-page mx-auto mt-10 max-w-3xl">
+    {
+      content.sections.map((s) => (
+        <section>
+          <h2>{s.h2}</h2>
+          {s.paragraphs?.map((p) => <p set:html={p} />)}
+          {s.list && (
+            <ul>
+              {s.list.map((li) => (
+                <li set:html={li} />
+              ))}
+            </ul>
+          )}
+        </section>
+      ))
+    }
+  </article>
+
+  <section class="mx-auto mt-24 max-w-3xl" aria-labelledby="faq">
+    <div class="text-center">
+      <p class="eyebrow">FAQ</p>
+      <h2 id="faq" class="mt-4 font-display text-[2.6rem] leading-none text-balance sm:text-[3.75rem]">{ui.common.faq}</h2>
+    </div>
+    <div class="mt-10 space-y-3">
+      {
+        content.faq.map((f) => (
+          <details class="card group rounded-[2rem] px-6 py-5 transition">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold">
+              {f.q}
+              <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-surface-3 text-ink transition group-open:rotate-45 group-open:bg-brand-300 group-open:text-[#202020]">
+                <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+                  <path d="M10 4v12M4 10h12" />
+                </svg>
+              </span>
+            </summary>
+            <p class="mt-3 pe-10 text-[0.95rem] leading-7 text-ink-muted">{f.a}</p>
+          </details>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="mt-28" aria-labelledby="related">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <p class="eyebrow">{ui.common.toolkit}</p>
+        <h2 id="related" class="mt-4 font-display text-[2.6rem] leading-none text-balance sm:text-[3.75rem]">{ui.common.related}</h2>
+      </div>
+    </div>
+    <div class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        related.map((id) => (
+          <a href={urlFor(id, locale)} class="card group flex items-start gap-4 p-5 transition duration-300 hover:-translate-y-0.5 hover:bg-brand-300/20">
+            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-surface-3 text-ink transition group-hover:bg-brand-300 group-hover:text-[#202020]">
+              <ToolIcon id={id} />
+            </span>
+            <span class="min-w-0 flex-1">
+              <span class="flex items-center gap-2 font-semibold">
+                {tools[id].navLabel}
+                {TOOL_META[id].tag && (
+                  <span class="rounded-full bg-brand-300 px-2 py-px text-[0.62rem] font-bold tracking-wide text-[#202020] uppercase">
+                    {TOOL_META[id].tag}
+                  </span>
+                )}
+              </span>
+              <span class="mt-1 block text-sm leading-6 text-ink-muted">{tools[id].cardText}</span>
+            </span>
+            <svg class="mt-1 h-4 w-4 shrink-0 text-ink-soft transition group-hover:translate-x-0.5 group-hover:text-ink rtl:rotate-180" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 10h12M11 5l5 5-5 5" />
+            </svg>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</div>

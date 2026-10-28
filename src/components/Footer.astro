@@ -1,0 +1,87 @@
+---
+import Logo from './Logo.astro';
+import { SITE } from '../config/site';
+import { TOOL_GROUPS, TOOL_META } from '../config/tool-meta';
+import { ACTIVE_LOCALES, type Locale } from '../i18n/locales';
+import { STATIC_IDS, TOOL_IDS, alternatesFor, urlFor, type PageId } from '../i18n/routes';
+import { contentFor } from '../content';
+
+interface Props {
+  locale: Locale;
+  pageId: PageId;
+}
+
+const { locale, pageId } = Astro.props;
+const { ui, tools, pages } = contentFor(locale.code);
+const languages = alternatesFor(pageId, ACTIVE_LOCALES);
+const year = new Date().getFullYear();
+const groups = TOOL_GROUPS.map((g) => ({ ...g, tools: TOOL_IDS.filter((id) => TOOL_META[id].group === g.id) }));
+---
+
+<footer class="mx-2 mt-28 rounded-t-[2.5rem] border-2 border-b-0 border-black bg-brand-300 text-[#202020] sm:mx-4">
+  <div class="mx-auto max-w-6xl px-4 pt-16 pb-10">
+    <div class="grid gap-12 lg:grid-cols-[1.3fr_2fr]">
+      <div>
+        <a href={urlFor('image-to-text', locale)} class="flex items-center gap-2.5 font-display text-[1.6rem] leading-none">
+          <Logo />
+          {SITE.name}
+        </a>
+        <p class="mt-4 max-w-xs text-sm leading-6 opacity-80">{ui.footer.privacyNote}</p>
+        <ul class="mt-6 flex flex-wrap gap-2 text-xs font-medium">
+          {
+            [ui.common.unlimitedBadge, ui.common.noSignupBadge].map((b) => (
+              <li class="rounded-full bg-white px-3.5 py-1.5 font-semibold">{b}</li>
+            ))
+          }
+        </ul>
+        {
+          languages.length > 1 && (
+            <nav class="mt-6 flex flex-wrap gap-x-3 gap-y-1 text-sm" aria-label={ui.nav.language}>
+              {languages.map((l) => (
+                <a href={l.href} hreflang={l.locale.hreflang} lang={l.locale.hreflang} class="opacity-65 hover:opacity-100">
+                  {l.locale.label}
+                </a>
+              ))}
+            </nav>
+          )
+        }
+      </div>
+      <div class="grid grid-cols-2 gap-10 sm:grid-cols-4">
+        {
+          groups.map((g) => (
+            <nav aria-label={g.label}>
+              <h2 class="text-sm font-semibold opacity-60">{g.label}</h2>
+              <ul class="mt-4 space-y-2.5 text-sm">
+                {g.tools.map((id) => (
+                  <li>
+                    <a href={urlFor(id, locale)} class="opacity-80 underline-offset-4 transition hover:underline hover:opacity-100">
+                      {tools[id].navLabel}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))
+        }
+        <nav aria-label={ui.footer.company}>
+          <h2 class="text-sm font-semibold opacity-60">{ui.footer.company}</h2>
+          <ul class="mt-4 space-y-2.5 text-sm">
+            {
+              STATIC_IDS.map((id) => (
+                <li>
+                  <a href={urlFor(id, locale)} class="opacity-80 underline-offset-4 transition hover:underline hover:opacity-100">
+                    {pages[id].h1}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <div class="mt-14 flex flex-wrap items-center justify-between gap-3 border-t-2 border-black/15 pt-6 text-xs opacity-70">
+      <p>© {year} {SITE.name}. {ui.footer.rights}</p>
+      <p>{ui.footer.madeIn}</p>
+    </div>
+  </div>
+</footer>
