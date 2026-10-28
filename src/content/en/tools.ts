@@ -353,15 +353,15 @@ export const tools: Record<ToolId, ToolContent> = {
   },
 
   'image-to-pdf': {
-    title: 'Image to PDF Converter – JPG to PDF Free, No Limits',
+    title: 'Image to PDF Converter – Convert Image to PDF Free',
     description:
-      'Combine JPG, PNG, HEIC and other images into one PDF. Reorder pages, choose A4 or Letter, add margins. Free, unlimited, and files stay on your device.',
+      'Convert image to PDF online free. Combine JPG, PNG and HEIC photos into one PDF, reorder pages, pick A4 or Letter. No signup, no watermark, no uploads.',
     h1: 'Image to PDF Converter',
-    lead: 'Combine JPG, PNG and HEIC images into one PDF.',
+    lead: 'Convert image to PDF online, free — combine JPG, PNG and HEIC photos into one PDF.',
     navLabel: 'Image to PDF',
     cardText: 'Combine images into one PDF file.',
     howTo: {
-      title: 'How to convert images to PDF',
+      title: 'How to convert image to PDF',
       steps: [
         '<strong>Add your images.</strong> Drop them in, click “Choose files”, take photos or paste a screenshot.',
         '<strong>Arrange the pages.</strong> Drag images into the right order or use the arrow buttons, then pick page size, orientation and margins.',
@@ -369,7 +369,7 @@ export const tools: Record<ToolId, ToolContent> = {
       ],
     },
     features: {
-      title: 'Everything you need to make a PDF from images',
+      title: 'Everything you need in an image to PDF converter',
       items: [
         { title: 'Any image format', text: 'JPG, PNG, WEBP, GIF, BMP and iPhone HEIC photos all work.' },
         { title: 'Drag to reorder', text: 'Put pages in the right order with drag and drop or the arrow buttons.' },
@@ -381,36 +381,107 @@ export const tools: Record<ToolId, ToolContent> = {
     },
     sections: [
       {
-        h2: 'Turn photos into one tidy PDF',
+        h2: 'A free image to PDF converter for photos, scans and screenshots',
         paragraphs: [
-          'Schools, offices and online forms often ask for a single PDF, but your documents are a set of photos on your phone. This image to PDF converter puts them together into one PDF file, one image per page, in the order you choose.',
-          'Use it for scanned homework, signed forms, receipts for an expense claim, ID documents for an application or a quick photo album. Because the PDF is created on your own device, it is fast and private.',
+          'Schools, offices, banks and online forms often ask for a single PDF, but your documents are a set of photos on your phone. This <strong>image to PDF converter</strong> puts them together into one tidy PDF file, one image per page, in exactly the order you choose.',
+          'It is an <strong>image to PDF converter free</strong> of catches: no signup, no watermark, no page limit and no daily cap. Convert one photo or fifty, as often as you need. Everything runs in your browser, so you can convert image to PDF from your computer or phone in a few seconds.',
+        ],
+      },
+      {
+        h2: 'Why convert images to PDF?',
+        paragraphs: [
+          'A PDF looks the same on every device, prints at the right size and keeps many pages together in one file. That makes it the format most places ask for. People use this tool to:',
+        ],
+        list: [
+          'Submit scanned homework, assignments and exam answer sheets as one file.',
+          'Upload ID cards, certificates and mark sheets for job, college and visa applications.',
+          'Send signed forms and contracts that were photographed on a phone.',
+          'Collect receipts and bills into one PDF for an expense claim or tax filing.',
+          'Turn screenshots into a single document for a bug report or a tutorial.',
+          'Make a simple photo album or portfolio that anyone can open.',
+        ],
+      },
+      {
+        h2: 'Put your pages in the right order',
+        paragraphs: [
+          'Every image you add appears as a thumbnail in a list. Drag a thumbnail up or down to move it, or use the <strong>Move up</strong> and <strong>Move down</strong> arrows if you prefer tapping on a phone. Remove any image you do not need with one click. The order you see is exactly the order of the pages in your PDF, so a ten-page form ends up in the right sequence every time.',
         ],
       },
       {
         h2: 'Choosing the right settings',
         list: [
-          '<strong>A4</strong> is the standard paper size in most of the world; <strong>Letter</strong> is used in the US and Canada.',
-          '<strong>Fit to image</strong> makes each page the exact size of its picture, with no white space.',
-          '<strong>Auto orientation</strong> turns each page to match its image, so wide pictures get landscape pages.',
+          '<strong>A4</strong> is the standard paper size in most of the world, including India, the UK and Europe; <strong>Letter</strong> is used in the US and Canada.',
+          '<strong>Fit to image</strong> makes each page the exact size of its picture, with no white space — ideal for screenshots and photo albums.',
+          '<strong>Orientation:</strong> <strong>Auto</strong> turns each page to match its image, so wide pictures get landscape pages and tall ones portrait. You can also force portrait or landscape for every page.',
+          '<strong>Margin:</strong> choose none, small or large white borders. Each image is scaled to fit inside the margins and centred on the page.',
           '<strong>Smaller file</strong> reduces the size of big phone photos, which helps when an upload form has a size limit.',
+        ],
+      },
+      {
+        h2: 'How the image to PDF converter builds your file',
+        paragraphs: [
+          'When you click <strong>Create PDF</strong>, each image becomes one page. The picture is scaled to fit inside the page and its margins, keeping its original proportions, and centred — nothing is stretched, squashed or cropped. With “Fit to image”, the page is simply made the same shape as the picture.',
+          'The PDF is put together by your browser itself, page by page, and saved to your device as <strong>images.pdf</strong>. Rename it to something meaningful, like “Aadhaar card” or “Assignment 3”, before you upload or send it.',
+        ],
+      },
+      {
+        h2: 'Why use this instead of a scanner app?',
+        paragraphs: [
+          'Scanner apps are handy, but many of them need an account, add a watermark on the free plan or keep your scans in their cloud. Here you can convert image to PDF with the photos you already have, on any device, without installing anything or creating an account — and your files stay with you.',
+        ],
+      },
+      {
+        h2: 'Sharp quality, sensible file size',
+        paragraphs: [
+          'PNG images, such as screenshots, go into the PDF untouched, so text and lines stay perfectly crisp. Other images are saved at high quality, and photos taken on a phone are turned the right way up automatically, so you never get a sideways page.',
+          'Phone photos can be 5 MB or more each, which quickly makes a PDF too large to email or upload. Tick <strong>Smaller file</strong> and each image is resized to a maximum of 2000 pixels on its longest side and compressed. Documents stay perfectly readable, and the PDF is often several times smaller.',
+        ],
+      },
+      {
+        h2: 'Image to PDF converter free download? No software needed',
+        paragraphs: [
+          'Many people search for an image to PDF converter free download, expecting to install a program. You do not need one. This online image to PDF converter works directly in your browser, with nothing to install, no app store and no updates to worry about. The only thing you download is your finished PDF, saved straight to your device as soon as you click <strong>Create PDF</strong>.',
+          'After your first visit, the page loads almost instantly, and you can bookmark it to have the converter one click away whenever you need it.',
+        ],
+      },
+      {
+        h2: 'Convert image to PDF on your phone',
+        paragraphs: [
+          'This image to PDF converter online works in Chrome, Safari, Edge and Firefox on Android, iPhone, tablets, Windows, Mac and Chromebook. On a phone, tap <strong>Take a photo</strong> to photograph each page with your camera, or choose existing pictures from your gallery. iPhone HEIC photos are converted automatically. On a computer, you can also paste a screenshot with Ctrl+V.',
+        ],
+      },
+      {
+        h2: 'Private and free of watermarks',
+        paragraphs: [
+          'Many online converters upload your photos to a server, add their logo to every page or ask you to pay to remove it. This one does neither. The PDF is built entirely inside your browser: your ID documents, certificates and personal photos never leave your device, nothing is stored online, and the PDF contains only your images — no watermark, logo or extra pages.',
+        ],
+      },
+      {
+        h2: 'Tips for a better PDF',
+        list: [
+          'Photograph documents from directly above, in good light, and fill the frame with the page.',
+          'Crop each photo to the page before adding it, so the PDF has no table or floor around the document.',
+          'Use A4 with a small margin for forms and documents that will be printed.',
+          'Turn on Smaller file before emailing or uploading to a portal with a size limit.',
         ],
       },
       {
         h2: 'Need the text too?',
         paragraphs: [
-          'A PDF made from photos contains pictures of text, not text you can search. To get editable text, use the <a href="/">image to text converter</a> or the <a href="/jpg-to-word">JPG to Word converter</a>.',
+          'A PDF made from photos contains pictures of text, not text you can search or copy. To get editable text, use the <a href="/">image to text converter</a> or the <a href="/jpg-to-word">JPG to Word converter</a>. To make a PDF from typed text instead, use <a href="/text-to-pdf">Text to PDF</a>.',
         ],
       },
     ],
     faq: [
-      { q: 'How do I convert images to PDF?', a: 'Add your images by dropping them in, choosing files, taking photos or pasting a screenshot. Arrange them in the right order, pick the page size and margins, then click “Create PDF”. The PDF downloads straight away.' },
-      { q: 'How can I convert JPG to PDF for free?', a: 'Use this free image to PDF converter. Add your JPG files and click “Create PDF”. There is no signup, no watermark and no limit on the number of images or PDFs.' },
+      { q: 'How to convert image to PDF?', a: 'Add your images by dropping them in, clicking “Choose files”, taking photos or pasting a screenshot. Arrange them in the right order, choose the page size, orientation and margins, then click “Create PDF”. The PDF downloads straight away.' },
+      { q: 'Is this image to PDF converter free?', a: 'Yes. It is completely free, with no signup, no watermark and no limit on the number of images or PDFs.' },
       { q: 'Can I combine multiple images into one PDF?', a: 'Yes. Add as many images as you like and they are combined into a single PDF, one image per page, in the order you choose.' },
       { q: 'Can I change the order of the pages in the PDF?', a: 'Yes. Drag the images into a new order, or use the up and down arrows on each image, before you create the PDF.' },
       { q: 'Which image formats can I convert to PDF?', a: 'JPG, JPEG, PNG, WEBP, GIF, BMP and iPhone HEIC photos. HEIC photos are converted automatically.' },
+      { q: 'Do I need to download any software?', a: 'No. This is an online image to PDF converter that works in your browser. There is nothing to install; the only download is your finished PDF.' },
       { q: 'Which page size should I choose for my PDF?', a: 'Choose A4 for most of the world and Letter for the US and Canada. Choose “Fit to image” if you want each page to be exactly the size of its picture, with no white space.' },
       { q: 'How do I make the PDF file smaller?', a: 'Turn on “Smaller file” before creating the PDF. Large phone photos are resized and compressed, which helps when an upload form has a size limit.' },
+      { q: 'Can I convert image to PDF on my phone?', a: 'Yes. It works in the browser on Android and iPhone. Take photos with your camera or choose them from your gallery, then tap “Create PDF”.' },
       { q: 'Will the PDF have a watermark?', a: 'No. The PDF contains only your images, with no watermark, logo or extra pages.' },
       { q: 'Can I search or copy the text in a PDF made from images?', a: 'No. A PDF made from photos contains pictures of text. To get text you can copy, use the image to text converter or the JPG to Word converter.' },
       { q: 'Are my images uploaded?', a: 'No. The PDF is created in your browser and your images stay on your device.' },
