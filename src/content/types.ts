@@ -38,7 +38,7 @@ export interface StaticContent {
 }
 
 export interface UiStrings {
-  nav: { tools: string; allTools: string; menu: string; theme: string; language: string; privateBadge: string };
+  nav: { tools: string; allTools: string; menu: string; theme: string; language: string };
   /** Menu group headings, keyed by ToolGroup. */
   groups: Record<ToolGroup, string>;
   /** Small badges next to tool names, keyed by ToolTag. */

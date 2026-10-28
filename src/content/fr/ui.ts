@@ -7,7 +7,6 @@ export const ui: UiStrings = {
     menu: 'Menu',
     theme: 'Activer/désactiver le mode sombre',
     language: 'Langue',
-    privateBadge: '100 % dans votre navigateur',
   },
   groups: { image: 'Image et photo', pdf: 'PDF', office: 'Fichiers Office' },
   tags: { popular: 'Populaire', new: 'Nouveau' },

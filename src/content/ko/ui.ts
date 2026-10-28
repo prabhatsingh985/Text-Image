@@ -7,7 +7,6 @@ export const ui: UiStrings = {
     menu: '메뉴',
     theme: '다크 모드 전환',
     language: '언어',
-    privateBadge: '100% 브라우저에서 처리',
   },
   groups: { image: '이미지·사진', pdf: 'PDF', office: 'Office 파일' },
   tags: { popular: '인기', new: '신규' },

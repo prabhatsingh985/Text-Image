@@ -7,7 +7,6 @@ export const ui: UiStrings = {
     menu: 'Menü',
     theme: 'Dunkelmodus umschalten',
     language: 'Sprache',
-    privateBadge: '100 % in deinem Browser',
   },
   groups: { image: 'Bild & Foto', pdf: 'PDF', office: 'Office-Dateien' },
   tags: { popular: 'Beliebt', new: 'Neu' },

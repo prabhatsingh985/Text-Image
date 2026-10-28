@@ -3,8 +3,8 @@ import Logo from './Logo.astro';
 import ToolIcon from './ToolIcon.astro';
 import { SITE } from '../config/site';
 import { TOOL_GROUPS, TOOL_META } from '../config/tool-meta';
-import type { Locale } from '../i18n/locales';
-import { TOOL_IDS, urlFor, type PageId } from '../i18n/routes';
+import { ACTIVE_LOCALES, type Locale } from '../i18n/locales';
+import { TOOL_IDS, alternatesFor, urlFor, type PageId } from '../i18n/routes';
 import { contentFor } from '../content';
 
 interface Props {
@@ -27,6 +27,8 @@ const groups = TOOL_GROUPS.map((g) => ({
 }));
 // The most-used tools stay one click away on wide screens.
 const quick = (['image-to-text', 'pdf-to-text', 'jpg-to-word'] as const).map((id) => ({ id, href: urlFor(id, locale), label: tools[id].navLabel }));
+// The language menu links to this same page in every language.
+const languages = alternatesFor(pageId, ACTIVE_LOCALES);
 ---
 
 <header class="relative z-40">
@@ -100,13 +102,39 @@ const quick = (['image-to-text', 'pdf-to-text', 'jpg-to-word'] as const).map((id
     </nav>
 
     <div class="ms-auto flex items-center gap-1">
-      <span class="me-2 hidden items-center gap-1.5 rounded-full bg-ink px-4 py-2 text-sm font-semibold text-surface lg:inline-flex">
-        <svg class="h-4 w-4 text-brand-300 dark:text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <rect x="5" y="11" width="14" height="10" rx="2"></rect>
-          <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
-        </svg>
-        {ui.nav.privateBadge}
-      </span>
+      <details class="group/lang relative" data-menu>
+        <summary class="btn-ghost h-10 list-none gap-1.5 rounded-full px-3! text-sm font-semibold text-ink group-open/lang:bg-surface-3" aria-label={ui.nav.language}>
+          <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path>
+          </svg>
+          <span class="uppercase">{locale.code}</span>
+          <svg class="h-4 w-4 text-ink-muted transition group-open/lang:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M5.2 7.2a1 1 0 0 1 1.4 0L10 10.6l3.4-3.4a1 1 0 1 1 1.4 1.4l-4.1 4.1a1 1 0 0 1-1.4 0L5.2 8.6a1 1 0 0 1 0-1.4Z" clip-rule="evenodd"></path>
+          </svg>
+        </summary>
+        <ul class="card absolute end-0 top-full z-50 mt-2 w-48 animate-fade-up overflow-hidden rounded-2xl p-1.5">
+          {
+            languages.map((l) => (
+              <li>
+                <a
+                  href={l.href}
+                  hreflang={l.locale.hreflang}
+                  lang={l.locale.hreflang}
+                  class:list={[
+                    'flex items-center justify-between gap-3 rounded-xl px-3 py-2 text-sm transition hover:bg-surface-2',
+                    l.locale.code === locale.code ? 'bg-surface-2 font-semibold' : 'text-ink-muted hover:text-ink',
+                  ]}
+                  aria-current={l.locale.code === locale.code ? 'page' : undefined}
+                >
+                  {l.locale.label}
+                  <span class="text-xs font-bold text-ink-soft uppercase">{l.locale.code}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </details>
       <button id="theme-toggle" type="button" class="btn-ghost h-10 w-10 p-0!" aria-label={ui.nav.theme}>
         <svg class="h-[18px] w-[18px] dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path>

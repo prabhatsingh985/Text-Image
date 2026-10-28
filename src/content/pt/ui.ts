@@ -7,7 +7,6 @@ export const ui: UiStrings = {
     menu: 'Menu',
     theme: 'Alternar modo escuro',
     language: 'Idioma',
-    privateBadge: '100% no seu navegador',
   },
   groups: { image: 'Imagem e foto', pdf: 'PDF', office: 'Arquivos do Office' },
   tags: { popular: 'Popular', new: 'Novo' },
