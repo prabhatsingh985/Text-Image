@@ -39,7 +39,15 @@ if (isTool) {
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
   });
 }
-if (pageId !== 'image-to-text') {
+if (pageId === 'image-to-text') {
+  jsonLd.push({
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: SITE.name,
+    url: canonical,
+    inLanguage: locale.hreflang,
+  });
+} else {
   jsonLd.push({
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',

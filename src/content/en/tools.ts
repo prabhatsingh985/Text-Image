@@ -5,9 +5,9 @@ export const tools: Record<ToolId, ToolContent> = {
   'image-to-text': {
     title: 'Image to Text Converter – Free, Unlimited OCR Online',
     description:
-      'Extract text from images, photos and screenshots for free. Unlimited OCR in your browser: no signup, no daily limit, and your files never leave your device.',
+      'Convert image to text online free. Extract text from JPG, PNG, photos and screenshots. Unlimited OCR, no signup, and your files never leave your device.',
     h1: 'Image to Text Converter',
-    lead: 'Extract text from JPG, PNG, screenshots and photos. Copy it or download it.',
+    lead: 'Convert image to text online, free. Extract text from JPG, PNG, screenshots and photos, then copy it or download it.',
     navLabel: 'Image to Text',
     cardText: 'Copy text out of photos, screenshots and scans.',
     howTo: {
@@ -31,17 +31,53 @@ export const tools: Record<ToolId, ToolContent> = {
     },
     sections: [
       {
-        h2: 'Extract text from images without typing it again',
+        h2: 'A free image to text converter that works in your browser',
         paragraphs: [
-          'Retyping text from a picture is slow and full of mistakes. This free image to text converter uses OCR (optical character recognition) to find every letter in your image and turn it into real, editable text that you can copy, search and paste anywhere — into an email, a document, a spreadsheet or a chat.',
-          'It works with the kinds of images people actually have: screenshots of apps and websites, photos of book pages and notices, scanned documents, receipts, slides from a lecture and pictures of whiteboards. Upload a JPG, PNG, WEBP, GIF, BMP, TIFF or iPhone HEIC file and the text appears in a few seconds.',
+          'Retyping text from a picture is slow and full of mistakes. This <strong>image to text converter</strong> does the typing for you. Upload a photo, a screenshot or a scanned page, and in a few seconds every word in it becomes real, editable text that you can copy, search, edit and paste anywhere — into an email, a document, a spreadsheet or a chat.',
+          'Most tools that convert image to text online give you a few free conversions and then ask you to sign up or pay. This one does not. It is an <strong>image to text converter online free</strong> of limits: no account, no daily cap, no watermark and no captcha. Convert one picture or a hundred, today and every day, and it stays free.',
+          'Students use it to copy notes from photos of the board, office workers use it to pull text out of scanned letters and invoices, and developers use it to grab error messages from screenshots. Whatever is in your image, if it contains text, this tool can read it.',
+        ],
+      },
+      {
+        h2: 'How OCR image to text works',
+        paragraphs: [
+          'The tool uses OCR, short for optical character recognition. OCR image to text software looks at the shapes in a picture, finds the areas that contain writing, splits them into lines and words, and then matches each shape to a letter using a trained recognition model. The result is plain text that a computer can work with, instead of pixels that it cannot.',
+          'You do not have to tell the tool which language your image is in. It detects the script and language for every image on its own and reads more than 40 languages, including English, Spanish, French, German, Russian, Arabic, Hindi, Bengali, Urdu, Tamil, Thai, Japanese, Korean and Chinese. Right-to-left text such as Arabic and Urdu is shown in the correct direction.',
+          'When the first read of an image looks uncertain — a faded scan, a photo taken in dim light — the tool automatically cleans up the image and reads it again. Words it is still unsure about are outlined in amber, so you know exactly which parts to double-check instead of proofreading everything.',
+        ],
+      },
+      {
+        h2: 'What you can turn into text',
+        paragraphs: [
+          'This image to text extractor handles the kinds of pictures people actually have on their phones and computers. Upload a JPG, JPEG, PNG, WEBP, GIF, BMP, TIFF or iPhone HEIC file, and the text appears next to it. Popular uses include:',
+        ],
+        list: [
+          'Screenshots of apps, websites, chats, error messages and social media posts.',
+          'Photos of book pages, notices, posters, menus and product labels.',
+          'Scanned letters, forms, certificates and other paper documents.',
+          'Receipts and invoices you want to search or copy into a spreadsheet.',
+          'Lecture slides and photos of whiteboards or class notes.',
+          'Business cards, so you can paste names, numbers and emails straight into your contacts.',
+        ],
+      },
+      {
+        h2: 'Image to text copy and paste in one click',
+        paragraphs: [
+          'Getting the text out is just as important as reading it. After you convert image to text, the result appears in an editable box, so you can fix a word or delete a line before you copy it. Press <strong>Copy</strong> to put everything on your clipboard, or click any line outlined on the image to copy only that line — handy when you need a single phone number, address or code from a busy picture.',
+          'Working with a batch? Use <strong>Copy all</strong> to grab the text from every image at once, download each result as a TXT file, or download all of them together in one ZIP file. If an image is sideways, rotate it with one click and it is read again the right way up.',
         ],
       },
       {
         h2: 'Your images stay on your device',
         paragraphs: [
-          'Most online OCR tools upload your file to their server, keep it for a while and limit how many images you can convert per day, because every conversion costs them money. This tool works differently: the OCR engine is downloaded once into your browser and does all the work on your own computer or phone.',
-          'That means your ID cards, bank statements, contracts and private notes are never sent anywhere. It also means there is nothing to limit — convert as many images as you like, as often as you like. After the first visit, the engine is cached, so later conversions start even faster.',
+          'A typical online image to text converter uploads your file to its server, keeps it for a while and limits how many images you can convert, because every conversion costs it money. This tool works differently: the OCR engine is downloaded once into your browser and does all the work on your own computer or phone.',
+          'That means your ID cards, bank statements, contracts and private notes are never sent anywhere. It also means there is nothing to limit. After the first visit, the engine is cached, so later conversions start even faster.',
+        ],
+      },
+      {
+        h2: 'Convert image to text online on any device',
+        paragraphs: [
+          'There is nothing to install. The converter runs in any modern browser on Windows, Mac, Linux, Android and iPhone. On a phone you can take a picture with your camera and get the text right away, and iPhone HEIC photos are supported without converting them first. On a computer, just take a screenshot and paste it with Ctrl+V — no need to save it as a file.',
         ],
       },
       {
@@ -50,27 +86,37 @@ export const tools: Record<ToolId, ToolContent> = {
           'Use a sharp, well-lit photo. Blurry or very dark pictures are the most common cause of mistakes.',
           'Hold the camera straight above the page. Small tilts are corrected automatically, but strong angles make letters harder to read.',
           'Crop away busy backgrounds before uploading if only part of the image contains text.',
-          'Faded scans and photos taken in poor light are cleaned up automatically when the first read is unsure.',
+          'Use the largest version of the image you have. Tiny text in a small, compressed picture is hard for any OCR engine to read.',
           'Printed text works best. Neat handwriting can work, but messy handwriting is still hard for any OCR engine.',
         ],
       },
       {
         h2: 'Need Word, Excel or PDF instead of plain text?',
         paragraphs: [
-          'If you want to keep paragraphs and headings, use the <a href="/jpg-to-word">JPG to Word converter</a>. For tables, the <a href="/jpg-to-excel">image to Excel converter</a> rebuilds rows and columns in a spreadsheet. To pull text out of a scanned document, use <a href="/pdf-to-text">PDF to Text</a>.',
+          'This image to text converter free tool gives you plain text. If you want to keep paragraphs and headings, use the <a href="/jpg-to-word">JPG to Word converter</a>. For tables, the <a href="/jpg-to-excel">image to Excel converter</a> rebuilds rows and columns in a spreadsheet. To pull text out of a scanned document, use <a href="/pdf-to-text">PDF to Text</a>, and for quick grabs from your screen, try <a href="/screenshot-to-text">Screenshot to Text</a>.',
         ],
       },
     ],
     faq: [
-      { q: 'Is this image to text converter really free?', a: 'Yes. There is no paid plan, no signup, no watermark and no daily limit.' },
-      { q: 'Are my images uploaded anywhere?', a: 'No. The OCR engine runs in your browser, so your images and the text found in them stay on your device. Only the engine and language files are downloaded from a public CDN the first time you use a language.' },
-      { q: 'Which image formats are supported?', a: 'JPG, JPEG, PNG, WEBP, GIF, BMP, TIFF and HEIC (iPhone photos). For PDF files, use the PDF to Text tool.' },
-      { q: 'Which languages can it read?', a: 'More than 40, including English, Spanish, Portuguese, French, German, Italian, Russian, Arabic, Hindi, Bengali, Urdu, Tamil, Thai, Japanese, Korean and Chinese. You do not need to pick one: the language is detected automatically from the image.' },
-      { q: 'Can it read handwriting?', a: 'Clear, neat handwriting often works, but results vary. The tool is most accurate with printed or on-screen text.' },
-      { q: 'How many images can I convert at once?', a: 'As many as your device can handle. Images are processed a few at a time, and you can download all results together as a ZIP file.' },
+      { q: 'How can I extract text from an image for free?', a: 'Open this free image to text converter, add your image and wait a few seconds. The text is extracted automatically and you can copy it or download it as a TXT file. There is no signup, no watermark and no daily limit, so you can extract text from as many images as you like.' },
+      { q: 'How do I convert an image to text online?', a: 'Drag your image into the box at the top of this page, click “Choose files”, take a photo on your phone or paste a screenshot with Ctrl+V. The tool reads the image with OCR and shows the text next to it, ready to edit, copy or download.' },
+      { q: 'How can I convert JPG to text?', a: 'Upload your JPG or JPEG file to this image to text converter. The text in the picture is recognized in a few seconds and appears in an editable box. Copy it with one click or download it as a TXT file. PNG, WEBP, GIF, BMP, TIFF and HEIC images work the same way.' },
+      { q: 'How to copy text from image?', a: 'Convert the image to text with this tool, then press Copy to put all the text on your clipboard. To copy just one line, click that line where it is outlined on the image. With several images, Copy all grabs the text from every one of them at once.' },
+      { q: 'How to scan text from image?', a: 'You do not need a scanner. Take a clear photo of the page with your phone, or upload an existing picture or screenshot. The OCR engine scans the image for letters and words and turns them into editable text. On a phone, you can use the camera button to photograph the page directly.' },
+      { q: 'How to copy text from PDF images?', a: 'Use our free PDF to Text tool. It reads every page of the PDF, including scanned pages and pages that are only images, and turns them into text you can copy or download. If you only need one part of a page, take a screenshot of it and paste it into this image to text converter with Ctrl+V.' },
+      { q: 'How do I convert scanned handwriting to text?', a: 'Upload a sharp, well-lit scan or photo of the handwritten page. Clear, neat handwriting is often recognized well, but messy or joined-up handwriting is still hard for any OCR engine, so check the result carefully. Words the tool is unsure about are outlined in amber, which shows you where to look first.' },
+      { q: 'What are the best ways for text extraction from images?', a: 'The fastest way is an OCR image to text converter like this one: upload the image and the text is extracted in seconds. For the best results, use a sharp, well-lit image, hold the camera straight above the page, crop away busy backgrounds and use the largest version of the image you have. Retyping by hand is only worth it for a few words.' },
+      { q: 'How does this photo to text tool work?', a: 'It uses OCR (optical character recognition). The tool finds the areas of your photo that contain writing, splits them into lines and words, and matches each shape to a letter using a trained model. The language is detected automatically, and faded or dark photos are cleaned up and read again if the first result looks unsure.' },
+      { q: 'Why do I need to extract text from images?', a: 'Extracting text saves you from retyping it and avoids typing mistakes. Once text is out of an image, you can search it, edit it, translate it, paste it into documents or spreadsheets, and share it. It is useful for notes, screenshots, receipts, scanned letters, business cards and lecture slides.' },
+      { q: 'Is this image to text converter really free and unlimited?', a: 'Yes. This image to text converter is completely free, with no paid plan, no signup, no watermark and no daily limit. Because the OCR runs on your own device, there is no server cost to limit, so you can convert as many images as you like.' },
+      { q: 'Is it safe to convert images to text here? Are my images uploaded?', a: 'Yes, it is safe. Your images are never uploaded to a server. The OCR engine runs inside your browser, so your images and the text found in them stay on your device. Only the engine and language files are downloaded from a public CDN the first time you use a language.' },
+      { q: 'Which image formats can I convert to text?', a: 'You can convert JPG, JPEG, PNG, WEBP, GIF, BMP, TIFF and HEIC (iPhone photos) to text. For PDF files, use the PDF to Text tool, and for Word or PowerPoint files, use Word to Text or PPT to Text.' },
+      { q: 'Which languages does the image to text converter support?', a: 'It reads more than 40 languages, including English, Spanish, Portuguese, French, German, Italian, Russian, Arabic, Hindi, Bengali, Urdu, Tamil, Thai, Japanese, Korean and Chinese. You do not need to choose one: the language is detected automatically from each image.' },
+      { q: 'How accurate is OCR image to text conversion?', a: 'For clear printed or on-screen text, accuracy is very high. Blurry, dark or heavily angled photos lower it. Words the engine is unsure about are outlined in amber, so you can check them quickly instead of proofreading everything.' },
+      { q: 'Can I convert image to text on my phone?', a: 'Yes. The converter works in the browser on Android and iPhone, with nothing to install. Upload photos from your gallery, including iPhone HEIC photos, or take a picture with your camera and get the text right away.' },
+      { q: 'Can I convert multiple images to text at once?', a: 'Yes. Drop as many images as you like into the box. They are processed a few at a time, and you can copy all the text together or download every result in one ZIP file.' },
     ],
   },
-
   'jpg-to-word': {
     title: 'JPG to Word Converter – Convert Image to Word Free',
     description:
