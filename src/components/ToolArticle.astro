@@ -131,7 +131,7 @@ const related = TOOL_IDS.filter((id) => id !== toolId).sort(
                 {tools[id].navLabel}
                 {TOOL_META[id].tag && (
                   <span class="rounded-full bg-brand-300 px-2 py-px text-[0.62rem] font-bold tracking-wide text-[#202020] uppercase">
-                    {TOOL_META[id].tag}
+                    {ui.tags[TOOL_META[id].tag!]}
                   </span>
                 )}
               </span>

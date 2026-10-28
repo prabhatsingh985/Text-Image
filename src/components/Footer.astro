@@ -15,7 +15,7 @@ const { locale, pageId } = Astro.props;
 const { ui, tools, pages } = contentFor(locale.code);
 const languages = alternatesFor(pageId, ACTIVE_LOCALES);
 const year = new Date().getFullYear();
-const groups = TOOL_GROUPS.map((g) => ({ ...g, tools: TOOL_IDS.filter((id) => TOOL_META[id].group === g.id) }));
+const groups = TOOL_GROUPS.map((g) => ({ ...g, label: ui.groups[g.id], tools: TOOL_IDS.filter((id) => TOOL_META[id].group === g.id) }));
 ---
 
 <footer class="mx-2 mt-28 rounded-t-[2.5rem] border-2 border-b-0 border-black bg-brand-300 text-[#202020] sm:mx-4">

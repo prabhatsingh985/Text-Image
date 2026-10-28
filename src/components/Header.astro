@@ -16,12 +16,13 @@ const { locale, pageId } = Astro.props;
 const { ui, tools } = contentFor(locale.code);
 const groups = TOOL_GROUPS.map((g) => ({
   ...g,
+  label: ui.groups[g.id],
   tools: TOOL_IDS.filter((id) => TOOL_META[id].group === g.id).map((id) => ({
     id,
     href: urlFor(id, locale),
     label: tools[id].navLabel,
     text: tools[id].cardText,
-    tag: TOOL_META[id].tag,
+    tag: TOOL_META[id].tag && ui.tags[TOOL_META[id].tag!],
   })),
 }));
 // The most-used tools stay one click away on wide screens.

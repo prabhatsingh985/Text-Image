@@ -1,4 +1,5 @@
 import type { PageId, StaticId, ToolId } from '../i18n/routes';
+import type { ToolGroup, ToolTag } from '../config/tool-meta';
 
 export interface FaqItem {
   q: string;
@@ -38,6 +39,10 @@ export interface StaticContent {
 
 export interface UiStrings {
   nav: { tools: string; allTools: string; menu: string; theme: string; language: string; privateBadge: string };
+  /** Menu group headings, keyed by ToolGroup. */
+  groups: Record<ToolGroup, string>;
+  /** Small badges next to tool names, keyed by ToolTag. */
+  tags: Record<ToolTag, string>;
   footer: { tools: string; company: string; privacyNote: string; rights: string; madeIn: string };
   common: {
     howTo: string;
@@ -49,6 +54,8 @@ export interface UiStrings {
     privacyBadge: string;
     unlimitedBadge: string;
     noSignupBadge: string;
+    skipToContent: string;
+    lastUpdated: string;
   };
   tool: Record<string, string>;
 }

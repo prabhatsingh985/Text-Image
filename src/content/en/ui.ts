@@ -9,6 +9,8 @@ export const ui: UiStrings = {
     language: 'Language',
     privateBadge: '100% in your browser',
   },
+  groups: { image: 'Image & photo', pdf: 'PDF', office: 'Office files' },
+  tags: { popular: 'Popular', new: 'New' },
   footer: {
     tools: 'Tools',
     company: 'Company',
@@ -26,6 +28,8 @@ export const ui: UiStrings = {
     privacyBadge: 'No uploads',
     unlimitedBadge: 'Unlimited & free',
     noSignupBadge: 'No signup',
+    skipToContent: 'Skip to content',
+    lastUpdated: 'Last updated',
   },
   tool: {
     dropTitle: 'Drop images here',
