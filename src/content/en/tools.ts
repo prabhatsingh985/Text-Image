@@ -472,15 +472,15 @@ export const tools: Record<ToolId, ToolContent> = {
   },
 
   'pdf-to-text': {
-    title: 'PDF to Text Converter – Extract Text from Scanned PDF',
+    title: 'PDF to Text Converter – Convert PDF to Text Free',
     description:
-      'Extract text from any PDF, including scanned PDFs, for free. Digital pages are read instantly and scanned pages with OCR. Unlimited and fully private.',
+      'Convert PDF to text free, including scanned image PDFs. Digital pages are read instantly, scanned pages with OCR. Unlimited, no signup, nothing uploaded.',
     h1: 'PDF to Text Converter',
-    lead: 'Extract text from any PDF, including scanned pages.',
+    lead: 'Convert PDF to text online, free — including scanned and image-only PDFs.',
     navLabel: 'PDF to Text',
     cardText: 'Extract text from digital and scanned PDFs.',
     howTo: {
-      title: 'How to extract text from a PDF',
+      title: 'How to convert PDF to text',
       steps: [
         '<strong>Add your PDF.</strong> Drop the file into the box or click “Choose PDF”.',
         '<strong>Let it read.</strong> Every page is read. Digital pages are copied instantly; scanned pages go through OCR in whatever language they are written in — detected automatically.',
@@ -488,7 +488,7 @@ export const tools: Record<ToolId, ToolContent> = {
       ],
     },
     features: {
-      title: 'Smart PDF text extraction',
+      title: 'Why this PDF to text converter is different',
       items: [
         { title: 'Instant for digital PDFs', text: 'If a page already contains text, it is extracted directly — no waiting and no OCR mistakes.' },
         { title: 'OCR for scanned pages', text: 'Pages that are only images are read with OCR automatically.' },
@@ -500,31 +500,87 @@ export const tools: Record<ToolId, ToolContent> = {
     },
     sections: [
       {
-        h2: 'Extract text from scanned and digital PDFs',
+        h2: 'A free PDF to text converter for every kind of PDF',
         paragraphs: [
-          'Some PDFs contain real text; others are just pictures of pages made by a scanner or a phone app. This PDF to text converter checks each page: where text is already there, it is copied out exactly; where the page is only an image, OCR reads it for you.',
-          'Use it to reuse text from reports, quote from scanned books, search old documents or move content from a PDF into a document or email.',
+          'PDFs are great for sharing and printing, but getting the words out of them is often a pain. Selecting text grabs the wrong columns, copy and paste breaks lines in strange places, and scanned PDFs do not let you select anything at all. This <strong>PDF to text converter</strong> solves all of that: drop in your file and you get clean, editable plain text from every page.',
+          'It is a <strong>PDF to text converter free</strong> to use without limits — no signup, no watermark, no page cap and no daily quota. Convert a one-page letter or a 200-page report, as often as you need. Everything runs in your browser, so you can convert PDF to text without installing Adobe Acrobat or any other software.',
+        ],
+      },
+      {
+        h2: 'Digital PDFs and image PDFs: what is the difference?',
+        paragraphs: [
+          'There are two kinds of PDF. A <strong>digital PDF</strong> is created by a program such as Word, Google Docs or a website, and it contains real text behind every letter you see. An <strong>image PDF</strong> is made by a scanner, a photocopier or a phone scanning app: each page is just a picture of paper, with no text inside it.',
+          'Most PDF tools handle only the first kind and return an empty result for scans. This converter checks every page on its own. Where a page already has text, it is copied out exactly as written — instantly, with no OCR mistakes. Where a page is only an image, OCR (optical character recognition) reads the letters for you. Mixed PDFs, with some typed and some scanned pages, work too, and a short note tells you whether OCR was used.',
+        ],
+      },
+      {
+        h2: 'Image PDF to text PDF in two steps',
+        paragraphs: [
+          'A scanned PDF looks like text, but you cannot search it, copy from it or let a screen reader read it aloud. To turn an image PDF into text, open it here: the OCR engine reads every scanned page and gives you the words as plain text that you can edit and correct.',
+          'Want a clean text PDF again afterwards? Copy the result into our <a href="/text-to-pdf">Text to PDF converter</a>, choose a font and page size, and download a new PDF made of real text (Text to PDF currently supports Latin-alphabet languages such as English). That is the quickest way to go from image PDF to text PDF without paid software.',
+        ],
+      },
+      {
+        h2: 'PDF to text, Word, email and everywhere else',
+        paragraphs: [
+          'Plain text is the most flexible format there is. Once you convert PDF to text, you can paste it into Microsoft Word or Google Docs to rework a document, into an email or chat, into a spreadsheet, a CMS, a translator or an AI assistant — without hidden formatting coming along.',
+          'Keep in mind that the result is plain text: fonts, colours, images and exact page layout are not copied. If you need a formatted Word document from pictures of pages, the <a href="/jpg-to-word">JPG to Word converter</a> keeps paragraphs, headings and lists as a .docx file.',
+        ],
+      },
+      {
+        h2: 'Who uses a PDF to text converter?',
+        paragraphs: [
+          'Students convert PDF to text to quote from scanned books and journal articles, or to turn lecture handouts into notes they can edit. Office workers pull text from old contracts, policies and reports so they can update them instead of retyping. Researchers and journalists search through long scanned archives, translators paste the text straight into their tools, and developers feed PDF content into scripts and databases.',
+          'Whatever the reason, the goal is the same: get the words out of the PDF quickly and accurately, without spending an afternoon copying page by page.',
+        ],
+      },
+      {
+        h2: 'What you get after converting',
+        list: [
+          'The text of every page, in order, with a page number marker between pages so you always know where you are.',
+          'An editable text box, so you can fix a word or remove a header before copying.',
+          'A live word and character count — handy for essays, translations and quotes.',
+          'One-click <strong>Copy</strong> and a <strong>TXT</strong> download for each file.',
+          'Several PDFs at once: drop them all in, then copy everything or download all the TXT files in one ZIP.',
+        ],
+      },
+      {
+        h2: 'Scanned PDFs in 40+ languages',
+        paragraphs: [
+          'You never have to choose a language. For scanned pages the language is detected automatically, and more than 40 are supported, including English, Hindi, Bengali, Tamil, Urdu, Arabic, Spanish, French, German, Russian, Chinese, Japanese and Korean. Right-to-left text such as Arabic and Urdu is shown in the correct direction.',
         ],
       },
       {
         h2: 'Keep your documents private',
         paragraphs: [
-          'Contracts, statements and records often contain personal information. Because this converter runs in your browser, the PDF never leaves your device and nothing is stored online.',
+          'Contracts, bank statements, medical records and exam papers often contain personal information. Most online PDF converters upload your file to their server. This one does not: the PDF is opened and read inside your browser, so it never leaves your device and nothing is stored online. That is also why there is no size limit — long PDFs are simply processed page by page on your own computer or phone.',
         ],
       },
       {
-        h2: 'Want an editable document instead?',
+        h2: 'Tips for the best results',
+        list: [
+          'For scanned PDFs, a higher scan quality (300 DPI or more) gives far more accurate text.',
+          'Very long scanned PDFs take longer, because each page is read on your device. Digital pages are almost instant.',
+          'Remove a password from a protected PDF before opening it here.',
+          'Check numbers and names in scanned pages before you reuse them.',
+        ],
+      },
+      {
+        h2: 'Need tables or images instead?',
         paragraphs: [
-          'If you have images of pages rather than a PDF, the <a href="/jpg-to-word">JPG to Word converter</a> gives you a formatted .docx file. For tables, try the <a href="/jpg-to-excel">JPG to Excel converter</a>.',
+          'If your PDF contains tables, the <a href="/pdf-to-excel">PDF to Excel converter</a> rebuilds them as a spreadsheet. For photos and screenshots rather than PDFs, use the <a href="/">image to text converter</a>, and for tables in pictures, the <a href="/jpg-to-excel">JPG to Excel converter</a>.',
         ],
       },
     ],
     faq: [
-      { q: 'How do I extract text from a PDF?', a: 'Drop your PDF into the box or click “Choose PDF”. Every page is read automatically. When it is done, copy the text or download it as a TXT file.' },
-      { q: 'How can I convert PDF to text for free?', a: 'Use this free PDF to text converter. There is no signup, no watermark and no daily limit, and it works with both digital and scanned PDFs.' },
-      { q: 'Can it extract text from a scanned PDF?', a: 'Yes. Pages that contain real text are copied out instantly, and pages that are only images are read with OCR automatically.' },
+      { q: 'How do I convert PDF to text?', a: 'Drop your PDF into the box or click “Choose PDF”. Every page is read automatically. When it is done, copy the text or download it as a TXT file.' },
+      { q: 'Is this PDF to text converter free?', a: 'Yes. It is completely free, with no signup, no watermark, no page limit and no daily limit. It works with both digital and scanned PDFs.' },
+      { q: 'Can it convert a scanned or image PDF to text?', a: 'Yes. Pages that contain real text are copied out instantly, and pages that are only images are read with OCR automatically.' },
+      { q: 'How do I turn an image PDF into a text PDF?', a: 'Convert the image PDF to text here, copy the result, then paste it into our Text to PDF converter and download a new PDF made of real, searchable text.' },
+      { q: 'Can I convert PDF to Word with this tool?', a: 'This tool gives you plain text, which you can paste straight into Word or Google Docs. Fonts, images and exact layout are not kept. For a formatted .docx from pictures of pages, use the JPG to Word converter.' },
       { q: 'Why can’t I select or copy the text in my PDF?', a: 'Usually because the pages are scanned images, not real text. Open the PDF here: pages without a text layer are read with OCR, so you get text you can copy.' },
       { q: 'Which languages can it read from scanned PDFs?', a: 'More than 40, including English, Hindi, Arabic, Spanish, French, Russian, Chinese and Japanese. The language is detected automatically, so there is nothing to choose.' },
+      { q: 'Can I convert several PDFs to text at once?', a: 'Yes. Drop several PDFs into the box. Each one is converted separately, and you can copy all the text or download every TXT file together in one ZIP.' },
       { q: 'Is there a page or size limit?', a: 'No fixed limit. Long PDFs are processed page by page on your device, so very long scanned PDFs simply take longer.' },
       { q: 'Is the PDF uploaded?', a: 'No. The file is opened and processed in your browser and never leaves your device.' },
       { q: 'Does it work with password-protected PDFs?', a: 'Not yet. Remove the password first, then open the file here.' },
