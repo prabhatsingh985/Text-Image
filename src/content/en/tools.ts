@@ -118,11 +118,11 @@ export const tools: Record<ToolId, ToolContent> = {
     ],
   },
   'jpg-to-word': {
-    title: 'JPG to Word Converter – Convert Image to Word Free',
+    title: 'JPG to Word Converter – Convert JPG to Word Free',
     description:
-      'Convert JPG and other images to an editable Word document (.docx) for free. Keeps paragraphs and headings. Unlimited, no signup, files stay on your device.',
+      'Convert JPG to Word free. This online JPG to Word converter turns photos and scans into editable .docx files with paragraphs and headings. No signup.',
     h1: 'JPG to Word Converter',
-    lead: 'Convert photos and scans into an editable Word file.',
+    lead: 'Convert JPG to Word online, free. Turn photos and scans into an editable Word file.',
     navLabel: 'JPG to Word',
     cardText: 'Turn images into editable .docx documents.',
     howTo: {
@@ -146,23 +146,58 @@ export const tools: Record<ToolId, ToolContent> = {
     },
     sections: [
       {
-        h2: 'Convert an image to an editable Word document',
+        h2: 'A free JPG to Word converter for editable documents',
         paragraphs: [
-          'A photo of a page is just pixels — you cannot edit, search or reuse the words in it. This JPG to Word converter reads the text with OCR and rebuilds it as a real Word document (.docx) that opens in Microsoft Word, Google Docs, LibreOffice and Pages.',
-          'Instead of dumping every line into one block, the converter looks at the shape of the page. Lines that form a paragraph are joined, bigger lines become headings, centred titles stay centred and bullet points become a list. You get a document you can start editing straight away.',
+          'A photo of a page is just pixels — you cannot edit, search or reuse the words in it. This <strong>JPG to Word converter</strong> reads the text in your image with OCR (optical character recognition) and rebuilds it as a real Word document (.docx) that opens in Microsoft Word, Google Docs, LibreOffice and Apple Pages.',
+          'It is a <strong>JPG to Word converter free</strong> of the usual catches: no signup, no watermark, no trial and no daily limit. Convert one photo or a whole stack of scanned pages, as often as you need. Everything happens in your browser, so you can convert JPG to Word online without installing any software.',
         ],
       },
       {
-        h2: 'Works with any image, not only JPG',
+        h2: 'More than plain text: your layout is kept',
         paragraphs: [
-          'Despite the name, you can convert PNG, WEBP, GIF, BMP, TIFF and iPhone HEIC images to Word as well. Screenshots, scanned pages, photographed notes, letters, forms and printed handouts all work.',
-          'Have a stack of pages? Drop them all in at once and choose “All in one Word file”. Each image becomes its own page in the same document, in the order you added them.',
+          'Many tools that convert JPG to Word simply dump every line of text into one long block, and you spend the next ten minutes fixing line breaks. This converter looks at the shape of the page first, then builds the Word document to match it:',
+        ],
+        list: [
+          '<strong>Paragraphs:</strong> lines that belong together are joined into one paragraph, so the text flows naturally when you edit it.',
+          '<strong>Headings:</strong> larger lines become real Word headings (Heading 1 and Heading 2), ready for a table of contents.',
+          '<strong>Centred titles:</strong> lines that are centred on the page stay centred in Word.',
+          '<strong>Lists:</strong> bullet points become a proper Word bullet list, and numbered lines keep their numbers.',
+          '<strong>Tables (beta):</strong> a page laid out as a table is rebuilt as a real Word table with rows and columns.',
+          '<strong>Right-to-left text:</strong> Arabic, Urdu and other right-to-left languages are written in the correct direction.',
+        ],
+      },
+      {
+        h2: 'What you can convert from JPG to Word',
+        paragraphs: [
+          'Students convert photos of textbook pages, handouts and class notes into documents they can edit and highlight. Office workers turn scanned letters, contracts, forms and reports back into Word files they can update instead of retyping. Teachers rebuild old printed worksheets, and writers recover text from printed drafts.',
+          'Despite the name, the tool is not limited to JPG. You can convert PNG, WEBP, GIF, BMP, TIFF and iPhone HEIC images to Word as well, so screenshots and phone photos work just like scans. It reads more than 40 languages, including English, Hindi, Spanish, French, German, Arabic, Russian, Chinese and Japanese, and the language is detected automatically for every image.',
+        ],
+      },
+      {
+        h2: 'How this JPG to Word converter online works',
+        paragraphs: [
+          'When you add an image, the OCR engine first finds every area of the picture that contains writing and recognises the letters and words in it. The language is detected automatically, and if the first read of a faded or dim photo looks unsure, the image is cleaned up and read again.',
+          'Next, the converter measures the size and position of every line. Taller lines are treated as headings, lines that start with a bullet or a number become list items, lines close together become one paragraph, and evenly spaced columns are checked for a table. Finally, the Word document is written in your browser and saved straight to your device. The whole process usually takes a few seconds per page.',
+        ],
+      },
+      {
+        h2: 'Combine many images into one Word document',
+        paragraphs: [
+          'Have a document that runs over several pages? Drop all the images in at once. Each one is read separately, and when they are done you can click <strong>All in one Word file</strong> to download a single .docx with one page per image, in the order you added them. You can also download each image as its own Word file with the <strong>Word (.docx)</strong> button.',
+          'Before you download, check the text in the box next to each image. Words the engine is unsure about are outlined in amber, and you can fix any mistake right there — your corrections go straight into the Word file.',
+        ],
+      },
+      {
+        h2: 'Convert JPG to Word free on any device',
+        paragraphs: [
+          'This online JPG to Word converter works in Chrome, Edge, Firefox and Safari on Windows, Mac, Linux, Chromebook, Android and iPhone. On a phone, you can photograph a page with your camera and get a Word file a few seconds later, with nothing to install. After your first visit, the OCR engine is cached in your browser, so the next conversion starts even faster.',
         ],
       },
       {
         h2: 'Why your documents stay private',
         paragraphs: [
-          'Many converters upload your files to a server and limit free use. Here, the text recognition runs on your own device, inside your browser. Contracts, certificates and personal letters are never sent anywhere, and there is no limit on how many pages you convert.',
+          'Most online JPG to Word converter websites upload your files to a server, keep them for a while and limit free use, because every conversion costs them money. Here, both the text recognition and the creation of the Word file run on your own device, inside your browser.',
+          'Contracts, certificates, ID documents and personal letters are never sent anywhere. That is also why there is nothing to limit: you can convert JPG to Word free, as many pages as you like.',
         ],
       },
       {
@@ -170,15 +205,26 @@ export const tools: Record<ToolId, ToolContent> = {
         list: [
           'Photograph the page from directly above, in good light, and fill the frame with the page.',
           'Use one image per page so the Word document keeps the same page breaks.',
+          'Use the sharpest, largest version of the image you have. Small, compressed images lose detail.',
+          'Printed text gives the best results. Neat handwriting can work, but messy handwriting is hard for any OCR engine.',
           'Bold, italic and exact fonts are not copied — the converter focuses on the text and its structure.',
+        ],
+      },
+      {
+        h2: 'Need a different format?',
+        paragraphs: [
+          'If you only need the text to copy and paste, the <a href="/">image to text converter</a> is quicker. For tables and numbers, the <a href="/jpg-to-excel">JPG to Excel converter</a> builds a spreadsheet. To turn your images into a PDF instead, use <a href="/image-to-pdf">Image to PDF</a>, and to pull text from a scanned PDF, use <a href="/pdf-to-text">PDF to Text</a>.',
         ],
       },
     ],
     faq: [
-      { q: 'Is the JPG to Word converter free?', a: 'Yes, completely. There is no signup, no watermark and no limit on the number of images.' },
+      { q: 'How do I convert JPG to Word?', a: 'Drop your JPG into the box at the top of this page, paste a screenshot or take a photo. The text is read in a few seconds. Check it, then click Word (.docx) to download an editable Word document.' },
+      { q: 'Is this JPG to Word converter free?', a: 'Yes, completely. There is no signup, no watermark and no limit on the number of images, so you can convert JPG to Word free as often as you like.' },
       { q: 'Will the Word file keep my formatting?', a: 'It keeps the structure: paragraphs, headings, centred lines, bullet lists and simple tables. Fonts, colours, bold and italic are not copied.' },
-      { q: 'Can I combine several images into one Word document?', a: 'Yes. Upload all the images and click “All in one Word file”. Each image becomes a page in one .docx.' },
+      { q: 'Can I combine several JPG images into one Word document?', a: 'Yes. Upload all the images and click “All in one Word file”. Each image becomes a page in one .docx, in the order you added them.' },
+      { q: 'Can I edit the text before downloading the Word file?', a: 'Yes. The text from each image appears in an editable box. Fix any word there and your changes are included in the Word file.' },
       { q: 'Does it work with PNG or iPhone photos?', a: 'Yes. PNG, WEBP, GIF, BMP, TIFF and HEIC images work as well as JPG.' },
+      { q: 'Can I convert JPG to Word on my phone?', a: 'Yes. This online JPG to Word converter works in the browser on Android and iPhone. Pick a photo from your gallery or take one with your camera, then download the .docx file.' },
       { q: 'Are my files uploaded?', a: 'No. Recognition and document creation both happen in your browser. Your images never leave your device.' },
       { q: 'Which programs can open the file?', a: 'The .docx file opens in Microsoft Word, Google Docs, LibreOffice Writer, Apple Pages and most other word processors.' },
     ],
