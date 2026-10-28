@@ -703,15 +703,15 @@ export const tools: Record<ToolId, ToolContent> = {
     ],
   },
   'pdf-to-excel': {
-    title: 'PDF to Excel Converter – Free, Works with Scanned PDFs',
+    title: 'PDF to Excel Converter – Convert PDF to Excel Free',
     description:
-      'Convert PDF tables to an editable Excel spreadsheet for free. Digital and scanned PDFs, one sheet per page, no signup — files never leave your device.',
+      'Convert PDF to Excel online free. Turn tables in digital and scanned PDFs into editable Excel sheets, one per page. No signup, files never uploaded.',
     h1: 'PDF to Excel Converter',
-    lead: 'Convert tables in a PDF into an editable Excel file.',
+    lead: 'Convert PDF to Excel online, free — tables from digital and scanned PDFs, ready to edit.',
     navLabel: 'PDF to Excel',
     cardText: 'Turn PDF tables into an editable spreadsheet.',
     howTo: {
-      title: 'How to convert a PDF to Excel',
+      title: 'How to convert PDF to Excel',
       steps: [
         '<strong>Add your PDF.</strong> Drop it into the box or click “Choose PDF”. Every page is read automatically.',
         '<strong>Check the tables.</strong> Each page appears as a table. Click any cell to fix it before downloading.',
@@ -719,7 +719,7 @@ export const tools: Record<ToolId, ToolContent> = {
       ],
     },
     features: {
-      title: 'PDF tables, ready for Excel',
+      title: 'A PDF to Excel converter that keeps your tables',
       items: [
         { title: 'Digital PDFs read exactly', text: 'When the PDF has a text layer, numbers are taken straight from it — no OCR guesswork.' },
         { title: 'Scanned PDFs too', text: 'Pages that are only images are read with OCR, then split into rows and columns.' },
@@ -731,33 +731,107 @@ export const tools: Record<ToolId, ToolContent> = {
     },
     sections: [
       {
-        h2: 'Convert bank statements, invoices and reports',
+        h2: 'A free PDF to Excel converter that rebuilds real tables',
         paragraphs: [
-          'Copying a table out of a PDF usually gives you one long jumbled line. This converter looks at where each word sits on the page, finds the rows and the column gaps, and rebuilds the table cell by cell.',
-          'It works best on tables with clear columns, such as bank statements, invoices, price lists, timetables and financial reports.',
+          'Copying a table out of a PDF usually ends badly. Paste it into a spreadsheet and you get one long jumbled column, numbers glued to labels and rows split across lines. This <strong>PDF to Excel converter</strong> does it properly: it looks at where every word sits on the page, finds the rows and the column gaps, and rebuilds the table cell by cell in a real Excel spreadsheet.',
+          'You can <strong>convert PDF to Excel for free</strong>, with no signup, no watermark, no page cap and no daily limit. It is a true <strong>PDF to Excel converter online free</strong> of trials and upgrade screens: convert a one-page invoice or a 100-page statement, as often as you need.',
         ],
       },
       {
-        h2: 'Scanned PDF to Excel',
+        h2: 'How the PDF to Excel convert works',
         paragraphs: [
-          'Scanned pages have no text inside them — just a picture. For those pages the tool runs OCR first, detecting the language automatically, and then finds the table. Check numbers carefully on low-quality scans.',
+          'Every page of your PDF is handled on its own. First, the converter collects every word on the page together with its exact position. Words that share the same horizontal line are grouped into a row. Then it looks for vertical gaps that run down the whole table — those gaps are the borders between columns. Each word is dropped into the cell where it belongs, and the columns in your Excel file are sized to fit their content.',
+          'Because columns are found from spacing rather than drawn lines, tables without borders convert just as well as tables with a full grid. Pages that contain no table are skipped, so your workbook is not filled with empty sheets.',
         ],
       },
       {
-        h2: 'Have a photo of a table?',
+        h2: 'Digital and scanned PDFs both work',
         paragraphs: [
-          'Use the <a href="/jpg-to-excel">JPG to Excel converter</a> for photos and screenshots of tables. For plain text, try <a href="/pdf-to-text">PDF to Text</a>.',
+          'Most PDFs from banks, accounting software and websites are <strong>digital</strong>: they contain real text. For those pages the numbers are read straight from the file, exactly as written, so there are no recognition mistakes and the conversion is almost instant.',
+          '<strong>Scanned</strong> PDFs are different — each page is just a picture. For those pages the tool runs OCR (optical character recognition) first, detecting the language automatically, and then finds the table. Mixed files with both kinds of pages are fine, and a note tells you when OCR was used so you know which numbers to double-check.',
+        ],
+      },
+      {
+        h2: 'Real numbers, ready for formulas',
+        paragraphs: [
+          'When you convert PDF to Excel here, plain values such as 42, 3.75 or 1,250.50 are saved as real numbers, not text. SUM, AVERAGE, sorting, filters, pivot tables and charts work the moment you open the file — no “number stored as text” warnings to fix.',
+          'Values that must not change are kept exactly as written: account numbers and IDs that start with zero, and values with currency signs, letters or units. Nothing is lost, and you decide how to format those columns.',
+        ],
+      },
+      {
+        h2: 'Check every page before you download',
+        paragraphs: [
+          'Each page of the PDF appears as its own editable table, labelled with its page number. Click any cell to correct a value, and your changes go straight into the file. When everything looks right, choose how you want it:',
+        ],
+        list: [
+          '<strong>Excel (.xlsx):</strong> one sheet per page, named after your file and the page number. Opens in Microsoft Excel, Google Sheets, LibreOffice Calc and Numbers.',
+          '<strong>CSV:</strong> all pages stacked in one file, with an empty row between pages — ideal for importing into other software.',
+          '<strong>Copy:</strong> paste the table directly into an open spreadsheet, and every value lands in the right column.',
+        ],
+      },
+      {
+        h2: 'Convert several PDFs into one Excel file',
+        paragraphs: [
+          'Have a year of monthly statements or a folder of invoices? Drop all the PDFs in at once. Each file is converted separately, and <strong>All in one Excel file</strong> puts every page of every PDF into a single workbook, each on its own sheet.',
+        ],
+      },
+      {
+        h2: 'Why not just copy and paste?',
+        paragraphs: [
+          'A PDF does not store a table as rows and columns; it stores individual pieces of text at positions on the page. That is why selecting a table and pasting it into Excel puts everything in one column or mixes up the order. Fixing that by hand — splitting cells, moving values, retyping what went wrong — can take longer than typing the table from scratch.',
+          'A dedicated converter reads those positions and puts each value back in its own cell, so the spreadsheet is ready to sort, filter and total immediately. When you can convert PDF to Excel free in a few seconds, there is no reason to spend an hour on copy and paste.',
+        ],
+      },
+      {
+        h2: 'What people convert from PDF to Excel',
+        list: [
+          'Bank and credit card statements, to sort, total and categorise transactions.',
+          'Invoices, purchase orders and bills, to check amounts and track payments.',
+          'Price lists, product catalogues and stock reports.',
+          'Financial reports, balance sheets and annual reports.',
+          'Timetables, schedules, attendance sheets and exam results.',
+          'Survey results and data tables from research papers and government reports.',
+        ],
+      },
+      {
+        h2: 'Convert PDF to Excel online — no software needed',
+        paragraphs: [
+          'Desktop PDF software is expensive and some online tools send you a file by email or stop after two pages. This online PDF to Excel converter needs nothing but a browser. It works in Chrome, Edge, Firefox and Safari on Windows, Mac, Linux, Chromebook, Android and iPhone, so you can convert PDF to Excel online from your office computer or straight from your phone.',
+          'After your first visit, the engine is cached in your browser, so the next time you use this PDF to Excel online converter, it starts even faster.',
+        ],
+      },
+      {
+        h2: 'Private: your statements never leave your device',
+        paragraphs: [
+          'Bank statements, salary slips and invoices contain exactly the kind of information you should not upload to an unknown server. Here, the PDF is opened, read and turned into Excel entirely inside your browser. The file never leaves your computer or phone, nothing is stored online, and there is no account that could be hacked. That is also why it can be free and unlimited: there is no server cost to limit.',
+        ],
+      },
+      {
+        h2: 'Tips for the best Excel file',
+        list: [
+          'Remove the password from a protected PDF before opening it here.',
+          'For scanned PDFs, a clean scan at 300 DPI or more gives far more accurate numbers.',
+          'Tables with clear columns, such as statements and invoices, give the best results. Merged cells and complex layouts may need a few manual fixes.',
+          'Always check totals and key figures from scanned pages before using them.',
+        ],
+      },
+      {
+        h2: 'Need plain text or a photo of a table?',
+        paragraphs: [
+          'To get the plain text from a PDF instead of tables, use the <a href="/pdf-to-text">PDF to Text converter</a>. For photos and screenshots of tables, the <a href="/jpg-to-excel">JPG to Excel converter</a> rebuilds them as a spreadsheet, and the <a href="/">image to text converter</a> copies text from any picture.',
         ],
       },
     ],
     faq: [
-      { q: 'How do I convert a PDF to Excel?', a: 'Drop your PDF into the box or click “Choose PDF”. Each page appears as a table you can check and edit. Then download an Excel (.xlsx) file with one sheet per page, or a CSV.' },
-      { q: 'How can I convert PDF to Excel for free?', a: 'Use this free PDF to Excel converter. There is no signup, no watermark and no limit, and it works with both digital and scanned PDFs.' },
+      { q: 'How to convert PDF to Excel?', a: 'Drop your PDF into the box at the top of this page or click “Choose PDF”. Every page is read automatically and shown as an editable table. Check the cells, then download an Excel (.xlsx) file with one sheet per page, or a CSV file.' },
+      { q: 'How can I convert PDF to Excel for free?', a: 'Use this free PDF to Excel converter. There is no signup, no watermark, no page limit and no daily limit, and it works with both digital and scanned PDFs.' },
       { q: 'Can I convert a scanned PDF to Excel?', a: 'Yes. Pages without a text layer are read with OCR, then split into rows and columns. Check numbers carefully on low-quality scans.' },
       { q: 'How do I convert a bank statement PDF to Excel?', a: 'Open the statement PDF here. The converter finds the rows and the gaps between columns and rebuilds the table cell by cell. Review the amounts in the preview, then download the Excel file. The PDF never leaves your device.' },
       { q: 'Will numbers be real numbers in Excel?', a: 'Yes. Plain values such as 1,250.50 become numbers, so SUM and charts work immediately. Values with letters, currency signs or leading zeros stay as text so nothing is lost.' },
-      { q: 'Does each PDF page get its own Excel sheet?', a: 'Yes. Every page lands on its own sheet in the same workbook, so long PDFs stay easy to navigate.' },
-      { q: 'Can I edit the table before downloading?', a: 'Yes. Click any cell in the preview table to fix it. Your changes are included in the Excel file.' },
+      { q: 'Does each PDF page get its own Excel sheet?', a: 'Yes. Every page with a table lands on its own sheet in the same workbook, named after your file and the page number.' },
+      { q: 'Can I edit the table before downloading?', a: 'Yes. Click any cell in the preview table to fix it. Your changes are included in the Excel or CSV file.' },
+      { q: 'Can I convert several PDFs into one Excel file?', a: 'Yes. Drop all the PDFs in at once, then click “All in one Excel file” to get one workbook with every page on its own sheet.' },
+      { q: 'Can I convert PDF to Excel online on my phone?', a: 'Yes. This online PDF to Excel converter works in the browser on Android and iPhone. Choose the PDF from your files and download the Excel sheet, with nothing to install.' },
       { q: 'Is the PDF uploaded to a server?', a: 'No. The file is opened and converted in your browser and never leaves your device.' },
       { q: 'Does it support password-protected PDFs?', a: 'Not yet. Remove the password first, then open the file here.' },
     ],
