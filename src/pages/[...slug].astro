@@ -52,6 +52,7 @@ const RESIZE_KB: Partial<Record<ToolId, { kb: number; fixed?: boolean; resize?: 
   'resize-image-to-20kb': { kb: 20, fixed: true, resize: true },
   'resize-image-to-50kb': { kb: 50, fixed: true, resize: true },
   'resize-image-to-100kb': { kb: 100, fixed: true, resize: true },
+  'resize-image-to-200kb': { kb: 200, fixed: true, resize: true },
 };
 
 const tool = isTool ? tools[id as ToolId] : null;

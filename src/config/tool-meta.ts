@@ -60,6 +60,7 @@ export const TOOL_META: Record<ToolId, { group: ToolGroup; icon: string; tag?: T
   'resize-image-to-20kb': { group: 'compress', icon: RESIZE_ICON, compact: true },
   'resize-image-to-50kb': { group: 'compress', icon: RESIZE_ICON, compact: true },
   'resize-image-to-100kb': { group: 'compress', icon: RESIZE_ICON, compact: true },
+  'resize-image-to-200kb': { group: 'compress', icon: RESIZE_ICON, compact: true },
   'word-to-text': {
     group: 'office',
     icon: '<rect x="3" y="5" width="11" height="14" rx="2"/><path d="m5.5 9 1 6 1.5-4 1.5 4 1-6"/><path d="M17 8h4M17 12h4M17 16h3"/>',

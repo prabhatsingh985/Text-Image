@@ -22,6 +22,7 @@ export const TOOL_IDS = [
   'resize-image-to-20kb',
   'resize-image-to-50kb',
   'resize-image-to-100kb',
+  'resize-image-to-200kb',
 ] as const;
 export const STATIC_IDS = ['about', 'contact', 'privacy-policy', 'terms'] as const;
 
@@ -39,6 +40,7 @@ const ENGLISH_ONLY = [
   'resize-image-to-20kb',
   'resize-image-to-50kb',
   'resize-image-to-100kb',
+  'resize-image-to-200kb',
 ] as const satisfies readonly ToolId[];
 export type EnglishOnlyToolId = (typeof ENGLISH_ONLY)[number];
 const ONLY_IN: Partial<Record<PageId, string[]>> = Object.fromEntries(ENGLISH_ONLY.map((id) => [id, ['en']]));
@@ -75,6 +77,7 @@ const SLUGS: Record<PageId, Record<string, string>> = {
   'resize-image-to-20kb': { en: 'resize-image-to-20kb' },
   'resize-image-to-50kb': { en: 'resize-image-to-50kb' },
   'resize-image-to-100kb': { en: 'resize-image-to-100kb' },
+  'resize-image-to-200kb': { en: 'resize-image-to-200kb' },
   'ppt-to-text': { en: 'ppt-to-text', es: 'ppt-a-texto', pt: 'ppt-para-texto', fr: 'ppt-en-texte', de: 'ppt-zu-text', it: 'ppt-in-testo', ja: 'ppt-text-chushutsu', ko: 'ppt-text-chuchul' },
   about: { en: 'about', es: 'acerca-de', pt: 'sobre', fr: 'a-propos', de: 'ueber-uns', it: 'chi-siamo', ja: 'about', ko: 'about' },
   contact: { en: 'contact', es: 'contacto', pt: 'contato', fr: 'contact', de: 'kontakt', it: 'contatti', ja: 'contact', ko: 'contact' },
