@@ -22,6 +22,7 @@ export const ui: UiStrings = {
     features: 'Features',
     faq: 'Frequently asked questions',
     related: 'More free tools',
+    allTools: 'All free tools',
     toolkit: 'The toolkit',
     heroEyebrow: 'Free OCR · 40+ languages · No uploads',
     privacyBadge: 'No uploads',

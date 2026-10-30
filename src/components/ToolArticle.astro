@@ -12,9 +12,11 @@ interface Props {
   content: ToolContent;
   ui: UiStrings;
   locale: Locale;
+  /** The homepage shows the full tool directory instead (AllTools.astro). */
+  showRelated?: boolean;
 }
 
-const { toolId, content, ui, locale } = Astro.props;
+const { toolId, content, ui, locale, showRelated = true } = Astro.props;
 const { tools } = contentFor(locale.code);
 // Same-group tools first: they are the likeliest next step.
 const group = TOOL_META[toolId].group;
@@ -112,37 +114,41 @@ const related = TOOL_IDS.filter((id) => id !== toolId).sort(
     </div>
   </section>
 
-  <section class="mt-28" aria-labelledby="related">
-    <div class="flex flex-wrap items-end justify-between gap-4">
-      <div>
-        <p class="eyebrow">{ui.common.toolkit}</p>
-        <h2 id="related" class="mt-4 font-display text-[2.6rem] leading-none text-balance sm:text-[3.75rem]">{ui.common.related}</h2>
+  {
+    showRelated && (
+    <section class="mt-28" aria-labelledby="related">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p class="eyebrow">{ui.common.toolkit}</p>
+          <h2 id="related" class="mt-4 font-display text-[2.6rem] leading-none text-balance sm:text-[3.75rem]">{ui.common.related}</h2>
+        </div>
       </div>
-    </div>
-    <div class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-      {
-        related.map((id) => (
-          <a href={urlFor(id, locale)} class="card group flex items-start gap-4 p-5 transition duration-300 hover:-translate-y-0.5 hover:bg-brand-300/20">
-            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-surface-3 text-ink transition group-hover:bg-brand-300 group-hover:text-[#202020]">
-              <ToolIcon id={id} />
-            </span>
-            <span class="min-w-0 flex-1">
-              <span class="flex items-center gap-2 font-semibold">
-                {tools[id].navLabel}
-                {TOOL_META[id].tag && (
-                  <span class="rounded-full bg-brand-300 px-2 py-px text-[0.62rem] font-bold tracking-wide text-[#202020] uppercase">
-                    {ui.tags[TOOL_META[id].tag!]}
-                  </span>
-                )}
+      <div class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          related.map((id) => (
+            <a href={urlFor(id, locale)} class="card group flex items-start gap-4 p-5 transition duration-300 hover:-translate-y-0.5 hover:bg-brand-300/20">
+              <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-surface-3 text-ink transition group-hover:bg-brand-300 group-hover:text-[#202020]">
+                <ToolIcon id={id} />
               </span>
-              <span class="mt-1 block text-sm leading-6 text-ink-muted">{tools[id].cardText}</span>
-            </span>
-            <svg class="mt-1 h-4 w-4 shrink-0 text-ink-soft transition group-hover:translate-x-0.5 group-hover:text-ink rtl:rotate-180" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M4 10h12M11 5l5 5-5 5" />
-            </svg>
-          </a>
-        ))
-      }
-    </div>
-  </section>
+              <span class="min-w-0 flex-1">
+                <span class="flex items-center gap-2 font-semibold">
+                  {tools[id].navLabel}
+                  {TOOL_META[id].tag && (
+                    <span class="rounded-full bg-brand-300 px-2 py-px text-[0.62rem] font-bold tracking-wide text-[#202020] uppercase">
+                      {ui.tags[TOOL_META[id].tag!]}
+                    </span>
+                  )}
+                </span>
+                <span class="mt-1 block text-sm leading-6 text-ink-muted">{tools[id].cardText}</span>
+              </span>
+              <svg class="mt-1 h-4 w-4 shrink-0 text-ink-soft transition group-hover:translate-x-0.5 group-hover:text-ink rtl:rotate-180" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 10h12M11 5l5 5-5 5" />
+              </svg>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+    )
+  }
 </div>

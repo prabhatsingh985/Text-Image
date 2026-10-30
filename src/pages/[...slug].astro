@@ -2,12 +2,13 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ToolHero from '../components/ToolHero.astro';
 import ToolArticle from '../components/ToolArticle.astro';
+import AllTools from '../components/AllTools.astro';
 import OcrTool, { type OcrMode } from '../components/tools/OcrTool.astro';
 import ImageToPdfTool from '../components/tools/ImageToPdfTool.astro';
 import TextToPdfTool from '../components/tools/TextToPdfTool.astro';
 import DocTextTool, { type DocMode } from '../components/tools/DocTextTool.astro';
 import { ACTIVE_LOCALES, getLocale } from '../i18n/locales';
-import { STATIC_IDS, TOOL_IDS, pathFor, type PageId, type StaticId, type ToolId } from '../i18n/routes';
+import { STATIC_IDS, TOOL_IDS, pathFor, slugFor, type PageId, type StaticId, type ToolId } from '../i18n/routes';
 import { contentFor } from '../content';
 
 // One route builds every page in every enabled locale (PLAN.md §5).
@@ -42,6 +43,8 @@ const tool = isTool ? tools[id as ToolId] : null;
 const page = isTool ? null : pages[id as StaticId];
 const ocrMode = OCR_MODES[id as ToolId];
 const docMode = DOC_MODES[id as ToolId];
+// The homepage tool also carries the full tool directory, so it skips the related grid.
+const isHome = isTool && slugFor(id, locale) === '';
 ---
 
 {
@@ -60,7 +63,8 @@ const docMode = DOC_MODES[id as ToolId];
       {docMode && <DocTextTool mode={docMode} ui={ui} />}
       {id === 'image-to-pdf' && <ImageToPdfTool ui={ui} />}
       {id === 'text-to-pdf' && <TextToPdfTool ui={ui} />}
-      <ToolArticle toolId={id as ToolId} content={tool} ui={ui} locale={locale} />
+      {isHome && <AllTools currentId={id as ToolId} ui={ui} locale={locale} />}
+      <ToolArticle toolId={id as ToolId} content={tool} ui={ui} locale={locale} showRelated={!isHome} />
     </BaseLayout>
   ) : (
     page && (

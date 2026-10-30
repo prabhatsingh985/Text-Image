@@ -22,6 +22,7 @@ export const ui: UiStrings = {
     features: 'Funktionen',
     faq: 'Häufige Fragen',
     related: 'Weitere kostenlose Tools',
+    allTools: 'Alle kostenlosen Tools',
     toolkit: 'Das Toolkit',
     heroEyebrow: 'Kostenlose OCR · über 40 Sprachen · kein Upload',
     privacyBadge: 'Kein Upload',

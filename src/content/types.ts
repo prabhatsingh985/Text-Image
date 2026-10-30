@@ -49,6 +49,8 @@ export interface UiStrings {
     features: string;
     faq: string;
     related: string;
+    /** Heading of the all-tools directory on the homepage. */
+    allTools: string;
     toolkit: string;
     heroEyebrow: string;
     privacyBadge: string;
