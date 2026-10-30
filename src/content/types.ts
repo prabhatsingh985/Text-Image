@@ -19,8 +19,6 @@ export interface ToolContent {
   /** Meta description, ideally under 155 characters. */
   description: string;
   h1: string;
-  /** A smaller second line inside the H1, for a second phrasing visitors search with. */
-  h1Sub?: string;
   lead: string;
   /** Short name used in navigation and related-tool cards. */
   navLabel: string;

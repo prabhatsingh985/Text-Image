@@ -1286,7 +1286,6 @@ export const tools: Record<ToolId, ToolContent> = {
     description:
       'Free online image compressor. Compress JPG, PNG and HEIC photos to the exact size you need — 20 KB, 50 KB, 100 KB or any limit. No signup, no uploads.',
     h1: 'Image Compressor',
-    h1Sub: 'Compress Images to Any Size in KB',
     lead: 'A free online image compressor that shrinks photos and PDFs to the exact size you need, while keeping their original dimensions.',
     navLabel: 'Image Compressor',
     cardText: 'Compress photos and PDFs to any size in KB.',
@@ -1417,7 +1416,6 @@ export const tools: Record<ToolId, ToolContent> = {
     description:
       'Image compressor to 20KB online free. Compress photos and signatures to under 20 KB JPG for exam and job forms in seconds. No signup, no uploads.',
     h1: 'Image Compressor to 20KB',
-    h1Sub: 'Compress Any Photo Under 20 KB',
     lead: 'Compress photos and signatures to a JPG just under 20 KB, ready for exam, job and government forms.',
     navLabel: 'Image Compressor to 20KB',
     cardText: 'Compress photos and signatures to under 20 KB.',
@@ -1538,7 +1536,6 @@ export const tools: Record<ToolId, ToolContent> = {
     description:
       'Image compressor to 50KB online free. Compress JPG photos and PDF files to under 50 KB for exam, job and admission forms. No signup, no uploads.',
     h1: 'Image Compressor to 50KB',
-    h1Sub: 'Photos and PDFs Under 50 KB',
     lead: 'Compress photos to a JPG and documents to a PDF just under 50 KB — all on one page, in one click.',
     navLabel: 'Image Compressor to 50KB',
     cardText: 'Compress photos and PDFs to under 50 KB.',
@@ -1653,7 +1650,6 @@ export const tools: Record<ToolId, ToolContent> = {
     description:
       'Image compressor to 100KB online free. Compress photos and PDFs to a clear JPG or PDF under 100 KB. Works on phone and PC. No signup, no uploads.',
     h1: 'Image Compressor to 100KB',
-    h1Sub: 'Sharp Photos and PDFs Under 100 KB',
     lead: 'Compress photos and documents to a sharp JPG or PDF just under 100 KB, ready for any upload form.',
     navLabel: 'Image Compressor to 100KB',
     cardText: 'Compress photos and PDFs to under 100 KB.',
@@ -1781,7 +1777,6 @@ export const tools: Record<ToolId, ToolContent> = {
     description:
       'Image compressor to 200KB online free. Compress JPG photos and PDF files to under 200 KB with sharp quality. Works on phone and PC. No signup, no uploads.',
     h1: 'Image Compressor to 200KB',
-    h1Sub: 'High-Quality Photos Under 200 KB',
     lead: 'Compress photos and PDFs to just under 200 KB — enough room for sharp photos and readable documents.',
     navLabel: 'Image Compressor to 200KB',
     cardText: 'Compress photos and PDFs to under 200 KB.',
@@ -1906,7 +1901,6 @@ export const tools: Record<ToolId, ToolContent> = {
     description:
       'Resize image online free: set the width and height in pixels and the file size in KB together. For exam forms, IDs and websites. No signup, no uploads.',
     h1: 'Resize Image',
-    h1Sub: 'Set Pixels and KB in One Step',
     lead: 'Resize image online: choose the width and height in pixels and a size limit in KB, and download a JPG or PDF that fits both.',
     navLabel: 'Resize Image',
     cardText: 'Set width, height and KB size together.',
@@ -2043,7 +2037,6 @@ export const tools: Record<ToolId, ToolContent> = {
     description:
       'Resize image to 20KB online free. Set the pixel size and get a JPG under 20 KB for exam and job forms — photos and signatures. No signup, no uploads.',
     h1: 'Resize Image to 20KB',
-    h1Sub: 'Exact Pixel Size, Under 20 KB',
     lead: 'Resize image to 20KB JPG with the exact pixel size your form asks for — photos and signatures in one click.',
     navLabel: 'Resize Image to 20KB',
     cardText: 'Resize photos and signatures to under 20 KB.',
@@ -2171,7 +2164,6 @@ export const tools: Record<ToolId, ToolContent> = {
     description:
       'Resize image to 50KB online free. Set the exact pixel size and get a JPG or PDF under 50 KB for exam, job and admission forms. No signup, no uploads.',
     h1: 'Resize Image to 50KB',
-    h1Sub: 'Exact Pixel Size, Under 50 KB',
     lead: 'Resize image to 50KB online with the exact width and height your form needs — as a JPG or PDF.',
     navLabel: 'Resize Image to 50KB',
     cardText: 'Resize photos to a pixel size under 50 KB.',
@@ -2297,7 +2289,6 @@ export const tools: Record<ToolId, ToolContent> = {
     description:
       'Resize image to 100KB online free. Set the pixel size and download a clear JPG or PDF under 100 KB. Works on phone and PC. No app, no signup, no uploads.',
     h1: 'Resize Image to 100KB',
-    h1Sub: 'Exact Pixel Size, Under 100 KB',
     lead: 'Resize image to 100KB online and download a clear JPG or PDF at the pixel size you need — no app required.',
     navLabel: 'Resize Image to 100KB',
     cardText: 'Resize images to a pixel size under 100 KB.',

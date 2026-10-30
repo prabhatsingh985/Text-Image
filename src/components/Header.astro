@@ -17,11 +17,12 @@ const { ui, tools } = contentFor(locale.code);
 const groups = TOOL_GROUPS.map((g) => ({
   ...g,
   label: ui.groups[g.id],
-  tools: toolIdsFor(locale).filter((id) => TOOL_META[id].group === g.id && TOOL_META[id].menu !== false).map((id) => ({
+  tools: toolIdsFor(locale).filter((id) => TOOL_META[id].group === g.id).map((id) => ({
     id,
     href: urlFor(id, locale),
     label: tools[id].navLabel,
     text: tools[id].cardText,
+    compact: TOOL_META[id].compact,
     tag: TOOL_META[id].tag && ui.tags[TOOL_META[id].tag!],
   })),
 })).filter((g) => g.tools.length);
@@ -57,13 +58,19 @@ const languages = ACTIVE_LOCALES.map((l) => ({ locale: l, href: urlFor(hasPage(p
                       <a
                         href={t.href}
                         class:list={[
-                          'group/item flex gap-3 rounded-xl p-2 transition hover:bg-surface-2',
+                          'group/item flex gap-3 rounded-xl transition hover:bg-surface-2',
+                          t.compact ? 'items-center px-2 py-1' : 'p-2',
                           t.id === pageId && 'bg-surface-2',
                         ]}
                         aria-current={t.id === pageId ? 'page' : undefined}
                       >
-                        <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full border-2 border-line bg-surface text-ink transition group-hover/item:border-ink group-hover/item:bg-brand-300 group-hover/item:text-[#202020]">
-                          <ToolIcon id={t.id} class="h-[18px] w-[18px]" />
+                        <span
+                          class:list={[
+                            'grid shrink-0 place-items-center rounded-full border-2 border-line bg-surface text-ink transition group-hover/item:border-ink group-hover/item:bg-brand-300 group-hover/item:text-[#202020]',
+                            t.compact ? 'h-7 w-7' : 'h-9 w-9',
+                          ]}
+                        >
+                          <ToolIcon id={t.id} class={t.compact ? 'h-3.5 w-3.5' : 'h-[18px] w-[18px]'} />
                         </span>
                         <span class="min-w-0">
                           <span class="flex items-center gap-2 text-sm font-semibold">
@@ -74,7 +81,7 @@ const languages = ACTIVE_LOCALES.map((l) => ({ locale: l, href: urlFor(hasPage(p
                               </span>
                             )}
                           </span>
-                          <span class="mt-0.5 line-clamp-2 block text-xs leading-5 text-ink-muted">{t.text}</span>
+                          {!t.compact && <span class="mt-0.5 line-clamp-2 block text-xs leading-5 text-ink-muted">{t.text}</span>}
                         </span>
                       </a>
                     </li>
