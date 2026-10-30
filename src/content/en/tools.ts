@@ -1897,11 +1897,11 @@ export const tools: Record<ToolId, ToolContent> = {
   },
 
   'resize-image': {
-    title: 'Resize Image – Pixels and KB Online, Free',
+    title: 'Resize Image Online – Resize Image in KB & Pixels',
     description:
-      'Resize image online free: set the width and height in pixels and the file size in KB together. For exam forms, IDs and websites. No signup, no uploads.',
+      'Resize image online free. Resize image in KB and pixels together — set width, height and a size limit for exam forms, IDs and websites. No uploads.',
     h1: 'Resize Image',
-    lead: 'Resize image online: choose the width and height in pixels and a size limit in KB, and download a JPG or PDF that fits both.',
+    lead: 'Resize image online in pixels and KB: choose the width, height and size limit, and download a JPG or PDF that fits both.',
     navLabel: 'Resize Image',
     cardText: 'Set width, height and KB size together.',
     howTo: {
@@ -1939,16 +1939,16 @@ export const tools: Record<ToolId, ToolContent> = {
         ],
       },
       {
-        h2: 'How to set the size in KB',
+        h2: 'Resize image in KB',
         paragraphs: [
-          'Next to the pixel size, choose the maximum file size: 10, 20, 30, 50, 100, 200 or 500 KB, or type any number from 5 to 10,000. The image is saved as a JPG at the highest quality that still fits under the limit, so it is as clear as the size allows.',
+          'To resize image in KB, choose the maximum file size next to the pixel size: 10, 20, 30, 50, 100, 200 or 500 KB, or type any number from 5 to 10,000. The image is saved as a JPG at the highest quality that still fits under the limit, so it is as clear as the size allows.',
           'If the pixel size you asked for cannot fit under the KB limit even at low quality — a large size with a tiny limit — the tool makes the picture a little smaller and tells you. With the usual form sizes, such as 200 × 230 at 20–50 KB, this does not happen.',
         ],
       },
       {
         h2: 'Resize image to 20KB, 50KB, 100KB or 200KB',
         paragraphs: [
-          'These four limits come up most often, so each has its own page with the size fixed and the pixel options ready:',
+          'These four limits come up most often, so each has its own page with the size fixed and the pixel options ready. For a range — people often search for “resize image to 20KB to 50KB” — pick the top of the range, here 50 KB, so the file is as clear as the form allows.',
         ],
         list: [
           '<a href="/resize-image-to-20kb">Resize image to 20KB</a> — signatures and small photos.',
@@ -1976,9 +1976,9 @@ export const tools: Record<ToolId, ToolContent> = {
         ],
       },
       {
-        h2: 'Resize image online on your phone',
+        h2: 'Online resize image tool for phone and PC',
         paragraphs: [
-          'Most applications are filled in on a phone, so the tool works in Chrome and Safari on Android and iPhone as well as on Windows, Mac and Chromebook. Tap <strong>Take a photo</strong> to use the camera, or choose a picture from your gallery. iPhone HEIC photos are converted automatically. The resized file goes to your Downloads folder, ready to choose in the form’s upload box.',
+          'Most applications are filled in on a phone, so this online resize image tool works in Chrome and Safari on Android and iPhone as well as on Windows, Mac and Chromebook. Tap <strong>Take a photo</strong> to use the camera, or choose a picture from your gallery. iPhone HEIC photos are converted automatically. The resized file goes to your Downloads folder, ready to choose in the form’s upload box.',
         ],
       },
       {
@@ -2021,10 +2021,12 @@ export const tools: Record<ToolId, ToolContent> = {
     ],
     faq: [
       { q: 'How do I resize an image online?', a: 'Add your image, type the width and height in pixels or pick a preset, choose the maximum size in KB, and click “Download”. Everything happens in your browser.' },
+      { q: 'How do I resize an image in KB?', a: 'To resize image in KB, choose the size limit — click 20, 50, 100 or 200 KB or type your own — and the image is saved as a JPG just under it. Set a pixel size too if your form asks for one.' },
       { q: 'Can I resize an image to a specific size in pixels and KB?', a: 'Yes. That is what this tool is for. Set the width and height in pixels and the limit in KB, and the file meets both.' },
       { q: 'Will my image be stretched?', a: 'No. If the new size has a different shape, the picture is centre-cropped to fill it. Fill in only one side to keep the original shape without cropping.' },
       { q: 'What pixel size do exam forms ask for?', a: 'Many bank and government exam forms ask for a photo of 200 × 230 pixels and a signature of 140 × 60 pixels, which are available as presets. Always check your own notification.' },
       { q: 'How do I resize an image to 20KB, 50KB, 100KB or 200KB?', a: 'Use the resize image to 20KB, 50KB, 100KB or 200KB page, or choose the limit here. The resized image lands just under the limit you choose.' },
+      { q: 'How do I resize an image to 20KB to 50KB?', a: 'To resize image to 20KB to 50KB, aim for the top of the range: set the limit to 50 KB here, or use the resize image to 50KB page. The file lands just under 50 KB, inside the 20 KB to 50 KB range.' },
       { q: 'What is the difference between resizing and compressing?', a: 'Resizing changes the width and height in pixels. Compressing keeps them and makes the file smaller. This tool does both; the image compressor only compresses.' },
       { q: 'Can I keep the original dimensions?', a: 'Yes. Click “Original” or leave the width and height empty, and only the file size changes.' },
       { q: 'Can I resize many images at once?', a: 'Yes. Add as many as you like; they are all resized with the same settings and can be downloaded as a ZIP.' },
