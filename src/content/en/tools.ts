@@ -1286,6 +1286,7 @@ export const tools: Record<ToolId, ToolContent> = {
     description:
       'Free online image compressor. Compress JPG, PNG and HEIC photos to the exact size you need — 20 KB, 50 KB, 100 KB or any limit. No signup, no uploads.',
     h1: 'Image Compressor',
+    h1Sub: 'Compress & Resize Images Online',
     lead: 'A free online image compressor that shrinks photos to the exact size you need — 20 KB, 50 KB, 100 KB, 200 KB or any limit.',
     navLabel: 'Image Compressor',
     cardText: 'Compress photos and PDFs to any size in KB.',
@@ -1418,7 +1419,8 @@ export const tools: Record<ToolId, ToolContent> = {
     description:
       'Image compressor to 20KB online free. Resize image to 20KB JPG for exam and job forms — photos and signatures in seconds. No signup, no uploads.',
     h1: 'Image Compressor to 20KB',
-    lead: 'Compress or resize image to 20KB JPG in one click — for photos and signatures on exam, job and government forms.',
+    h1Sub: 'Resize Image to 20KB in One Click',
+    lead: 'Resize or compress — it is the same job here: your photo or signature comes out just under 20 KB, ready for exam, job and government forms.',
     navLabel: 'Image Compressor to 20KB',
     cardText: 'Shrink photos and signatures to under 20 KB.',
     howTo: {
@@ -1544,7 +1546,8 @@ export const tools: Record<ToolId, ToolContent> = {
     description:
       'Image compressor to 50KB online free. Resize image to 50KB JPG or PDF for exam, job and admission forms in seconds. No signup, no uploads, unlimited.',
     h1: 'Image Compressor to 50KB',
-    lead: 'Compress or resize image to 50KB online — photos to JPG and documents to PDF, all on one page.',
+    h1Sub: 'Resize Image to 50KB in One Click',
+    lead: 'Resize or compress — it is the same job here: photos come out as a JPG and documents as a PDF, just under 50 KB.',
     navLabel: 'Image Compressor to 50KB',
     cardText: 'Compress photos and PDFs to under 50 KB.',
     howTo: {
@@ -1659,7 +1662,8 @@ export const tools: Record<ToolId, ToolContent> = {
     description:
       'Image compressor to 100KB online free. Resize image to 100KB and download a clear JPG or PDF. Works on phone and PC, for photos and PDFs. No uploads.',
     h1: 'Image Compressor to 100KB',
-    lead: 'Compress or resize image to 100KB online and download a sharp JPG or PDF that fits any upload limit.',
+    h1Sub: 'Resize Image to 100KB in One Click',
+    lead: 'Resize or compress — it is the same job here: download a sharp JPG or PDF just under 100 KB that fits any upload limit.',
     navLabel: 'Image Compressor to 100KB',
     cardText: 'Make photos and PDFs fit under 100 KB.',
     howTo: {
@@ -1780,7 +1784,8 @@ export const tools: Record<ToolId, ToolContent> = {
     description:
       'Image compressor to 200KB online free. Compress JPG photos and PDF files to under 200 KB with sharp quality. Works on phone and PC. No signup, no uploads.',
     h1: 'Image Compressor to 200KB',
-    lead: 'Compress photos and PDFs to under 200 KB online — enough room for sharp photos and readable documents.',
+    h1Sub: 'Resize Image to 200KB in One Click',
+    lead: 'Resize or compress — it is the same job here: photos and PDFs come out just under 200 KB, sharp and readable.',
     navLabel: 'Image Compressor to 200KB',
     cardText: 'Compress photos and PDFs to under 200 KB.',
     howTo: {

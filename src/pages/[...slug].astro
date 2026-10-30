@@ -69,7 +69,7 @@ const isHome = isTool && slugFor(id, locale) === '';
       faq={tool.faq}
       breadcrumbName={tool.h1}
     >
-      <ToolHero toolId={id as ToolId} h1={tool.h1} lead={tool.lead} ui={ui} />
+      <ToolHero toolId={id as ToolId} h1={tool.h1} h1Sub={tool.h1Sub} lead={tool.lead} ui={ui} />
       {ocrMode && <OcrTool mode={ocrMode} locale={locale} ui={ui} />}
       {docMode && <DocTextTool mode={docMode} ui={ui} />}
       {id === 'image-to-pdf' && <ImageToPdfTool ui={ui} />}
