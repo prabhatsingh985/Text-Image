@@ -40,10 +40,13 @@ const DOC_MODES: Partial<Record<ToolId, DocMode>> = {
   'ppt-to-text': 'slides',
 };
 
+// The size limit each image compressor page starts with.
 const RESIZE_KB: Partial<Record<ToolId, number>> = {
-  'resize-image-to-20kb': 20,
-  'resize-image-to-50kb': 50,
-  'resize-image-to-100kb': 100,
+  'image-compressor': 200,
+  'image-compressor-to-20kb': 20,
+  'image-compressor-to-50kb': 50,
+  'image-compressor-to-100kb': 100,
+  'image-compressor-to-200kb': 200,
 };
 
 const tool = isTool ? tools[id as ToolId] : null;

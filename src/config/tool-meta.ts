@@ -4,10 +4,10 @@ import type { ToolId } from '../i18n/routes';
 // Icons are inner SVG markup for a 24×24, stroke-based icon (see ToolIcon.astro).
 
 // Group headings and tag labels are translated in each locale's ui.ts (ui.groups, ui.tags).
-export type ToolGroup = 'image' | 'pdf' | 'office';
+export type ToolGroup = 'image' | 'pdf' | 'office' | 'compress';
 export type ToolTag = 'popular' | 'new';
 
-export const TOOL_GROUPS: { id: ToolGroup }[] = [{ id: 'image' }, { id: 'pdf' }, { id: 'office' }];
+export const TOOL_GROUPS: { id: ToolGroup }[] = [{ id: 'image' }, { id: 'pdf' }, { id: 'compress' }, { id: 'office' }];
 
 // A file with arrows pointing in: shrink to a size.
 const RESIZE_ICON = '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 10v3.5M10.25 11.75 12 13.5l1.75-1.75M9 17h6"/>';
@@ -47,21 +47,11 @@ export const TOOL_META: Record<ToolId, { group: ToolGroup; icon: string; tag?: T
     group: 'pdf',
     icon: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 12h6M12 12v6"/>',
   },
-  'resize-image-to-20kb': {
-    group: 'image',
-    icon: RESIZE_ICON,
-    tag: 'new',
-  },
-  'resize-image-to-50kb': {
-    group: 'image',
-    icon: RESIZE_ICON,
-    tag: 'new',
-  },
-  'resize-image-to-100kb': {
-    group: 'image',
-    icon: RESIZE_ICON,
-    tag: 'new',
-  },
+  'image-compressor': { group: 'compress', icon: RESIZE_ICON, tag: 'new' },
+  'image-compressor-to-20kb': { group: 'compress', icon: RESIZE_ICON },
+  'image-compressor-to-50kb': { group: 'compress', icon: RESIZE_ICON },
+  'image-compressor-to-100kb': { group: 'compress', icon: RESIZE_ICON },
+  'image-compressor-to-200kb': { group: 'compress', icon: RESIZE_ICON },
   'word-to-text': {
     group: 'office',
     icon: '<rect x="3" y="5" width="11" height="14" rx="2"/><path d="m5.5 9 1 6 1.5-4 1.5 4 1-6"/><path d="M17 8h4M17 12h4M17 16h3"/>',

@@ -8,7 +8,7 @@ export const ui: UiStrings = {
     theme: 'ダークモード切替',
     language: '言語',
   },
-  groups: { image: '画像・写真', pdf: 'PDF', office: 'Officeファイル' },
+  groups: { image: '画像・写真', pdf: 'PDF', office: 'Officeファイル', compress: '圧縮' },
   tags: { popular: '人気', new: '新着' },
   footer: {
     tools: 'ツール',

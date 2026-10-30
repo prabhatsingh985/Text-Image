@@ -8,7 +8,7 @@ export const ui: UiStrings = {
     theme: 'Activer/désactiver le mode sombre',
     language: 'Langue',
   },
-  groups: { image: 'Image et photo', pdf: 'PDF', office: 'Fichiers Office' },
+  groups: { image: 'Image et photo', pdf: 'PDF', office: 'Fichiers Office', compress: 'Compresser' },
   tags: { popular: 'Populaire', new: 'Nouveau' },
   footer: {
     tools: 'Outils',

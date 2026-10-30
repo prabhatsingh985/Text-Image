@@ -8,7 +8,7 @@ export const ui: UiStrings = {
     theme: '다크 모드 전환',
     language: '언어',
   },
-  groups: { image: '이미지·사진', pdf: 'PDF', office: 'Office 파일' },
+  groups: { image: '이미지·사진', pdf: 'PDF', office: 'Office 파일', compress: '압축' },
   tags: { popular: '인기', new: '신규' },
   footer: {
     tools: '도구',

@@ -1,5 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/resize-image-to-20kb", "destination": "/image-compressor-to-20kb", "statusCode": 301 },
+    { "source": "/resize-image-to-50kb", "destination": "/image-compressor-to-50kb", "statusCode": 301 },
+    { "source": "/resize-image-to-100kb", "destination": "/image-compressor-to-100kb", "statusCode": 301 }
+  ]
 }

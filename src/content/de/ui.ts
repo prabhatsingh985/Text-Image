@@ -8,7 +8,7 @@ export const ui: UiStrings = {
     theme: 'Dunkelmodus umschalten',
     language: 'Sprache',
   },
-  groups: { image: 'Bild & Foto', pdf: 'PDF', office: 'Office-Dateien' },
+  groups: { image: 'Bild & Foto', pdf: 'PDF', office: 'Office-Dateien', compress: 'Komprimieren' },
   tags: { popular: 'Beliebt', new: 'Neu' },
   footer: {
     tools: 'Tools',

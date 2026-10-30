@@ -13,22 +13,27 @@ export const TOOL_IDS = [
   'ppt-to-text',
   'image-to-pdf',
   'text-to-pdf',
-  'resize-image-to-20kb',
-  'resize-image-to-50kb',
-  'resize-image-to-100kb',
+  'image-compressor',
+  'image-compressor-to-20kb',
+  'image-compressor-to-50kb',
+  'image-compressor-to-100kb',
+  'image-compressor-to-200kb',
 ] as const;
 export const STATIC_IDS = ['about', 'contact', 'privacy-policy', 'terms'] as const;
 
 export type ToolId = (typeof TOOL_IDS)[number];
 
-// Pages built only in the listed locales. The KB-size pages target Indian exam and job forms,
+// Pages built only in English. The image compressor pages target Indian exam and job forms,
 // which are searched in English, so they are not translated.
-const ONLY_IN: Partial<Record<PageId, string[]>> = {
-  'resize-image-to-20kb': ['en'],
-  'resize-image-to-50kb': ['en'],
-  'resize-image-to-100kb': ['en'],
-};
-export type EnglishOnlyToolId = 'resize-image-to-20kb' | 'resize-image-to-50kb' | 'resize-image-to-100kb';
+const ENGLISH_ONLY = [
+  'image-compressor',
+  'image-compressor-to-20kb',
+  'image-compressor-to-50kb',
+  'image-compressor-to-100kb',
+  'image-compressor-to-200kb',
+] as const satisfies readonly ToolId[];
+export type EnglishOnlyToolId = (typeof ENGLISH_ONLY)[number];
+const ONLY_IN: Partial<Record<PageId, string[]>> = Object.fromEntries(ENGLISH_ONLY.map((id) => [id, ['en']]));
 
 /** Whether the page is built in this locale. */
 export function hasPage(id: PageId, locale: Locale): boolean {
@@ -53,9 +58,11 @@ const SLUGS: Record<PageId, Record<string, string>> = {
   'screenshot-to-text': { en: 'screenshot-to-text', es: 'captura-de-pantalla-a-texto', pt: 'print-para-texto', fr: 'capture-ecran-en-texte', de: 'screenshot-zu-text', it: 'screenshot-in-testo', ja: 'screenshot-mojiokoshi', ko: 'screenshot-text-chuchul' },
   'pdf-to-excel': { en: 'pdf-to-excel', es: 'pdf-a-excel', pt: 'pdf-para-excel', fr: 'pdf-en-excel', de: 'pdf-in-excel', it: 'pdf-in-excel', ja: 'pdf-excel-henkan', ko: 'pdf-excel-byeonhwan' },
   'word-to-text': { en: 'word-to-text', es: 'word-a-texto', pt: 'word-para-texto', fr: 'word-en-texte', de: 'word-zu-text', it: 'word-in-testo', ja: 'word-text-henkan', ko: 'word-text-byeonhwan' },
-  'resize-image-to-20kb': { en: 'resize-image-to-20kb' },
-  'resize-image-to-50kb': { en: 'resize-image-to-50kb' },
-  'resize-image-to-100kb': { en: 'resize-image-to-100kb' },
+  'image-compressor': { en: 'image-compressor' },
+  'image-compressor-to-20kb': { en: 'image-compressor-to-20kb' },
+  'image-compressor-to-50kb': { en: 'image-compressor-to-50kb' },
+  'image-compressor-to-100kb': { en: 'image-compressor-to-100kb' },
+  'image-compressor-to-200kb': { en: 'image-compressor-to-200kb' },
   'ppt-to-text': { en: 'ppt-to-text', es: 'ppt-a-texto', pt: 'ppt-para-texto', fr: 'ppt-en-texte', de: 'ppt-zu-text', it: 'ppt-in-testo', ja: 'ppt-text-chushutsu', ko: 'ppt-text-chuchul' },
   about: { en: 'about', es: 'acerca-de', pt: 'sobre', fr: 'a-propos', de: 'ueber-uns', it: 'chi-siamo', ja: 'about', ko: 'about' },
   contact: { en: 'contact', es: 'contacto', pt: 'contato', fr: 'contact', de: 'kontakt', it: 'contatti', ja: 'contact', ko: 'contact' },

@@ -8,7 +8,7 @@ export const ui: UiStrings = {
     theme: 'Attiva/disattiva tema scuro',
     language: 'Lingua',
   },
-  groups: { image: 'Immagini e foto', pdf: 'PDF', office: 'File di Office' },
+  groups: { image: 'Immagini e foto', pdf: 'PDF', office: 'File di Office', compress: 'Comprimi' },
   tags: { popular: 'Popolare', new: 'Nuovo' },
   footer: {
     tools: 'Strumenti',
