@@ -1331,7 +1331,7 @@ export const tools: Record<ToolId, ToolContent> = {
       {
         h2: 'How the tool reaches 20 KB without ruining your photo',
         paragraphs: [
-          'Most quick fixes just squash the quality until the file is small enough, and the photo comes out blurry and blocky. This tool works smarter. It first picks a sensible pixel size for a 20 KB file, then tries different JPG quality levels and keeps the highest one that still fits under the limit. If the photo has room to be bigger, it grows it; if it is still too heavy, it makes it a little smaller and tries again.',
+          'Most quick fixes just squash the quality until the file is small enough, and the photo comes out blurry and blocky. This tool works smarter. It keeps your photo’s original width and height, tries different JPG quality levels and keeps the highest one that still fits under the limit. Only when a picture is simply too large for 20 KB — a full-size phone photo of several thousand pixels, for example — does it reduce the pixel size, just as much as needed, and it tells you when it did.',
           'The result is a file that usually lands between 17 and 20 KB — the clearest photo that 20 KB can hold. Faces stay recognisable and signatures stay crisp. To stay on the safe side, 20 KB is counted as 20,000 bytes, the stricter of the two ways websites measure a kilobyte, so the upload is never rejected for being a few bytes over.',
         ],
       },
@@ -1365,7 +1365,7 @@ export const tools: Record<ToolId, ToolContent> = {
       {
         h2: 'Which size should you pick?',
         paragraphs: [
-          'Read the upload rule carefully, then match it with one of these. As a rough guide, a typical photo at 20 KB comes out at about 250 to 350 pixels wide; with a higher limit it can be larger and sharper.',
+          'Read the upload rule carefully, then match it with one of these. As a rough guide, a picture of about 250 to 350 pixels wide fits in 20 KB at good quality; with a higher limit it can be larger and sharper.',
         ],
         list: [
           '<strong>“Less than 20 KB” or “maximum 20 KB”:</strong> keep the limit at 20 KB. This is the classic case to resize image to 20KB JPG, often for a signature.',
@@ -1409,6 +1409,7 @@ export const tools: Record<ToolId, ToolContent> = {
       { q: 'Can I resize an image to 20KB JPG?', a: 'Yes. Every image is saved as a standard JPG file. PNG, WEBP and iPhone HEIC photos are converted to JPG automatically while they are resized.' },
       { q: 'How do I resize an image to 20KB to 100KB?', a: 'Type 100 in the size box, or open the resize image to 100KB page. The image is made as large and clear as 100 KB allows, which also meets a 20 KB minimum.' },
       { q: 'Will my photo lose quality at 20 KB?', a: 'Some detail is always lost at 20 KB, but the tool keeps the highest quality that still fits, so faces and signatures stay clear. Cropping the photo first helps even more.' },
+      { q: 'Will my image keep its original dimensions?', a: 'Yes, whenever possible. If you leave the width and height empty, the image keeps its original pixel size and only the JPG quality is lowered to fit under 20 KB. Only a picture too large to fit even at low quality, such as a full-size phone photo, is made smaller, and the tool tells you when that happens.' },
       { q: 'Can I set the width and height in pixels as well?', a: 'Yes. Type the width and height your form asks for. The image is centre-cropped to that shape and then compressed to under 20 KB.' },
       { q: 'Why does my file show 19.5 KB instead of 20 KB?', a: 'The tool counts 20 KB as 20,000 bytes so that every website accepts the file. Windows shows sizes in units of 1,024 bytes, so 20,000 bytes appears as about 19.5 KB.' },
       { q: 'Can I resize a signature to 20 KB?', a: 'Yes. Scan or photograph your signature on white paper, crop it, and add it here. Transparent PNG signatures get a white background.' },
@@ -1463,7 +1464,7 @@ export const tools: Record<ToolId, ToolContent> = {
         h2: 'Resize image to 50KB JPG',
         paragraphs: [
           'Forms almost always want photos as JPG or JPEG, so every image is saved as a JPG. PNG screenshots, WEBP pictures and iPhone HEIC photos are converted on the way. If a picture has a transparent background, it is placed on white so it looks right as a JPG.',
-          'To reach 50 KB, the tool chooses a sensible pixel size, then tests JPG quality levels and keeps the highest one that fits. If there is room left, it makes the image larger; if the file is still too heavy, it makes it a little smaller. The finished <strong>50 KB JPG</strong> usually weighs 45–50 KB — as sharp as the limit allows. That is the whole idea behind “resize image to 50KB JPG”: the biggest, clearest photo that still passes the check.',
+          'To reach 50 KB, the tool keeps your image’s original pixel size, tests JPG quality levels and keeps the highest one that fits. Only if the picture is too large to fit at all — like a full-resolution phone photo — is the pixel size reduced, and the tool tells you so. The finished <strong>50 KB JPG</strong> usually weighs 45–50 KB — as sharp as the limit allows. That is the whole idea behind “resize image to 50KB JPG”: the biggest, clearest photo that still passes the check.',
         ],
       },
       {
@@ -1499,7 +1500,7 @@ export const tools: Record<ToolId, ToolContent> = {
       {
         h2: 'Why your photo is not just made blurry',
         paragraphs: [
-          'Many free resizers reach 50 KB by turning the quality down until the file fits, which leaves blocky faces and smudged letters. Here the pixel size and the quality are balanced together: a typical phone photo becomes a JPG of roughly 400 to 500 pixels wide at good quality, which is plenty for a passport-size photo on a form. A document photo gets the same treatment, so the writing stays readable. The aim is always the same — use as much of the 50 KB as possible, without going over.',
+          'Many free resizers reach 50 KB by turning the quality down until the file fits, which leaves blocky faces and smudged letters. Here your original pixel size is kept whenever the file can fit at reasonable quality, and reduced only as far as needed when it cannot. A photo of roughly 400 to 500 pixels wide fits in 50 KB at good quality, which is plenty for a passport-size photo on a form. A document photo gets the same treatment, so the writing stays readable. The aim is always the same — use as much of the 50 KB as possible, without going over.',
         ],
       },
       {
@@ -1539,6 +1540,7 @@ export const tools: Record<ToolId, ToolContent> = {
       { q: 'Can I resize an image to 50KB JPG?', a: 'Yes. Every image is saved as a JPG. PNG, WEBP and iPhone HEIC files are converted to JPG automatically.' },
       { q: 'Is this resize image to 50KB online tool free?', a: 'Yes. It is free and unlimited, with no signup and no watermark. It works online in your browser with nothing to install.' },
       { q: 'Can I keep the text in my PDF selectable?', a: 'Often, yes. The tool tries a lossless shrink first, which keeps the text. Only when that is not enough are pages turned into images, and the tool tells you when that happened.' },
+      { q: 'Will my image keep its original dimensions?', a: 'Yes, whenever possible. If you leave the width and height empty, the image keeps its original pixel size and only the JPG quality is lowered to fit under 50 KB. Only a picture too large to fit even at low quality, such as a full-size phone photo, is made smaller, and the tool tells you when that happens.' },
       { q: 'Can I set the photo size in pixels too?', a: 'Yes. Type the width and height in pixels. The photo is centre-cropped to that shape and then compressed to under 50 KB.' },
       { q: 'Why does my 50 KB file show as 48.8 KB?', a: 'The tool counts 50 KB as 50,000 bytes so every website accepts the file. Windows shows sizes in units of 1,024 bytes, so it displays about 48.8 KB.' },
       { q: 'Are my files uploaded?', a: 'No. Photos and PDFs are compressed inside your browser and never leave your device.' },
@@ -1567,7 +1569,7 @@ export const tools: Record<ToolId, ToolContent> = {
         { title: 'Uses the full 100 KB', text: 'The tool keeps the highest quality that fits, so you get a large, readable image just under 100 KB.' },
         { title: 'JPG or PDF download', text: 'Save images as JPG, or as a one-page PDF. PDF files you add come back as smaller PDFs.' },
         { title: 'Documents stay readable', text: '100 KB leaves room for detail, so certificates and mark sheets keep their small print.' },
-        { title: 'Pixel size control', text: 'Set an exact width and height when a form asks for it, or leave them on auto.' },
+        { title: 'Pixel size control', text: 'Keep the original size by default, or set an exact width and height when a form asks for it.' },
         { title: 'Batch and ZIP', text: 'Add many files at once and download them together as one ZIP file.' },
         { title: 'Nothing uploaded', text: 'The resizing runs in your browser, so your documents never leave your phone or computer.' },
       ],
@@ -1595,7 +1597,7 @@ export const tools: Record<ToolId, ToolContent> = {
       {
         h2: 'Resize image to 100KB online — how it works',
         paragraphs: [
-          'Most resizers only lower the quality, which wastes the limit: the file ends up blurry at 40 KB when 100 KB was allowed. This <strong>resize image to 100KB online</strong> tool tunes two things together, the pixel size and the JPG quality. It picks a starting size suited to 100 KB, finds the highest quality that fits, and enlarges or reduces the image until it lands just under the limit.',
+          'Most resizers only lower the quality, which wastes the limit: the file ends up blurry at 40 KB when 100 KB was allowed. This <strong>resize image to 100KB online</strong> tool keeps your image’s original width and height and finds the highest JPG quality that still fits just under the limit. Only when the picture is too large for 100 KB at reasonable quality is the pixel size reduced, as little as possible, and the tool tells you.',
           'The limit is counted as 100,000 bytes, the stricter of the two kilobyte definitions websites use, so the upload is always accepted. On Windows the file will show as about 97 KB — that is the same file measured in units of 1,024 bytes.',
         ],
       },
@@ -1621,7 +1623,7 @@ export const tools: Record<ToolId, ToolContent> = {
       {
         h2: 'What a 100 KB image looks like',
         paragraphs: [
-          'At 100 KB there is real room for detail. A typical phone photo comes out at roughly 700 to 900 pixels wide at good quality — sharp on screen and fine for a printed passport-size photo. A photo of a one-page document usually keeps its letters readable, even small print and stamps. Images with a lot of fine detail, like busy backgrounds, end up a little smaller in pixels, because detail takes up space in a JPG; plain backgrounds leave more room for the part that matters.',
+          'At 100 KB there is real room for detail. A photo of roughly 700 to 900 pixels wide fits at good quality — sharp on screen and fine for a printed passport-size photo. A photo of a one-page document usually keeps its letters readable, even small print and stamps. Images with a lot of fine detail, like busy backgrounds, need more space in a JPG, so a very large detailed photo may be reduced in pixels to fit; plain backgrounds leave more room for the part that matters.',
         ],
       },
       {
@@ -1645,7 +1647,7 @@ export const tools: Record<ToolId, ToolContent> = {
       {
         h2: 'Exact width and height',
         paragraphs: [
-          'If a form also gives pixel dimensions, type the width and height. The image is centre-cropped to that exact shape, so it is never stretched, and then compressed to under 100 KB. Leave one box empty to keep the original proportions, or both empty to let the tool choose the size.',
+          'If a form also gives pixel dimensions, type the width and height. The image is centre-cropped to that exact shape, so it is never stretched, and then compressed to under 100 KB. Leave one box empty to keep the original proportions, or both empty to keep the original pixel size.',
         ],
       },
       {
@@ -1671,6 +1673,7 @@ export const tools: Record<ToolId, ToolContent> = {
       { q: 'Can I resize an image to 100KB JPG?', a: 'Yes. Images are saved as JPG by default. PNG, WEBP and iPhone HEIC photos are converted to JPG automatically.' },
       { q: 'How do I resize an image to 100KB PDF?', a: 'Choose PDF under “Save images as” to get a one-page PDF under 100 KB. You can also drop an existing PDF and it will be compressed to under 100 KB.' },
       { q: 'Will my document still be readable at 100 KB?', a: 'Usually, yes. The tool uses as much of the 100 KB as it can, so one- and two-page documents stay clear. Very long PDFs get softer; use a higher limit if the form allows it.' },
+      { q: 'Will my image keep its original dimensions?', a: 'Yes, whenever possible. If you leave the width and height empty, the image keeps its original pixel size and only the JPG quality is lowered to fit under 100 KB. Only a picture too large to fit even at low quality, such as a full-size phone photo, is made smaller, and the tool tells you when that happens.' },
       { q: 'Can I set the width and height in pixels?', a: 'Yes. Type the width and height and the image is centre-cropped to that size, then compressed to under 100 KB.' },
       { q: 'Why does my file show as 97 KB?', a: 'The tool counts 100 KB as 100,000 bytes so that every website accepts it. Windows measures in units of 1,024 bytes, so the same file shows as about 97 KB.' },
       { q: 'Can I resize many images at once?', a: 'Yes. Add as many photos and PDFs as you like and download them one by one or together as a ZIP file.' },

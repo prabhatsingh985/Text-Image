@@ -125,7 +125,7 @@ export const ui: UiStrings = {
     dropHintKb: 'or paste with Ctrl+V · JPG, PNG, WEBP, HEIC or PDF · many at once',
     maxSize: 'Max size',
     saveImagesAs: 'Save images as',
-    dimensions: 'Pixel size (optional)',
+    dimensions: 'Pixel size (blank = original)',
     width: 'Width in pixels',
     height: 'Height in pixels',
     widthAuto: 'Width',
@@ -136,7 +136,7 @@ export const ui: UiStrings = {
     pages: '{n} pages',
     alreadySmall: 'Already under the limit, so the original file is kept as it is.',
     rasterized: 'Pages were saved as images to reach this size, so the text can no longer be selected.',
-    dimsChanged: 'The pixel size was made smaller to fit under the limit.',
+    dimsChanged: '{w} × {h} px is too large to fit in {kb} KB, so the pixel size was reduced.',
     tooBig: 'Could not get this file under {kb} KB. This is the smallest version. Try a higher limit or split the PDF.',
   },
 };

@@ -50,13 +50,15 @@ async function fitToSize<T>(
 
   for (let round = 0; round < 16; round++) {
     let found: Attempt<T> | null = null;
-    const top = await tryAt(scale, TOP_QUALITY);
-    if (top.size <= maxBytes) found = top;
-    else {
-      let lo = minQuality;
-      let hi = TOP_QUALITY;
-      const bottom = await tryAt(scale, lo);
-      if (bottom.size <= maxBytes) {
+    // The lowest quality first: when even that is too big, this size is out and the costly top-quality encode is skipped.
+    const bottom = await tryAt(scale, minQuality);
+    const floorSize = bottom.size;
+    if (bottom.size <= maxBytes) {
+      const top = await tryAt(scale, TOP_QUALITY);
+      if (top.size <= maxBytes) found = top;
+      else {
+        let lo = minQuality;
+        let hi = TOP_QUALITY;
         found = bottom;
         // The highest quality that still fits, to within a few percent.
         for (let i = 0; i < 5; i++) {
@@ -81,7 +83,10 @@ async function fitToSize<T>(
     }
     if (fitting) return { best: fitting, fits: true };
     shrunk = true;
-    scale *= 0.8;
+    // The pixel size has to give way anyway, so trade a little more of it for a cleaner picture.
+    minQuality = Math.max(minQuality, 0.55);
+    // Size grows roughly with the pixel count, so jump close to a size that fits instead of creeping down.
+    scale *= Math.min(0.85, Math.max(0.3, Math.sqrt(maxBytes / floorSize) * 0.95));
     if (scale < 0.01) break;
   }
   return fitting ? { best: fitting, fits: true } : { best: smallest!, fits: false };
@@ -125,7 +130,6 @@ export async function compressImage(img: Decoded, opts: ImageTargetOptions): Pro
   if (opts.width && opts.height) [baseW, baseH] = [opts.width, opts.height];
   else if (opts.width) [baseW, baseH] = [opts.width, (H * opts.width) / W];
   else if (opts.height) [baseW, baseH] = [(W * opts.height) / H, opts.height];
-  const locked = Boolean(opts.width || opts.height);
 
   let cached: { w: number; h: number; canvas: HTMLCanvasElement } | null = null;
   const encode = async (scale: number, quality: number) => {
@@ -136,9 +140,10 @@ export async function compressImage(img: Decoded, opts: ImageTargetOptions): Pro
     return { out: { blob, width: w, height: h }, size: blob.size };
   };
 
-  // Asked-for dimensions are kept as long as any quality fits; otherwise start from a size the limit can hold.
-  const startScale = locked ? 1 : Math.sqrt(opts.maxBytes / BYTES_PER_PIXEL / (baseW * baseH));
-  const { best, fits } = await fitToSize(encode, opts.maxBytes, { startScale, minQuality: locked ? 0.05 : 0.4 });
+  // The pixel size (asked for, or the original) is kept whenever some quality fits; only when even
+  // a low quality is too big does the image get smaller, and the caller tells the visitor.
+  const asked = Boolean(opts.width || opts.height);
+  const { best, fits } = await fitToSize(encode, opts.maxBytes, { startScale: 1, minQuality: asked ? 0.05 : 0.2 });
   return { ...best.out, fits };
 }
 

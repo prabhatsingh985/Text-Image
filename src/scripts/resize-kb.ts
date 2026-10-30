@@ -176,23 +176,22 @@ export function initResizeKb(root: HTMLElement) {
       const blob = untouched ? file : asPdf ? await jpegToPdf(img!.blob, img!.width, img!.height) : img!.blob;
       const dims = untouched ? sizeText(decoded) : `${img!.width} × ${img!.height} px`;
       entry.result = { blob, name: `${stem}-${target.value}kb.${asPdf ? 'pdf' : 'jpg'}` };
-      const resized = img && ((width && img.width !== width) || (height && img.height !== height));
+      const want = width || height ? { w: width ?? img?.width, h: height ?? img?.height } : { w: decodedW(decoded), h: decodedH(decoded) };
+      const resized = img && (img.width !== want.w || img.height !== want.h);
       showResult(entry, {
         size: blob.size,
         detail: dims,
         fits: blob.size <= limit && (img?.fits ?? true),
-        note: untouched ? t.alreadySmall : resized ? t.dimsChanged : '',
+        note: untouched ? t.alreadySmall : resized ? fmt(t.dimsChanged, { w: want.w!, h: want.h!, kb: target.value }) : '',
       });
     } finally {
       if ('close' in decoded) decoded.close();
     }
   }
 
-  function sizeText(d: ImageBitmap | HTMLImageElement) {
-    const w = 'naturalWidth' in d ? d.naturalWidth : d.width;
-    const h = 'naturalHeight' in d ? d.naturalHeight : d.height;
-    return `${w} × ${h} px`;
-  }
+  const decodedW = (d: ImageBitmap | HTMLImageElement) => ('naturalWidth' in d ? d.naturalWidth : d.width);
+  const decodedH = (d: ImageBitmap | HTMLImageElement) => ('naturalHeight' in d ? d.naturalHeight : d.height);
+  const sizeText = (d: ImageBitmap | HTMLImageElement) => `${decodedW(d)} × ${decodedH(d)} px`;
 
   async function pdfThumb(file: File): Promise<string | undefined> {
     try {
