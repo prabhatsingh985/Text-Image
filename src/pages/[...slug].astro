@@ -7,14 +7,15 @@ import OcrTool, { type OcrMode } from '../components/tools/OcrTool.astro';
 import ImageToPdfTool from '../components/tools/ImageToPdfTool.astro';
 import TextToPdfTool from '../components/tools/TextToPdfTool.astro';
 import DocTextTool, { type DocMode } from '../components/tools/DocTextTool.astro';
+import ResizeKbTool from '../components/tools/ResizeKbTool.astro';
 import { ACTIVE_LOCALES, getLocale } from '../i18n/locales';
-import { STATIC_IDS, TOOL_IDS, pathFor, slugFor, type PageId, type StaticId, type ToolId } from '../i18n/routes';
+import { STATIC_IDS, TOOL_IDS, hasPage, pathFor, slugFor, type PageId, type StaticId, type ToolId } from '../i18n/routes';
 import { contentFor } from '../content';
 
 // One route builds every page in every enabled locale (PLAN.md §5).
 export function getStaticPaths() {
   return ACTIVE_LOCALES.flatMap((locale) =>
-    [...TOOL_IDS, ...STATIC_IDS].map((id) => ({
+    [...TOOL_IDS, ...STATIC_IDS].filter((id) => hasPage(id, locale)).map((id) => ({
       params: { slug: pathFor(id, locale) || undefined },
       props: { id: id as PageId, localeCode: locale.code },
     })),
@@ -39,10 +40,17 @@ const DOC_MODES: Partial<Record<ToolId, DocMode>> = {
   'ppt-to-text': 'slides',
 };
 
+const RESIZE_KB: Partial<Record<ToolId, number>> = {
+  'resize-image-to-20kb': 20,
+  'resize-image-to-50kb': 50,
+  'resize-image-to-100kb': 100,
+};
+
 const tool = isTool ? tools[id as ToolId] : null;
 const page = isTool ? null : pages[id as StaticId];
 const ocrMode = OCR_MODES[id as ToolId];
 const docMode = DOC_MODES[id as ToolId];
+const resizeKb = RESIZE_KB[id as ToolId];
 // The homepage tool also carries the full tool directory, so it skips the related grid.
 const isHome = isTool && slugFor(id, locale) === '';
 ---
@@ -63,6 +71,7 @@ const isHome = isTool && slugFor(id, locale) === '';
       {docMode && <DocTextTool mode={docMode} ui={ui} />}
       {id === 'image-to-pdf' && <ImageToPdfTool ui={ui} />}
       {id === 'text-to-pdf' && <TextToPdfTool ui={ui} />}
+      {resizeKb && <ResizeKbTool targetKb={resizeKb} ui={ui} />}
       {isHome && <AllTools currentId={id as ToolId} ui={ui} locale={locale} />}
       <ToolArticle toolId={id as ToolId} content={tool} ui={ui} locale={locale} showRelated={!isHome} />
     </BaseLayout>

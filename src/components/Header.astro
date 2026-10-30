@@ -4,7 +4,7 @@ import ToolIcon from './ToolIcon.astro';
 import { SITE } from '../config/site';
 import { TOOL_GROUPS, TOOL_META } from '../config/tool-meta';
 import { ACTIVE_LOCALES, type Locale } from '../i18n/locales';
-import { TOOL_IDS, alternatesFor, urlFor, type PageId } from '../i18n/routes';
+import { hasPage, toolIdsFor, urlFor, type PageId } from '../i18n/routes';
 import { contentFor } from '../content';
 
 interface Props {
@@ -17,7 +17,7 @@ const { ui, tools } = contentFor(locale.code);
 const groups = TOOL_GROUPS.map((g) => ({
   ...g,
   label: ui.groups[g.id],
-  tools: TOOL_IDS.filter((id) => TOOL_META[id].group === g.id).map((id) => ({
+  tools: toolIdsFor(locale).filter((id) => TOOL_META[id].group === g.id).map((id) => ({
     id,
     href: urlFor(id, locale),
     label: tools[id].navLabel,
@@ -27,8 +27,8 @@ const groups = TOOL_GROUPS.map((g) => ({
 }));
 // The most-used tools stay one click away on wide screens.
 const quick = (['image-to-text', 'pdf-to-text', 'jpg-to-word'] as const).map((id) => ({ id, href: urlFor(id, locale), label: tools[id].navLabel }));
-// The language menu links to this same page in every language.
-const languages = alternatesFor(pageId, ACTIVE_LOCALES);
+// The language menu links to this same page in every language, or to that language's homepage when the page is English-only.
+const languages = ACTIVE_LOCALES.map((l) => ({ locale: l, href: urlFor(hasPage(pageId, l) ? pageId : 'image-to-text', l) }));
 ---
 
 <header class="relative z-40">

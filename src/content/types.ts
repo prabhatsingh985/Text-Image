@@ -1,4 +1,4 @@
-import type { PageId, StaticId, ToolId } from '../i18n/routes';
+import type { EnglishOnlyToolId, PageId, StaticId, ToolId } from '../i18n/routes';
 import type { ToolGroup, ToolTag } from '../config/tool-meta';
 
 export interface FaqItem {
@@ -69,5 +69,10 @@ export interface LocaleContent {
   tools: Record<ToolId, ToolContent>;
   pages: Record<StaticId, StaticContent>;
 }
+
+/** What a translated locale folder exports: English-only tools are left out (contentFor fills them from English). */
+export type TranslatedContent = Omit<LocaleContent, 'tools'> & {
+  tools: Record<Exclude<ToolId, EnglishOnlyToolId>, ToolContent>;
+};
 
 export type { PageId };

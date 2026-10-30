@@ -1,0 +1,87 @@
+---
+import Dropzone from '../Dropzone.astro';
+import { IMAGE_ACCEPT } from '../../lib/input/images';
+import type { UiStrings } from '../../content/types';
+
+interface Props {
+  /** The size limit the page is about, in KB; the visitor can still change it. */
+  targetKb: number;
+  ui: UiStrings;
+}
+
+const { targetKb, ui } = Astro.props;
+const t = ui.tool;
+const presets = [...new Set([10, 20, 30, 50, 100, 200, 500, targetKb])].sort((a, b) => a - b);
+---
+
+<section class="mx-auto max-w-5xl px-4" data-resize-kb data-i18n={JSON.stringify(t)}>
+  <div class="card relative rounded-[2rem] p-2.5 sm:p-3">
+    <Dropzone title={t.dropTitleKb} hint={t.dropHintKb} label={t.browse} formats={['JPG', 'PNG', 'WEBP', 'HEIC', 'PDF']}>
+      <label class="btn-primary px-6 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-brand-500">
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 16V4M7 9l5-5 5 5M5 20h14"></path>
+        </svg>
+        {t.browse}
+        <input type="file" multiple accept={`${IMAGE_ACCEPT},application/pdf,.pdf`} class="sr-only" data-input />
+      </label>
+      <label class="btn-secondary hidden px-5 focus-within:outline-2 focus-within:outline-brand-500" data-camera-wrap>
+        {t.camera}
+        <input type="file" accept="image/*" capture="environment" class="sr-only" data-camera />
+      </label>
+    </Dropzone>
+
+    <div class="space-y-3 px-3 pt-4 pb-2 text-sm">
+      <div class="flex flex-wrap items-center gap-2">
+        <label class="inline-flex items-center gap-2">
+          <span class="font-medium text-ink-muted">{t.maxSize}</span>
+          <span class="relative">
+            <input type="number" min="5" max="10000" step="1" value={targetKb} class="field w-28 py-1.5 pe-10" data-target />
+            <span class="pointer-events-none absolute end-4 top-1/2 -translate-y-1/2 text-xs font-semibold text-ink-soft">KB</span>
+          </span>
+        </label>
+        {
+          presets.map((n) => (
+            <button
+              type="button"
+              class="rounded-full border-2 border-transparent bg-surface px-3 py-1 font-semibold text-ink-muted transition hover:text-ink aria-pressed:border-ink aria-pressed:bg-brand-300 aria-pressed:text-[#202020]"
+              data-preset={n}
+              aria-pressed="false"
+            >
+              {n} KB
+            </button>
+          ))
+        }
+      </div>
+      <div class="flex flex-wrap items-center gap-x-5 gap-y-3">
+        <label class="inline-flex items-center gap-2">
+          <span class="font-medium text-ink-muted">{t.saveImagesAs}</span>
+          <select class="field py-1.5" data-format>
+            <option value="jpg">JPG</option>
+            <option value="pdf">PDF</option>
+          </select>
+        </label>
+        <span class="inline-flex flex-wrap items-center gap-2">
+          <span class="font-medium text-ink-muted">{t.dimensions}</span>
+          <input type="number" min="16" max="8000" placeholder={t.widthAuto} aria-label={t.width} class="field w-28 py-1.5" data-width />
+          <span class="text-ink-soft" aria-hidden="true">×</span>
+          <input type="number" min="16" max="8000" placeholder={t.heightAuto} aria-label={t.height} class="field w-28 py-1.5" data-height />
+          <span class="text-ink-soft">px</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-6" data-workspace hidden>
+    <div class="flex flex-wrap items-center gap-2">
+      <span class="me-auto text-sm font-semibold" data-summary></span>
+      <button type="button" class="btn-secondary btn-sm" data-clear>{t.clearAll}</button>
+      <button type="button" class="btn-primary btn-sm" data-zip hidden>{t.downloadAllZip}</button>
+    </div>
+    <ul class="mt-3 space-y-3" data-list></ul>
+  </div>
+</section>
+
+<script>
+  import { initResizeKb } from '../../scripts/resize-kb';
+  document.querySelectorAll<HTMLElement>('[data-resize-kb]').forEach(initResizeKb);
+</script>

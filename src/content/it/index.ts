@@ -1,4 +1,4 @@
-import type { LocaleContent } from '../types';
+import type { TranslatedContent } from '../types';
 import { ui } from './ui';
 import { pages } from './pages';
 import imageToText from './tools/image-to-text';
@@ -13,7 +13,7 @@ import imageToPdf from './tools/image-to-pdf';
 import textToPdf from './tools/text-to-pdf';
 
 // Tool pages live one per file in ./tools; links inside them use English paths and are localised by contentFor().
-const content: LocaleContent = {
+const content: TranslatedContent = {
   ui,
   pages,
   tools: {

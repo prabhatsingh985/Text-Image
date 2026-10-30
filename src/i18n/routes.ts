@@ -13,10 +13,32 @@ export const TOOL_IDS = [
   'ppt-to-text',
   'image-to-pdf',
   'text-to-pdf',
+  'resize-image-to-20kb',
+  'resize-image-to-50kb',
+  'resize-image-to-100kb',
 ] as const;
 export const STATIC_IDS = ['about', 'contact', 'privacy-policy', 'terms'] as const;
 
 export type ToolId = (typeof TOOL_IDS)[number];
+
+// Pages built only in the listed locales. The KB-size pages target Indian exam and job forms,
+// which are searched in English, so they are not translated.
+const ONLY_IN: Partial<Record<PageId, string[]>> = {
+  'resize-image-to-20kb': ['en'],
+  'resize-image-to-50kb': ['en'],
+  'resize-image-to-100kb': ['en'],
+};
+export type EnglishOnlyToolId = 'resize-image-to-20kb' | 'resize-image-to-50kb' | 'resize-image-to-100kb';
+
+/** Whether the page is built in this locale. */
+export function hasPage(id: PageId, locale: Locale): boolean {
+  return ONLY_IN[id]?.includes(locale.code) ?? true;
+}
+
+/** The tools built in this locale, in menu order. */
+export function toolIdsFor(locale: Locale): ToolId[] {
+  return TOOL_IDS.filter((id) => hasPage(id, locale));
+}
 export type StaticId = (typeof STATIC_IDS)[number];
 export type PageId = ToolId | StaticId;
 
@@ -31,6 +53,9 @@ const SLUGS: Record<PageId, Record<string, string>> = {
   'screenshot-to-text': { en: 'screenshot-to-text', es: 'captura-de-pantalla-a-texto', pt: 'print-para-texto', fr: 'capture-ecran-en-texte', de: 'screenshot-zu-text', it: 'screenshot-in-testo', ja: 'screenshot-mojiokoshi', ko: 'screenshot-text-chuchul' },
   'pdf-to-excel': { en: 'pdf-to-excel', es: 'pdf-a-excel', pt: 'pdf-para-excel', fr: 'pdf-en-excel', de: 'pdf-in-excel', it: 'pdf-in-excel', ja: 'pdf-excel-henkan', ko: 'pdf-excel-byeonhwan' },
   'word-to-text': { en: 'word-to-text', es: 'word-a-texto', pt: 'word-para-texto', fr: 'word-en-texte', de: 'word-zu-text', it: 'word-in-testo', ja: 'word-text-henkan', ko: 'word-text-byeonhwan' },
+  'resize-image-to-20kb': { en: 'resize-image-to-20kb' },
+  'resize-image-to-50kb': { en: 'resize-image-to-50kb' },
+  'resize-image-to-100kb': { en: 'resize-image-to-100kb' },
   'ppt-to-text': { en: 'ppt-to-text', es: 'ppt-a-texto', pt: 'ppt-para-texto', fr: 'ppt-en-texte', de: 'ppt-zu-text', it: 'ppt-in-testo', ja: 'ppt-text-chushutsu', ko: 'ppt-text-chuchul' },
   about: { en: 'about', es: 'acerca-de', pt: 'sobre', fr: 'a-propos', de: 'ueber-uns', it: 'chi-siamo', ja: 'about', ko: 'about' },
   contact: { en: 'contact', es: 'contacto', pt: 'contato', fr: 'contact', de: 'kontakt', it: 'contatti', ja: 'contact', ko: 'contact' },
@@ -61,15 +86,18 @@ export function urlFor(id: PageId, locale: Locale): string {
 export function hreflangLinksForPath(path: string, site: string): { url: string; lang: string }[] {
   const clean = '/' + path.replace(/^\/+|\/+$/g, '');
   const enabled = LOCALES.filter((l) => l.enabled);
-  const id = (Object.keys(SLUGS) as PageId[]).find((p) => enabled.some((l) => urlFor(p, l) === clean));
+  const id = (Object.keys(SLUGS) as PageId[]).find((p) => enabled.some((l) => hasPage(p, l) && urlFor(p, l) === clean));
   if (!id) return [];
+  const available = enabled.filter((l) => hasPage(id, l));
   // Same form as the canonical URLs in SeoHead: root keeps its slash, other pages have none.
   const abs = (href: string) => (href === '/' ? new URL('/', site).href : new URL(href, site).href.replace(/\/$/, ''));
-  const links = enabled.map((l) => ({ url: abs(urlFor(id, l)), lang: l.hreflang }));
-  return [...links, { url: abs(urlFor(id, enabled[0])), lang: 'x-default' }];
+  // A page in one language only needs no hreflang alternates.
+  if (available.length < 2) return [];
+  const links = available.map((l) => ({ url: abs(urlFor(id, l)), lang: l.hreflang }));
+  return [...links, { url: abs(urlFor(id, available[0])), lang: 'x-default' }];
 }
 
 /** The same page in every locale, for hreflang tags and the language picker. */
 export function alternatesFor(id: PageId, locales: Locale[] = LOCALES.filter((l) => l.enabled)) {
-  return locales.map((locale) => ({ locale, href: urlFor(id, locale) }));
+  return locales.filter((locale) => hasPage(id, locale)).map((locale) => ({ locale, href: urlFor(id, locale) }));
 }

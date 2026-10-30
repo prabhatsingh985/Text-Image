@@ -84,8 +84,8 @@ if (faq.length) {
 <meta name="description" content={description} />
 {noindex && <meta name="robots" content="noindex" />}
 {!noindex && <link rel="canonical" href={canonical} />}
-{!noindex && alternates.map((a) => <link rel="alternate" hreflang={a.locale.hreflang} href={abs(a.href)} />)}
-{!noindex && xDefault && <link rel="alternate" hreflang="x-default" href={abs(xDefault.href)} />}
+{!noindex && alternates.length > 1 && alternates.map((a) => <link rel="alternate" hreflang={a.locale.hreflang} href={abs(a.href)} />)}
+{!noindex && alternates.length > 1 && xDefault && <link rel="alternate" hreflang="x-default" href={abs(xDefault.href)} />}
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content={SITE.name} />

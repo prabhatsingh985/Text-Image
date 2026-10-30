@@ -9,6 +9,9 @@ export type ToolTag = 'popular' | 'new';
 
 export const TOOL_GROUPS: { id: ToolGroup }[] = [{ id: 'image' }, { id: 'pdf' }, { id: 'office' }];
 
+// A file with arrows pointing in: shrink to a size.
+const RESIZE_ICON = '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 10v3.5M10.25 11.75 12 13.5l1.75-1.75M9 17h6"/>';
+
 export const TOOL_META: Record<ToolId, { group: ToolGroup; icon: string; tag?: ToolTag }> = {
   'image-to-text': {
     group: 'image',
@@ -43,6 +46,21 @@ export const TOOL_META: Record<ToolId, { group: ToolGroup; icon: string; tag?: T
   'text-to-pdf': {
     group: 'pdf',
     icon: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 12h6M12 12v6"/>',
+  },
+  'resize-image-to-20kb': {
+    group: 'image',
+    icon: RESIZE_ICON,
+    tag: 'new',
+  },
+  'resize-image-to-50kb': {
+    group: 'image',
+    icon: RESIZE_ICON,
+    tag: 'new',
+  },
+  'resize-image-to-100kb': {
+    group: 'image',
+    icon: RESIZE_ICON,
+    tag: 'new',
   },
   'word-to-text': {
     group: 'office',

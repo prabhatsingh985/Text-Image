@@ -1,4 +1,4 @@
-import type { LocaleContent } from './types';
+import type { LocaleContent, TranslatedContent } from './types';
 import { getLocale } from '../i18n/locales';
 import { ID_BY_EN_PATH, urlFor } from '../i18n/routes';
 import { ui as enUi } from './en/ui';
@@ -6,11 +6,14 @@ import { tools as enTools } from './en/tools';
 import { pages as enPages } from './en/pages';
 
 // Every other locale is a folder with an index.ts (e.g. ./es/index.ts) whose default export is its LocaleContent.
-const translated = import.meta.glob<{ default: LocaleContent }>('./*/index.ts', { eager: true });
+const translated = import.meta.glob<{ default: TranslatedContent }>('./*/index.ts', { eager: true });
 
 const CONTENT: Record<string, LocaleContent> = {
   en: { ui: enUi, tools: enTools, pages: enPages },
-  ...Object.fromEntries(Object.entries(translated).map(([path, mod]) => [path.split('/')[1], mod.default])),
+  // English-only tools are never built in other locales; the English entries only keep the lookup total.
+  ...Object.fromEntries(
+    Object.entries(translated).map(([path, mod]) => [path.split('/')[1], { ...mod.default, tools: { ...enTools, ...mod.default.tools } }]),
+  ),
 };
 
 // Content links are written with English paths ("/jpg-to-word"); point them at the same page in the reader's language.
