@@ -17,7 +17,7 @@ const { ui, tools } = contentFor(locale.code);
 const groups = TOOL_GROUPS.map((g) => ({
   ...g,
   label: ui.groups[g.id],
-  tools: toolIdsFor(locale).filter((id) => TOOL_META[id].group === g.id).map((id) => ({
+  tools: toolIdsFor(locale).filter((id) => TOOL_META[id].group === g.id && TOOL_META[id].menu !== false).map((id) => ({
     id,
     href: urlFor(id, locale),
     label: tools[id].navLabel,

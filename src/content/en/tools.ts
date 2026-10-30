@@ -1286,8 +1286,8 @@ export const tools: Record<ToolId, ToolContent> = {
     description:
       'Free online image compressor. Compress JPG, PNG and HEIC photos to the exact size you need — 20 KB, 50 KB, 100 KB or any limit. No signup, no uploads.',
     h1: 'Image Compressor',
-    h1Sub: 'Compress & Resize Images Online',
-    lead: 'A free online image compressor that shrinks photos to the exact size you need — 20 KB, 50 KB, 100 KB, 200 KB or any limit.',
+    h1Sub: 'Compress Images to Any Size in KB',
+    lead: 'A free online image compressor that shrinks photos and PDFs to the exact size you need, while keeping their original dimensions.',
     navLabel: 'Image Compressor',
     cardText: 'Compress photos and PDFs to any size in KB.',
     howTo: {
@@ -1328,13 +1328,20 @@ export const tools: Record<ToolId, ToolContent> = {
         h2: 'How this image compressor works',
         paragraphs: [
           'Photos are saved as JPG, the format with the best size-to-quality balance for pictures. The compressor tries different JPG quality levels and keeps the highest one whose file still fits under your limit, so the result is as sharp as the size allows — usually within a few kilobytes of the limit.',
-          'Your image keeps its original width and height whenever possible. Only when a picture is simply too large for the chosen size — a 12-megapixel phone photo squeezed into 20 KB, for example — is the pixel size reduced, just as far as needed, and the tool tells you that it did. If your form asks for exact dimensions, type the width and height and the image is centre-cropped to that shape before it is compressed.',
+          'Compression keeps your image’s width and height exactly as they were. The only exception is a picture that is simply too large for the chosen size — a 12-megapixel phone photo squeezed into 20 KB, for example. Then the pixel size is reduced just as far as needed, and the tool tells you that it did.',
+        ],
+      },
+      {
+        h2: 'Compressing vs resizing: what is the difference?',
+        paragraphs: [
+          'People often use the two words for the same thing, but they are different steps. <strong>Compressing</strong> keeps the picture the same width and height and stores it more efficiently, by saving it as a JPG at a carefully chosen quality. <strong>Resizing</strong> changes the width and height in pixels — for example to the 200 × 230 pixels an exam form asks for.',
+          'This page compresses. If you also need a specific pixel size, use <a href="/resize-image">resize image</a>, which sets the width and height and the file size together.',
         ],
       },
       {
         h2: 'Compress an image to 20 KB, 50 KB, 100 KB or 200 KB',
         paragraphs: [
-          'These four sizes cover most upload rules, so each one has a ready-made page with the limit already set:',
+          'These four sizes cover most upload rules, so each one has its own page with that limit ready to go:',
         ],
         list: [
           '<a href="/image-compressor-to-20kb">Image compressor to 20KB</a> — signatures and small photos for exam and job forms.',
@@ -1346,7 +1353,7 @@ export const tools: Record<ToolId, ToolContent> = {
       {
         h2: 'Any other size? Just type it',
         paragraphs: [
-          'The size box accepts any number from 5 KB to 10,000 KB (about 10 MB). Type 30 for a 30 KB limit, 300 for 300 KB, or 1000 for a file under 1 MB. Change the number and every file in the list is compressed again automatically, so you can try a few sizes and keep the one that looks best.',
+          'The size box on this page accepts any number from 5 KB to 10,000 KB (about 10 MB). Type 30 for a 30 KB limit, 300 for 300 KB, or 1000 for a file under 1 MB. Change the number and every file in the list is compressed again automatically, so you can try a few sizes and keep the one that looks best.',
           'A kilobyte limit is counted as 1,000 bytes, the stricter of the two ways websites measure it, so a file made for “under 50 KB” is accepted everywhere. Windows shows sizes in units of 1,024 bytes, so the same file may appear a little smaller there.',
         ],
       },
@@ -1354,13 +1361,6 @@ export const tools: Record<ToolId, ToolContent> = {
         h2: 'Compress PDF files too',
         paragraphs: [
           'Drop a PDF into the same box and it is compressed to your limit as well. The compressor first tries a lossless re-save, which keeps the text selectable. If the PDF is still too large, each page is turned into a compressed image so the file fits; the pages look the same, but their text can no longer be selected, and the tool tells you when this happens. You can also save any photo as a one-page PDF by choosing PDF under “Save images as”.',
-        ],
-      },
-      {
-        h2: 'Compressing vs resizing: what is the difference?',
-        paragraphs: [
-          'People often use the two words for the same thing, but they mean different steps. <strong>Compressing</strong> keeps the picture the same width and height and stores it more efficiently, by saving it as a JPG at a lower quality. <strong>Resizing</strong> changes the width and height in pixels, which also makes the file smaller because there are fewer pixels to store.',
-          'This image compressor uses compression first, because it keeps your picture the size it was. It only resizes when compression alone cannot reach your limit, or when you type an exact width and height yourself. That is why the same tool works whether you search for an image compressor or for a way to resize an image to a certain number of KB.',
         ],
       },
       {
@@ -1380,7 +1380,6 @@ export const tools: Record<ToolId, ToolContent> = {
           '<strong>Email and chat:</strong> smaller attachments send faster and stay under mailbox limits.',
           '<strong>Websites and blogs:</strong> lighter images load faster, which visitors and search engines both like.',
           '<strong>Storage:</strong> compressed copies take a fraction of the space on your phone or cloud drive.',
-          '<strong>Slow connections:</strong> small files upload reliably even on weak mobile data.',
         ],
       },
       {
@@ -1396,17 +1395,16 @@ export const tools: Record<ToolId, ToolContent> = {
           'Pick the largest size your form or website allows — a bigger limit always means a clearer image.',
           'Keep your originals. You can always compress them again with a different limit.',
           'For a document with several pages, combine them with <a href="/image-to-pdf">image to PDF</a> first, then compress the PDF here.',
-          'To copy the text out of a photo instead, use the <a href="/">image to text converter</a>.',
         ],
       },
     ],
     faq: [
-      { q: 'What is an image compressor?', a: 'An image compressor makes a picture’s file smaller, usually by saving it as a JPG at a lower quality and, when needed, fewer pixels. This one lets you choose the exact file size you need in KB.' },
+      { q: 'What is an image compressor?', a: 'An image compressor makes a picture’s file smaller, usually by saving it as a JPG at a carefully chosen quality. This one lets you choose the exact file size you need in KB.' },
       { q: 'How do I compress an image online?', a: 'Add your image by dropping it in, clicking “Choose files” or pasting it with Ctrl+V. Pick a size such as 50 KB or type your own, then click “Download” to save the compressed file.' },
       { q: 'Is this image compressor free?', a: 'Yes. It is completely free, with no signup, no watermark and no limit on the number of images you compress.' },
       { q: 'Can I compress an image to a specific size in KB?', a: 'Yes. That is what this compressor is built for. Click 20, 50, 100 or 200 KB, or type any size from 5 KB to 10,000 KB, and the image is compressed to just under it.' },
-      { q: 'Will compressing reduce the quality of my image?', a: 'Some detail is always lost when a photo gets smaller, but the compressor keeps the highest quality that fits your limit. The larger the limit, the closer the result looks to the original.' },
-      { q: 'Does the image keep its original dimensions?', a: 'Yes, whenever possible. Only a picture too large to fit the chosen size even at low quality is made smaller in pixels, and the tool tells you when that happens.' },
+      { q: 'Does compressing change the dimensions of my image?', a: 'No, the width and height stay the same. Only a picture too large to fit the chosen size even at low quality is made smaller in pixels, and the tool tells you when that happens.' },
+      { q: 'What is the difference between compressing and resizing?', a: 'Compressing makes the file smaller and keeps the width and height. Resizing changes the width and height in pixels. To do both, use the resize image tool.' },
       { q: 'Which formats can I compress?', a: 'JPG, JPEG, PNG, WEBP, GIF, BMP, iPhone HEIC photos and PDF files. Images are saved as JPG, or as a one-page PDF if you choose.' },
       { q: 'Can I compress many images at once?', a: 'Yes. Add as many files as you like and download them one by one or together as a ZIP file.' },
       { q: 'Can I use this image compressor on my phone?', a: 'Yes. It works in the browser on Android and iPhone. Choose photos from your gallery or take one with the camera.' },
@@ -1415,20 +1413,20 @@ export const tools: Record<ToolId, ToolContent> = {
   },
 
   'image-compressor-to-20kb': {
-    title: 'Image Compressor to 20KB – Resize Image to 20KB',
+    title: 'Image Compressor to 20KB – JPG Online, Free',
     description:
-      'Image compressor to 20KB online free. Resize image to 20KB JPG for exam and job forms — photos and signatures in seconds. No signup, no uploads.',
+      'Image compressor to 20KB online free. Compress photos and signatures to under 20 KB JPG for exam and job forms in seconds. No signup, no uploads.',
     h1: 'Image Compressor to 20KB',
-    h1Sub: 'Resize Image to 20KB in One Click',
-    lead: 'Resize or compress — it is the same job here: your photo or signature comes out just under 20 KB, ready for exam, job and government forms.',
+    h1Sub: 'Compress Any Photo Under 20 KB',
+    lead: 'Compress photos and signatures to a JPG just under 20 KB, ready for exam, job and government forms.',
     navLabel: 'Image Compressor to 20KB',
-    cardText: 'Shrink photos and signatures to under 20 KB.',
+    cardText: 'Compress photos and signatures to under 20 KB.',
     howTo: {
       title: 'How to compress an image to 20KB',
       steps: [
         '<strong>Add your photo or signature.</strong> Drop it in, click “Choose files”, take a photo on your phone or paste it with Ctrl+V.',
-        '<strong>Check the size.</strong> 20 KB is already set. Pick another limit, or type exact pixel dimensions if your form asks for them.',
-        '<strong>Download it.</strong> The new JPG appears in a second, just under 20 KB. Click “Download”, or “Download all” for many files.',
+        '<strong>Let it compress.</strong> Every file is compressed to just under 20 KB straight away. Choose PDF if your form wants one.',
+        '<strong>Download it.</strong> Click “Download”, or “Download all (ZIP)” when you have added several files.',
       ],
     },
     features: {
@@ -1436,8 +1434,8 @@ export const tools: Record<ToolId, ToolContent> = {
       items: [
         { title: 'Lands just under 20 KB', text: 'It finds the best quality that still fits, so the photo is as clear as 20 KB allows — not needlessly tiny.' },
         { title: 'JPG output', text: 'Every image is saved as a standard JPG, the format almost every form accepts. PDF output is one click away.' },
-        { title: 'Exact pixel size', text: 'Type the width and height your form asks for, like 140 × 60 px for a signature, and the image is cropped to fit.' },
-        { title: 'Original size kept', text: 'Small photos and signatures keep their width and height; only their quality is adjusted to reach 20 KB.' },
+        { title: 'Dimensions kept', text: 'Small photos and signatures keep their width and height; only their file size changes.' },
+        { title: 'One click, no settings', text: 'The 20 KB limit is already set. Add the file and download it — nothing else to choose.' },
         { title: 'Many files at once', text: 'Drop your photo, signature and thumb impression together and download them all as one ZIP.' },
         { title: 'Private and unlimited', text: 'Everything happens in your browser. Your photos are never uploaded, and there is no daily limit.' },
       ],
@@ -1447,13 +1445,13 @@ export const tools: Record<ToolId, ToolContent> = {
         h2: 'Image compressor to 20KB, free and online',
         paragraphs: [
           'You have filled in every field of an online application, and then the upload box says: “Photo must be less than 20 KB.” Your phone photo is 3 MB. This <strong>image compressor to 20KB</strong> fixes that in seconds. Add the picture and it is compressed automatically, kept as sharp as possible, and ready to upload.',
-          'Whether you call it compressing or resizing, the goal is the same: a file under 20 KB that the form accepts. That is why this page also works as a tool to <strong>resize image to 20KB</strong> — the result is identical. There is no signup, no watermark and no limit on how many photos you compress.',
+          'There is nothing to set: the limit is already 20 KB. There is no signup, no watermark and no limit on how many photos you compress.',
         ],
       },
       {
         h2: 'Online image compressor to 20KB — nothing to install',
         paragraphs: [
-          'This <strong>online image compressor to 20KB</strong> runs in your browser on Android, iPhone, Windows, Mac and Chromebook. You do not need an app or an account. The compression is done by your own device, so it is fast even on a slow connection, and your photo, signature or ID never leaves your phone or computer.',
+          'This <strong>online image compressor to 20KB</strong> runs in your browser on Android, iPhone, Windows, Mac and Chromebook. You do not need an app or an account. The compression is done by your own device, so it is fast even on a slow connection, and your photo, signature or ID never leaves your phone or computer. On a phone, tap <strong>Take a photo</strong> to use the camera, or pick a picture from your gallery.',
         ],
       },
       {
@@ -1471,43 +1469,37 @@ export const tools: Record<ToolId, ToolContent> = {
       {
         h2: 'How it reaches 20 KB without ruining your photo',
         paragraphs: [
-          'Quick fixes just squash the quality until the file is small enough, and the photo comes out blurry and blocky. This compressor keeps your photo’s original width and height, tries different JPG quality levels and keeps the highest one that still fits under the limit. Only when a picture is too large for 20 KB — a full-size phone photo of several thousand pixels, for example — does it reduce the pixel size, just as much as needed, and it tells you when it did.',
-          'The result usually lands between 17 and 20 KB — the clearest photo that 20 KB can hold. To stay on the safe side, 20 KB is counted as 20,000 bytes, the stricter of the two ways websites measure a kilobyte, so the upload is never rejected for being a few bytes over.',
+          'Quick fixes just squash the quality until the file is small enough, and the photo comes out blurry and blocky. This compressor keeps your photo’s width and height, tries different JPG quality levels and keeps the highest one that still fits under the limit. Only when a picture is too large for 20 KB — a full-size phone photo of several thousand pixels, for example — does it reduce the pixel size, just as much as needed, and it tells you when it did.',
+          'The result usually lands between 17 and 20 KB — the clearest photo that 20 KB can hold. To stay on the safe side, 20 KB is counted as 20,000 bytes, the stricter of the two ways websites measure a kilobyte, so the upload is never rejected for being a few bytes over. Windows shows such a file as about 19.5 KB.',
         ],
       },
       {
         h2: 'Image compressor to 20KB JPG',
         paragraphs: [
           'Almost every form asks for a JPG or JPEG file, so that is what you get. As an <strong>image compressor to 20KB JPG</strong>, it converts PNG screenshots, WEBP images and iPhone HEIC photos to a standard JPG while compressing them. Transparent backgrounds, common in scanned signatures saved as PNG, are filled with white, so your signature does not turn into a black box.',
-          'Already have a JPG? This works just as well as a <strong>JPG image compressor to 20KB</strong>: if the file is already under 20 KB, it is handed back untouched. If your form wants a PDF instead, choose <strong>PDF</strong> under “Save images as” — so you can also <strong>resize image to 20KB JPG</strong> or PDF from the same box.',
+          'Already have a JPG? It works just as well as a <strong>JPG image compressor to 20KB</strong>: if the file is already under 20 KB, it is handed back untouched. If your form wants a PDF instead, choose <strong>PDF</strong> under “Save images as” and you get a one-page PDF under 20 KB.',
         ],
       },
       {
         h2: 'Image compressor to 20KB to 50KB (a size range)',
         paragraphs: [
-          'Many forms give a range instead of a single number: “photo between 20 KB and 50 KB”. A file under 20 KB would be rejected there for being too small. In that case set the limit to the top of the range — click <strong>50 KB</strong>. The tool aims just under the limit, so the photo comes out at roughly 45–50 KB, inside the range and at the best quality the form allows.',
-          'So to use an <strong>image compressor to 20KB to 50KB</strong>, or to resize image to 20KB to 50KB, think “50 KB maximum”. The <a href="/image-compressor-to-50kb">image compressor to 50KB</a> page has the same tool with 50 KB already selected.',
+          'Many forms give a range instead of a single number: “photo between 20 KB and 50 KB”. A file under 20 KB would be rejected there for being too small. For a range, always aim for the top: use the <a href="/image-compressor-to-50kb">image compressor to 50KB</a>. It lands just under 50 KB, inside the range and at the best quality the form allows.',
+          'So the answer to “image compressor to 20KB to 50KB” is simple: think “50 KB maximum”. For a range of 20 KB to 100 KB, use the <a href="/image-compressor-to-100kb">image compressor to 100KB</a>, and for any other number, the main <a href="/image-compressor">image compressor</a> lets you type your own limit.',
         ],
       },
       {
-        h2: 'Resize image to 20KB to 100KB',
+        h2: 'Your form also gives a pixel size?',
         paragraphs: [
-          'Some portals allow anything from 20 KB to 100 KB, especially for documents. Again, choose the upper number: type 100 in the size box, or open the <a href="/image-compressor-to-100kb">image compressor to 100KB</a>. To resize image to 20KB to 100KB, always aim for the top of the range — a larger limit means a clearer image, which matters for small print.',
-        ],
-      },
-      {
-        h2: 'Set the exact pixel size your form asks for',
-        paragraphs: [
-          'Some notifications give pixel dimensions as well as a file size, for example a photo of 200 × 230 pixels and a signature of 140 × 60 pixels. Type those numbers into the width and height boxes. If your picture has a different shape, it is centre-cropped to fill the size exactly, so nothing is stretched or squashed. Fill in only the width or only the height and the other side follows the original proportions.',
+          'Some notifications ask for exact dimensions as well, for example a photo of 200 × 230 pixels and a signature of 140 × 60 pixels. This compressor keeps your picture’s own dimensions. To set the width and height too, use <a href="/resize-image-to-20kb">resize image to 20KB</a>, which crops the picture to the pixel size you need and then brings it under 20 KB.',
         ],
       },
       {
         h2: 'Which size should you pick?',
         list: [
-          '<strong>“Less than 20 KB” or “maximum 20 KB”:</strong> keep the limit at 20 KB — the classic use of an image compressor to 20KB, often for a signature.',
-          '<strong>“Between 10 KB and 20 KB”:</strong> also keep 20 KB. The result lands just under 20 KB, safely above the minimum.',
-          '<strong>“20 KB to 50 KB”:</strong> pick 50 KB, so the photo is clearer and still inside the range.',
-          '<strong>“20 KB to 100 KB”:</strong> pick 100 KB. With a range, always aim for the top.',
+          '<strong>“Less than 20 KB” or “maximum 20 KB”:</strong> this page — the classic use of an image compressor to 20KB, often for a signature.',
+          '<strong>“Between 10 KB and 20 KB”:</strong> also this page. The result lands just under 20 KB, safely above the minimum.',
+          '<strong>“20 KB to 50 KB”:</strong> the 50 KB compressor, so the photo is clearer and still inside the range.',
+          '<strong>“20 KB to 100 KB”:</strong> the 100 KB compressor. With a range, always aim for the top.',
         ],
       },
       {
@@ -1517,45 +1509,45 @@ export const tools: Record<ToolId, ToolContent> = {
           'Use a plain, light background and good daylight. Busy backgrounds use up the 20 KB budget on clutter.',
           'Sign with a dark pen on clean white paper, then crop tightly around the signature before compressing it.',
           'Rename the downloaded file if the form expects a name like “photo.jpg” or “signature.jpg”.',
-          'Always check the exact size and dimensions in the official notification — limits change between forms.',
+          'Always check the exact size in the official notification — limits change between forms.',
         ],
       },
       {
-        h2: 'More free tools for your application',
+        h2: 'Many files at once, and private',
         paragraphs: [
-          'Need a different limit? The main <a href="/image-compressor">image compressor</a> accepts any size. To put several scanned pages into one file, use <a href="/image-to-pdf">image to PDF</a>.',
+          'Drop your photo, signature and thumb impression together. Each file is compressed on its own and listed with its old and new size and its dimensions. Download them one by one or click <strong>Download all (ZIP)</strong>. Nothing is uploaded or stored: the files disappear when you close the tab. To put several scanned pages into one file, use <a href="/image-to-pdf">image to PDF</a>.',
         ],
       },
     ],
     faq: [
-      { q: 'How do I compress an image to 20KB?', a: 'Add your photo by dropping it in, clicking “Choose files” or pasting it with Ctrl+V. The limit is already set to 20 KB, so the image is compressed straight away. Click “Download” to save the new JPG.' },
+      { q: 'How do I compress an image to 20KB?', a: 'Add your photo by dropping it in, clicking “Choose files” or pasting it with Ctrl+V. The limit is already 20 KB, so the image is compressed straight away. Click “Download” to save the new JPG.' },
       { q: 'Is there a free online image compressor to 20KB?', a: 'Yes, this one. It is free and unlimited, works online in your browser on phone and computer, and needs no signup.' },
-      { q: 'How do I resize an image to 20KB?', a: 'Resizing and compressing to 20 KB give the same result here: add your image and download the file. It keeps its original dimensions when it can and is made smaller in pixels only when it cannot fit.' },
-      { q: 'How do I compress an image to 20KB to 50KB?', a: 'Set the limit to the top of the range by clicking 50 KB. The tool aims just under the limit, so the photo comes out at around 45–50 KB, inside the 20 KB to 50 KB range.' },
+      { q: 'How do I compress an image to 20KB to 50KB?', a: 'Use the image compressor to 50KB. With a size range, aim for the top: the photo comes out at around 45–50 KB, inside the 20 KB to 50 KB range.' },
       { q: 'Can I compress an image to 20KB JPG?', a: 'Yes. Every image is saved as a standard JPG file. PNG, WEBP and iPhone HEIC photos are converted to JPG automatically.' },
-      { q: 'Will my image keep its original dimensions?', a: 'Yes, whenever possible. Only a picture too large to fit 20 KB even at low quality, such as a full-size phone photo, is made smaller, and the tool tells you when that happens.' },
-      { q: 'Can I set the width and height in pixels as well?', a: 'Yes. Type the width and height your form asks for. The image is centre-cropped to that shape and then compressed to under 20 KB.' },
+      { q: 'Does the image keep its original dimensions?', a: 'Yes, whenever possible. Only a picture too large to fit 20 KB even at low quality, such as a full-size phone photo, is made smaller, and the tool tells you when that happens.' },
+      { q: 'My form also asks for a pixel size. What should I use?', a: 'Use resize image to 20KB. It sets the width and height your form asks for and keeps the file under 20 KB.' },
       { q: 'Why does my file show 19.5 KB instead of 20 KB?', a: 'The tool counts 20 KB as 20,000 bytes so that every website accepts the file. Windows shows sizes in units of 1,024 bytes, so 20,000 bytes appears as about 19.5 KB.' },
       { q: 'Can I compress a signature to 20 KB?', a: 'Yes. Scan or photograph your signature on white paper, crop it, and add it here. Transparent PNG signatures get a white background.' },
+      { q: 'Can I compress several photos at once?', a: 'Yes. Add as many images as you like and download them one by one or together as a ZIP file.' },
       { q: 'Are my photos uploaded to a server?', a: 'No. The image is compressed inside your browser and never leaves your device.' },
     ],
   },
 
   'image-compressor-to-50kb': {
-    title: 'Image Compressor to 50KB – Resize Image to 50KB',
+    title: 'Image Compressor to 50KB – Compress JPG & PDF Free',
     description:
-      'Image compressor to 50KB online free. Resize image to 50KB JPG or PDF for exam, job and admission forms in seconds. No signup, no uploads, unlimited.',
+      'Image compressor to 50KB online free. Compress JPG photos and PDF files to under 50 KB for exam, job and admission forms. No signup, no uploads.',
     h1: 'Image Compressor to 50KB',
-    h1Sub: 'Resize Image to 50KB in One Click',
-    lead: 'Resize or compress — it is the same job here: photos come out as a JPG and documents as a PDF, just under 50 KB.',
+    h1Sub: 'Photos and PDFs Under 50 KB',
+    lead: 'Compress photos to a JPG and documents to a PDF just under 50 KB — all on one page, in one click.',
     navLabel: 'Image Compressor to 50KB',
     cardText: 'Compress photos and PDFs to under 50 KB.',
     howTo: {
       title: 'How to compress an image to 50KB',
       steps: [
         '<strong>Add your files.</strong> Drop in photos or PDF documents, click “Choose files”, use your phone camera or paste with Ctrl+V.',
-        '<strong>Keep 50 KB or change it.</strong> Choose JPG or PDF for images, and type pixel dimensions if your form gives them.',
-        '<strong>Download.</strong> Each file is compressed to just under 50 KB. Download them one by one or as a ZIP.',
+        '<strong>Let it compress.</strong> The limit is already 50 KB. Images come out as JPG, or as PDF if you choose.',
+        '<strong>Download.</strong> Each file lands just under 50 KB. Download them one by one or as a ZIP.',
       ],
     },
     features: {
@@ -1563,9 +1555,9 @@ export const tools: Record<ToolId, ToolContent> = {
       items: [
         { title: 'Images and PDFs together', text: 'Drop photos and PDF documents in the same box. Images come out as JPG, PDFs stay PDF.' },
         { title: 'Best quality under 50 KB', text: 'The compressor keeps the highest quality that fits, so the file lands just under 50 KB instead of far below it.' },
-        { title: 'Image to 50 KB PDF', text: 'Need a photo or scan as a PDF? Choose PDF and get a one-page PDF under 50 KB.' },
+        { title: 'Photo to 50 KB PDF', text: 'Need a photo or scan as a PDF? Choose PDF and get a one-page PDF under 50 KB.' },
         { title: 'Text kept when possible', text: 'PDFs are first shrunk without touching the text. Pages are only turned into images when that is the only way to fit.' },
-        { title: 'Original or exact dimensions', text: 'Your image keeps its width and height, or type the pixel size your form asks for.' },
+        { title: 'Dimensions kept', text: 'Your image keeps its width and height; only the file size changes.' },
         { title: 'Online, private, unlimited', text: 'It runs in your browser: nothing to install, nothing uploaded, no daily cap.' },
       ],
     },
@@ -1574,26 +1566,26 @@ export const tools: Record<ToolId, ToolContent> = {
         h2: 'Image compressor to 50KB in seconds',
         paragraphs: [
           'A 50 KB limit is one of the most common rules on online application forms — for passport-size photos, scanned signatures, mark sheets and ID proofs. Phone photos are usually 2 to 5 MB, a hundred times too big. This <strong>image compressor to 50KB</strong> shrinks your file the moment you add it and gives you something ready to upload.',
-          'You may know it as a tool to <strong>resize image to 50KB</strong>; the result is the same file. Unlike most compressors, it does not stop at images either. Drop a PDF document into the same box and get it back under 50 KB too, so every upload for a form can be prepared on one page.',
+          'Unlike most compressors, it does not stop at images. Drop a PDF document into the same box and get it back under 50 KB too, so every upload for a form can be prepared on one page.',
         ],
       },
       {
         h2: 'Online image compressor to 50KB',
         paragraphs: [
-          'This <strong>online image compressor to 50KB</strong> opens in your browser and works there. There is no app to download, no account and no watermark. The compression runs on your own device, so your files are never uploaded to a server and the result appears almost instantly, even on mobile data. That also makes it the quickest way to <strong>resize image to 50KB online</strong> on a phone: tap <strong>Choose files</strong> to pick from your gallery, or <strong>Take a photo</strong> to use the camera.',
+          'This <strong>online image compressor to 50KB</strong> opens in your browser and works there. There is no app to download, no account and no watermark. The compression runs on your own device, so your files are never uploaded to a server and the result appears almost instantly, even on mobile data. On a phone, tap <strong>Choose files</strong> to pick from your gallery, or <strong>Take a photo</strong> to use the camera.',
         ],
       },
       {
         h2: 'Image compressor to 50KB JPG',
         paragraphs: [
           'Forms almost always want photos as JPG or JPEG, so every image is saved as a JPG. PNG screenshots, WEBP pictures and iPhone HEIC photos are converted on the way, and transparent backgrounds are placed on white so they look right as a JPG. That makes this an <strong>image compressor to 50KB JPG</strong> for any picture you have.',
-          'To reach 50 KB, the tool keeps your image’s original pixel size, tests JPG quality levels and keeps the highest one that fits. Only if the picture is too large to fit at all — like a full-resolution phone photo — is the pixel size reduced, and the tool tells you so. The finished file usually weighs 45–50 KB. Already have a JPG that is too big? As a <strong>JPG image compressor to 50KB</strong>, it works the same way, and a JPG that is already under 50 KB is returned untouched. Either way, you can <strong>resize image to 50KB JPG</strong> without any software.',
+          'To reach 50 KB, the tool keeps your image’s width and height, tests JPG quality levels and keeps the highest one that fits. Only if the picture is too large to fit at all — like a full-resolution phone photo — is the pixel size reduced, and the tool tells you so. Already have a JPG that is too big? As a <strong>JPG image compressor to 50KB</strong>, it works the same way, and a JPG that is already under 50 KB is returned untouched.',
         ],
       },
       {
-        h2: 'Resize image to 50KB PDF',
+        h2: 'Compress a PDF or make a 50 KB PDF',
         paragraphs: [
-          'Many portals ask for documents — caste certificates, mark sheets, Aadhaar cards — as a PDF under 50 KB. There are two ways to resize image to 50KB PDF here:',
+          'Many portals ask for documents — caste certificates, mark sheets, Aadhaar cards — as a PDF under 50 KB. There are two ways to get one here:',
         ],
         list: [
           '<strong>You have a photo or scan of the document:</strong> choose <strong>PDF</strong> under “Save images as”. The image is compressed and placed on a single PDF page, and the whole PDF stays under 50 KB.',
@@ -1603,27 +1595,27 @@ export const tools: Record<ToolId, ToolContent> = {
       {
         h2: 'What happens to the text in a compressed PDF',
         paragraphs: [
-          'A PDF made in Word or downloaded from a website contains real text. When the tool has to turn its pages into images to reach 50 KB, the text still looks the same but can no longer be selected or searched, and the tool tells you when this happened. For uploads to a form this does not matter — the reviewer only needs to read it. Long documents with many pages will look softer at 50 KB, so set a higher limit if the form allows it.',
-        ],
-      },
-      {
-        h2: 'Image compressor to 50KB to 100KB',
-        paragraphs: [
-          'Some forms ask for a file between 50 KB and 100 KB. A 50 KB file could be rejected there, so set the limit to the top of the range instead: click <strong>100 KB</strong>, or use the <a href="/image-compressor-to-100kb">image compressor to 100KB</a>. The tool aims just under the limit, so the file lands between 90 and 100 KB, comfortably inside the range. So to use an image compressor to 50KB to 100KB, or to resize image to 50KB to 100KB, think “100 KB maximum”.',
-          'The same idea works the other way. For a photo that must be between 20 KB and 50 KB, keep the limit at 50 KB. For a signature under 20 KB, use the <a href="/image-compressor-to-20kb">image compressor to 20KB</a>.',
-        ],
-      },
-      {
-        h2: 'Photo size in pixels and in KB',
-        paragraphs: [
-          'Notifications often state both, such as “photo 3.5 cm × 4.5 cm, 200 × 230 pixels, 20–50 KB”. Type the pixel numbers into the width and height boxes and the photo is centre-cropped to exactly that shape, then compressed. If you type only one side, the other is worked out from your photo’s proportions. Leave both empty to keep the original dimensions.',
-          'A 50 KB limit is counted as 50,000 bytes, the stricter way to measure a kilobyte, so no website rejects your file. Windows and some phones show 50,000 bytes as about 48.8 KB — that is expected.',
+          'A PDF made in Word or downloaded from a website contains real text. When the tool has to turn its pages into images to reach 50 KB, the text still looks the same but can no longer be selected or searched, and the tool tells you when this happened. For uploads to a form this does not matter — the reviewer only needs to read it. Long documents with many pages will look softer at 50 KB, so use a larger limit if the form allows it.',
         ],
       },
       {
         h2: 'What a 50 KB photo looks like',
         paragraphs: [
           'A photo of roughly 400 to 500 pixels wide fits in 50 KB at good quality, which is plenty for a passport-size photo on a form. Smaller pictures, like a cropped face or a signature, keep their original size and simply get a higher quality. Only a large phone photo is reduced in pixels — and the note under the file tells you when that happened.',
+        ],
+      },
+      {
+        h2: 'Image compressor to 50KB to 100KB',
+        paragraphs: [
+          'Some forms ask for a file between 50 KB and 100 KB. A 50 KB file could be rejected there, so aim for the top of the range instead and use the <a href="/image-compressor-to-100kb">image compressor to 100KB</a>. It lands between 90 and 100 KB, comfortably inside the range. That is the whole trick behind “image compressor to 50KB to 100KB”: think “100 KB maximum”.',
+          'The same idea works the other way. For a photo that must be between 20 KB and 50 KB, this page is right. For a signature under 20 KB, use the <a href="/image-compressor-to-20kb">image compressor to 20KB</a>, and for any other number, the main <a href="/image-compressor">image compressor</a>.',
+        ],
+      },
+      {
+        h2: 'Your form also gives a pixel size?',
+        paragraphs: [
+          'Notifications often state both, such as “photo 200 × 230 pixels, 20–50 KB”. This compressor keeps your picture’s own dimensions. To set the pixel size as well, use <a href="/resize-image-to-50kb">resize image to 50KB</a>: it crops the photo to the width and height you need, then brings it under 50 KB.',
+          'A 50 KB limit is counted as 50,000 bytes, the stricter way to measure a kilobyte, so no website rejects your file. Windows and some phones show 50,000 bytes as about 48.8 KB — that is expected.',
         ],
       },
       {
@@ -1638,39 +1630,38 @@ export const tools: Record<ToolId, ToolContent> = {
       {
         h2: 'Many files at once, and safe for personal documents',
         paragraphs: [
-          'Applications usually need a photo, a signature and a few documents. Drop them all in together: each file is compressed on its own and listed with its old and new size. Download any single file, or click <strong>Download all (ZIP)</strong>. Change the limit and every file is compressed again automatically.',
-          'ID cards and certificates are exactly the kind of files you should not hand to an unknown website. Here they stay on your device: nothing is uploaded or stored, and the files disappear when you close the tab. For other sizes, the main <a href="/image-compressor">image compressor</a> accepts any limit.',
+          'Applications usually need a photo, a signature and a few documents. Drop them all in together: each file is compressed on its own and listed with its old and new size. Download any single file, or click <strong>Download all (ZIP)</strong>. ID cards and certificates stay on your device — nothing is uploaded or stored, and the files disappear when you close the tab.',
         ],
       },
     ],
     faq: [
       { q: 'How do I compress an image to 50KB?', a: 'Add your photo by dropping it in, clicking “Choose files” or pasting it with Ctrl+V. The limit is already 50 KB, so the image is compressed straight away. Click “Download” to save it.' },
       { q: 'Is there a free online image compressor to 50KB?', a: 'Yes, this one. It is free and unlimited, with no signup and no watermark, and works online in your browser with nothing to install.' },
-      { q: 'How do I resize an image to 50KB?', a: 'Add the image and download the result — resizing and compressing to 50 KB give the same file here. The original dimensions are kept whenever the picture can fit.' },
       { q: 'Can I compress an image to 50KB JPG?', a: 'Yes. Every image is saved as a JPG. PNG, WEBP and iPhone HEIC files are converted to JPG automatically.' },
-      { q: 'How do I resize an image to 50KB PDF?', a: 'Choose PDF under “Save images as” and add your photo or scan. You get a one-page PDF under 50 KB. If you already have a PDF, simply drop it in and it is compressed to under 50 KB.' },
-      { q: 'How do I compress an image to 50KB to 100KB?', a: 'Set the limit to the top of the range by clicking 100 KB. The file will land just under 100 KB, inside the 50 KB to 100 KB range.' },
-      { q: 'Can I keep the text in my PDF selectable?', a: 'Often, yes. The tool tries a lossless shrink first, which keeps the text. Only when that is not enough are pages turned into images, and the tool tells you when that happened.' },
-      { q: 'Will my image keep its original dimensions?', a: 'Yes, whenever possible. Only a picture too large to fit 50 KB even at low quality is made smaller in pixels, and the tool tells you when that happens.' },
+      { q: 'Can I compress a PDF to 50 KB here?', a: 'Yes. PDF files go in the same box as images. The tool first shrinks the PDF without changing it, and if that is not enough, turns the pages into compressed images so it fits under 50 KB.' },
+      { q: 'How do I make a 50 KB PDF from a photo?', a: 'Choose PDF under “Save images as” and add your photo or scan. You get a one-page PDF under 50 KB.' },
+      { q: 'How do I compress an image to 50KB to 100KB?', a: 'Use the image compressor to 100KB. The file will land just under 100 KB, inside the 50 KB to 100 KB range.' },
+      { q: 'Does compressing change my photo’s dimensions?', a: 'No. The width and height stay the same unless the picture is too large to fit 50 KB at all; then it is made smaller and the tool tells you.' },
+      { q: 'My form also asks for a pixel size. What should I use?', a: 'Use resize image to 50KB. It sets the width and height your form asks for and keeps the file under 50 KB.' },
       { q: 'Why does my 50 KB file show as 48.8 KB?', a: 'The tool counts 50 KB as 50,000 bytes so every website accepts the file. Windows shows sizes in units of 1,024 bytes, so it displays about 48.8 KB.' },
       { q: 'Are my files uploaded?', a: 'No. Photos and PDFs are compressed inside your browser and never leave your device.' },
     ],
   },
 
   'image-compressor-to-100kb': {
-    title: 'Image Compressor to 100KB – Resize Image to 100KB',
+    title: 'Image Compressor to 100KB – JPG & PDF Online',
     description:
-      'Image compressor to 100KB online free. Resize image to 100KB and download a clear JPG or PDF. Works on phone and PC, for photos and PDFs. No uploads.',
+      'Image compressor to 100KB online free. Compress photos and PDFs to a clear JPG or PDF under 100 KB. Works on phone and PC. No signup, no uploads.',
     h1: 'Image Compressor to 100KB',
-    h1Sub: 'Resize Image to 100KB in One Click',
-    lead: 'Resize or compress — it is the same job here: download a sharp JPG or PDF just under 100 KB that fits any upload limit.',
+    h1Sub: 'Sharp Photos and PDFs Under 100 KB',
+    lead: 'Compress photos and documents to a sharp JPG or PDF just under 100 KB, ready for any upload form.',
     navLabel: 'Image Compressor to 100KB',
-    cardText: 'Make photos and PDFs fit under 100 KB.',
+    cardText: 'Compress photos and PDFs to under 100 KB.',
     howTo: {
       title: 'How to compress an image to 100KB',
       steps: [
         '<strong>Add your photos or PDFs.</strong> Drop them in, click “Choose files”, take a photo or paste with Ctrl+V.',
-        '<strong>Choose the format.</strong> 100 KB is already set. Save images as JPG or PDF, and add pixel dimensions if you need them.',
+        '<strong>Let it compress.</strong> 100 KB is already set. Choose JPG or PDF for images.',
         '<strong>Download.</strong> Each file is ready in a moment, just under 100 KB. Download one file or all of them as a ZIP.',
       ],
     },
@@ -1680,7 +1671,7 @@ export const tools: Record<ToolId, ToolContent> = {
         { title: 'Uses the full 100 KB', text: 'The compressor keeps the highest quality that fits, so you get a readable image just under 100 KB.' },
         { title: 'JPG or PDF download', text: 'Save images as JPG, or as a one-page PDF. PDF files you add come back as smaller PDFs.' },
         { title: 'Documents stay readable', text: '100 KB leaves room for detail, so certificates and mark sheets keep their small print.' },
-        { title: 'Original dimensions', text: 'Width and height stay as they are when the file fits, or set an exact pixel size.' },
+        { title: 'Dimensions kept', text: 'Width and height stay as they are; only the file gets smaller.' },
         { title: 'Batch and ZIP', text: 'Add many files at once and download them together as one ZIP file.' },
         { title: 'Nothing uploaded', text: 'The compression runs in your browser, so your documents never leave your phone or computer.' },
       ],
@@ -1690,7 +1681,7 @@ export const tools: Record<ToolId, ToolContent> = {
         h2: 'Image compressor to 100KB, free and online',
         paragraphs: [
           'A limit of 100 KB is generous compared with 20 KB, but a photo straight from a phone camera is still 20 to 50 times larger. This <strong>image compressor to 100KB</strong> shrinks the file to just under the limit as soon as you add it, keeping as much detail as 100 KB can hold, so documents stay readable and photos stay sharp.',
-          'If you were searching for a way to <strong>resize image to 100KB</strong>, you are in the right place — it is the same job and the same result. It is free, with no signup, no watermark and no limit on the number of files, and photos and PDFs go in the same box.',
+          'It is free, with no signup, no watermark and no limit on the number of files, and photos and PDFs go in the same box.',
         ],
       },
       {
@@ -1708,27 +1699,21 @@ export const tools: Record<ToolId, ToolContent> = {
       {
         h2: 'Online image compressor to 100KB — how it works',
         paragraphs: [
-          'Many compressors only lower the quality by a fixed amount, which wastes the limit: the file ends up blurry at 40 KB when 100 KB was allowed. This <strong>online image compressor to 100KB</strong> keeps your image’s original width and height and finds the highest JPG quality that still fits just under the limit. Only when the picture is too large for 100 KB at reasonable quality is the pixel size reduced, as little as possible, and the tool tells you.',
-          'The limit is counted as 100,000 bytes, the stricter of the two kilobyte definitions websites use, so the upload is always accepted. On Windows the file will show as about 97 KB — that is the same file measured in units of 1,024 bytes. It all runs in your browser, which is also the easiest way to <strong>resize image to 100KB online</strong>: no software, no account.',
+          'Many compressors only lower the quality by a fixed amount, which wastes the limit: the file ends up blurry at 40 KB when 100 KB was allowed. This <strong>online image compressor to 100KB</strong> keeps your image’s width and height and finds the highest JPG quality that still fits just under the limit. Only when the picture is too large for 100 KB at reasonable quality is the pixel size reduced, as little as possible, and the tool tells you.',
+          'The limit is counted as 100,000 bytes, the stricter of the two kilobyte definitions websites use, so the upload is always accepted. On Windows the file will show as about 97 KB — that is the same file measured in units of 1,024 bytes. It all runs in your browser: no software, no account, no upload.',
         ],
       },
       {
         h2: 'Image compressor to 100KB JPG',
         paragraphs: [
-          'JPG is the format almost every website accepts for photos and scans, so images are saved as JPG by default. PNG, WEBP and iPhone HEIC photos are converted automatically, and transparent backgrounds are filled with white. As an <strong>image compressor to 100KB JPG</strong>, it also leaves good files alone: an image that is already a JPG under 100 KB is returned as it is, without any loss. That is all it takes to <strong>resize image to 100KB JPG</strong>.',
+          'JPG is the format almost every website accepts for photos and scans, so images are saved as JPG by default. PNG, WEBP and iPhone HEIC photos are converted automatically, and transparent backgrounds are filled with white. As an <strong>image compressor to 100KB JPG</strong>, it also leaves good files alone: an image that is already a JPG under 100 KB is returned as it is, without any loss.',
         ],
       },
       {
-        h2: 'Resize image to 100KB PDF',
+        h2: 'Compress a PDF to 100 KB',
         paragraphs: [
-          'When a form wants a PDF, choose <strong>PDF</strong> under “Save images as”. Your photo or scan is compressed and placed on one PDF page, and the whole PDF stays under 100 KB — the quickest way to resize image to 100KB PDF from a photo.',
+          'When a form wants a PDF, choose <strong>PDF</strong> under “Save images as”. Your photo or scan is compressed and placed on one PDF page, and the whole PDF stays under 100 KB.',
           'You can also drop an existing PDF. The tool first tries to make it smaller without changing it, which keeps the text selectable. If the PDF is still too large, each page is turned into a compressed image so the file fits — the pages look the same, but the text can no longer be selected, and the tool tells you when this happened. 100 KB is usually enough for a clear one- or two-page document.',
-        ],
-      },
-      {
-        h2: 'Resize image to 100KB download — no app needed',
-        paragraphs: [
-          'You do not need to download any software to compress a photo. When people search for “resize image to 100KB download”, they usually mean an app — but here everything happens on this page, and the only download is your finished file. Click <strong>Download</strong> next to a file, or <strong>Download all (ZIP)</strong> when you have several. On a phone, the file goes to your Downloads folder, where the upload box of any form can find it.',
         ],
       },
       {
@@ -1740,19 +1725,31 @@ export const tools: Record<ToolId, ToolContent> = {
       {
         h2: 'Choosing the right limit',
         paragraphs: [
-          'Always use the largest size the form allows, because a bigger file is a clearer file. If the form says “between 50 KB and 100 KB”, keep the limit at 100 KB; the result lands just below it, inside the range. For tighter limits, use the <a href="/image-compressor-to-50kb">image compressor to 50KB</a> or <a href="/image-compressor-to-20kb">image compressor to 20KB</a>; for more room, the <a href="/image-compressor-to-200kb">image compressor to 200KB</a>. You can also type any number in the size box, from 5 KB to 10,000 KB.',
+          'Always use the largest size the form allows, because a bigger file is a clearer file. If the form says “between 50 KB and 100 KB”, this page is right: the result lands just below 100 KB, inside the range. For tighter limits, use the <a href="/image-compressor-to-50kb">image compressor to 50KB</a> or <a href="/image-compressor-to-20kb">image compressor to 20KB</a>; for more room, the <a href="/image-compressor-to-200kb">image compressor to 200KB</a>. For any other number, the main <a href="/image-compressor">image compressor</a> lets you type your own.',
         ],
       },
       {
-        h2: 'Exact width and height',
+        h2: 'Your form also gives a pixel size?',
         paragraphs: [
-          'If a form also gives pixel dimensions, type the width and height. The image is centre-cropped to that exact shape, so it is never stretched, and then compressed to under 100 KB. Leave one box empty to keep the original proportions, or both empty to keep the original pixel size.',
+          'This compressor keeps your picture’s own width and height. If a form also asks for exact dimensions, use <a href="/resize-image-to-100kb">resize image to 100KB</a>, which crops the image to the pixel size you need and then brings it under 100 KB.',
+        ],
+      },
+      {
+        h2: 'Is 100 KB enough for a passport photo?',
+        paragraphs: [
+          'More than enough. A passport-size photo on a form is usually shown at a few hundred pixels, and at that size 100 KB lets the compressor use a very high JPG quality — the photo looks practically the same as the original. If the form only allows 50 KB or 20 KB, use the smaller compressors instead; the photo will still be perfectly usable.',
+        ],
+      },
+      {
+        h2: 'Compress photos for email and websites',
+        paragraphs: [
+          'A 100 KB photo is also a sensible size outside of forms. Ten photos of 100 KB each fit easily in a single email, and pictures of that size load quickly on a website or blog without looking blurry on a phone screen. Drop the whole set in at once and download them together as a ZIP: each one is compressed separately to just under 100 KB, and you can see the old and new size of every file before you send them.',
         ],
       },
       {
         h2: 'Compress many files for one application',
         paragraphs: [
-          'Most applications need several uploads at once — a photo, a signature, an ID proof and a certificate or two. Drop them all in together. Each file is compressed on its own and listed with its old size, its new size and its dimensions, so you can check everything at a glance. Download each one separately, or click <strong>Download all (ZIP)</strong>. If you change the limit, every file is compressed again automatically.',
+          'Most applications need several uploads at once — a photo, a signature, an ID proof and a certificate or two. Drop them all in together. Each file is compressed on its own and listed with its old size, its new size and its dimensions, so you can check everything at a glance. Download each one separately, or click <strong>Download all (ZIP)</strong>.',
         ],
       },
       {
@@ -1760,7 +1757,7 @@ export const tools: Record<ToolId, ToolContent> = {
         list: [
           'Scan or photograph the document flat, in daylight, from directly above.',
           'Crop off the table or floor around the page before compressing, so the detail goes to the document.',
-          'For a document with several pages, combine them with <a href="/image-to-pdf">image to PDF</a> and then shrink the PDF here.',
+          'For a document with several pages, combine them with <a href="/image-to-pdf">image to PDF</a> and then compress the PDF here.',
           'To copy text out of a document instead, try the <a href="/">image to text converter</a> or <a href="/pdf-to-text">PDF to text</a>.',
         ],
       },
@@ -1768,13 +1765,13 @@ export const tools: Record<ToolId, ToolContent> = {
     faq: [
       { q: 'How do I compress an image to 100KB?', a: 'Add your photo by dropping it in, clicking “Choose files” or pasting it with Ctrl+V. The limit is already 100 KB, so the image is compressed straight away. Click “Download” to save it.' },
       { q: 'Is there a free online image compressor to 100KB?', a: 'Yes, this one. It is free and unlimited, with no signup and no watermark, and works in your browser on phone and computer.' },
-      { q: 'How do I resize an image to 100KB?', a: 'Add the image and download the result — resizing and compressing to 100 KB give the same file here. The original dimensions are kept whenever the picture can fit.' },
-      { q: 'Do I need to download an app to resize an image to 100KB?', a: 'No. Everything works on this page. The only download is your compressed file, which you save with the Download button.' },
       { q: 'Can I compress an image to 100KB JPG?', a: 'Yes. Images are saved as JPG by default. PNG, WEBP and iPhone HEIC photos are converted to JPG automatically.' },
-      { q: 'How do I resize an image to 100KB PDF?', a: 'Choose PDF under “Save images as” to get a one-page PDF under 100 KB. You can also drop an existing PDF and it will be compressed to under 100 KB.' },
-      { q: 'Will my document still be readable at 100 KB?', a: 'Usually, yes. The compressor uses as much of the 100 KB as it can, so one- and two-page documents stay clear. Very long PDFs get softer; use a higher limit if the form allows it.' },
-      { q: 'Will my image keep its original dimensions?', a: 'Yes, whenever possible. Only a picture too large to fit 100 KB even at low quality is made smaller in pixels, and the tool tells you when that happens.' },
+      { q: 'Can I compress a PDF to 100 KB?', a: 'Yes. Drop the PDF in and it is compressed to under 100 KB. You can also turn a photo into a one-page PDF under 100 KB by choosing PDF.' },
+      { q: 'Will my document still be readable at 100 KB?', a: 'Usually, yes. The compressor uses as much of the 100 KB as it can, so one- and two-page documents stay clear. Very long PDFs get softer.' },
+      { q: 'Does compressing change my image’s dimensions?', a: 'No. The width and height stay the same unless the picture is too large to fit 100 KB at all; then it is made smaller and the tool tells you.' },
+      { q: 'My form also asks for a pixel size. What should I use?', a: 'Use resize image to 100KB. It sets the width and height your form asks for and keeps the file under 100 KB.' },
       { q: 'Why does my file show as 97 KB?', a: 'The tool counts 100 KB as 100,000 bytes so that every website accepts it. Windows measures in units of 1,024 bytes, so the same file shows as about 97 KB.' },
+      { q: 'Can I compress many images at once?', a: 'Yes. Add as many photos and PDFs as you like and download them one by one or together as a ZIP file.' },
       { q: 'Are my files uploaded to a server?', a: 'No. The files are compressed inside your browser and never leave your device.' },
     ],
   },
@@ -1784,16 +1781,16 @@ export const tools: Record<ToolId, ToolContent> = {
     description:
       'Image compressor to 200KB online free. Compress JPG photos and PDF files to under 200 KB with sharp quality. Works on phone and PC. No signup, no uploads.',
     h1: 'Image Compressor to 200KB',
-    h1Sub: 'Resize Image to 200KB in One Click',
-    lead: 'Resize or compress — it is the same job here: photos and PDFs come out just under 200 KB, sharp and readable.',
+    h1Sub: 'High-Quality Photos Under 200 KB',
+    lead: 'Compress photos and PDFs to just under 200 KB — enough room for sharp photos and readable documents.',
     navLabel: 'Image Compressor to 200KB',
     cardText: 'Compress photos and PDFs to under 200 KB.',
     howTo: {
       title: 'How to compress an image to 200KB',
       steps: [
         '<strong>Add your files.</strong> Drop photos or PDFs in, click “Choose files”, take a photo or paste with Ctrl+V.',
-        '<strong>Keep 200 KB.</strong> It is already selected. Choose JPG or PDF for images, and set a pixel size only if you need one.',
-        '<strong>Download.</strong> Each file is compressed to just under 200 KB. Save them one by one or as a ZIP.',
+        '<strong>Let it compress.</strong> The limit is already 200 KB. Choose JPG or PDF for images.',
+        '<strong>Download.</strong> Each file lands just under 200 KB. Save them one by one or as a ZIP.',
       ],
     },
     features: {
@@ -1834,7 +1831,7 @@ export const tools: Record<ToolId, ToolContent> = {
       {
         h2: 'Image compressor to 200KB JPG',
         paragraphs: [
-          'Images are saved as JPG, the format every website accepts for photos. PNG, WEBP and iPhone HEIC pictures are converted while they are compressed, and transparent backgrounds are filled with white. As an <strong>image compressor to 200KB JPG</strong>, it keeps your picture’s original width and height whenever it fits and simply picks the highest JPG quality under the limit. At 200 KB, many photos up to around 1,500 pixels wide keep their full size.',
+          'Images are saved as JPG, the format every website accepts for photos. PNG, WEBP and iPhone HEIC pictures are converted while they are compressed, and transparent backgrounds are filled with white. As an <strong>image compressor to 200KB JPG</strong>, it keeps your picture’s width and height whenever it fits and simply picks the highest JPG quality under the limit. At 200 KB, many photos up to around 1,500 pixels wide keep their full size.',
           'It works just as well as a <strong>JPG image compressor to 200KB</strong> for photos that are already JPG: large camera files are compressed, and a JPG that is already under 200 KB is returned untouched, with no quality lost.',
         ],
       },
@@ -1857,27 +1854,20 @@ export const tools: Record<ToolId, ToolContent> = {
       {
         h2: 'Compressing photos for websites and online shops',
         paragraphs: [
-          'Heavy images are the most common reason a web page loads slowly, and slow pages lose visitors. A product photo or blog image straight from a phone can be 3 to 5 MB; at 200 KB it loads many times faster and still looks sharp on a laptop or phone screen. That makes this image compressor to 200KB a quick way to prepare pictures for an online store, a blog post, a portfolio or a classified ad.',
-          'If the platform recommends a size such as 1200 × 1200 pixels, type it in the width and height boxes and every photo is cropped to the same square shape, which keeps a product gallery tidy. Drop the whole set of photos at once and download them as one ZIP file.',
+          'Heavy images are the most common reason a web page loads slowly, and slow pages lose visitors. A product photo or blog image straight from a phone can be 3 to 5 MB; at 200 KB it loads many times faster and still looks sharp on a laptop or phone screen. That makes this image compressor to 200KB a quick way to prepare pictures for an online store, a blog post, a portfolio or a classified ad. Drop the whole set of photos at once and download them as one ZIP file.',
         ],
       },
       {
         h2: 'From several megabytes to under 200 KB',
         paragraphs: [
-          'Modern phones take photos of 12 megapixels or more, around 4000 × 3000 pixels. Such a photo cannot fit in 200 KB at its full size, so the compressor lowers the pixel size just as far as needed — often to around 1,000 to 1,500 pixels on the long side, depending on how much detail the photo has — and keeps a clean JPG quality. The note under the file tells you when this happened. For screens, forms and email that is still plenty of detail. If you need the full resolution, use a higher limit, such as 500 KB or 1000 KB, in the size box.',
+          'Modern phones take photos of 12 megapixels or more, around 4000 × 3000 pixels. Such a photo cannot fit in 200 KB at its full size, so the compressor lowers the pixel size just as far as needed — often to around 1,000 to 1,500 pixels on the long side, depending on how much detail the photo has — and keeps a clean JPG quality. The note under the file tells you when this happened. For screens, forms and email that is still plenty of detail.',
         ],
       },
       {
-        h2: 'Other sizes',
+        h2: 'Other sizes and pixel sizes',
         paragraphs: [
-          'If your form asks for less, use the <a href="/image-compressor-to-100kb">image compressor to 100KB</a>, <a href="/image-compressor-to-50kb">image compressor to 50KB</a> or <a href="/image-compressor-to-20kb">image compressor to 20KB</a>. For anything else, type the number into the size box — it accepts any limit from 5 KB to 10,000 KB — or open the main <a href="/image-compressor">image compressor</a>.',
-          'For a range such as “100 KB to 200 KB”, keep the limit at 200 KB: the file lands just below it, inside the range.',
-        ],
-      },
-      {
-        h2: 'Exact pixel size when you need it',
-        paragraphs: [
-          'Leave the width and height empty and your image keeps its original dimensions whenever 200 KB allows. If a form or website needs a specific size — say 1200 × 800 pixels for a listing photo — type it in. The image is centre-cropped to that shape, never stretched, and then compressed to under 200 KB.',
+          'If your form asks for less, use the <a href="/image-compressor-to-100kb">image compressor to 100KB</a>, <a href="/image-compressor-to-50kb">image compressor to 50KB</a> or <a href="/image-compressor-to-20kb">image compressor to 20KB</a>. For any other limit, such as 300 KB or 1 MB, open the main <a href="/image-compressor">image compressor</a> and type the number. For a range such as “100 KB to 200 KB”, this page is right: the file lands just below 200 KB, inside the range.',
+          'If you need an exact width and height as well — say 1200 × 800 pixels for a listing photo — use <a href="/resize-image">resize image</a>, which sets the pixel size and the file size together.',
         ],
       },
       {
@@ -1887,6 +1877,7 @@ export const tools: Record<ToolId, ToolContent> = {
           'Shoot documents in daylight from straight above; shadows and blur waste kilobytes.',
           'For a document with several pages, combine them with <a href="/image-to-pdf">image to PDF</a>, then compress the PDF here.',
           'Keep the originals, so you can compress again to a different limit later.',
+          'Check the new size and dimensions shown in the list before you upload or send the file.',
         ],
       },
       {
@@ -1902,11 +1893,531 @@ export const tools: Record<ToolId, ToolContent> = {
       { q: 'Can I compress an image to 200KB JPG?', a: 'Yes. Images are saved as JPG. PNG, WEBP and iPhone HEIC photos are converted to JPG automatically.' },
       { q: 'How do I compress an image to 200KB PDF?', a: 'Choose PDF under “Save images as” to get a one-page PDF under 200 KB, or drop an existing PDF to compress it to under 200 KB.' },
       { q: 'Will my photo lose quality at 200 KB?', a: 'Very little in most cases. 200 KB is enough for a sharp photo, and the compressor keeps the highest quality that fits, usually at the original dimensions.' },
-      { q: 'Will my image keep its original dimensions?', a: 'Yes, whenever possible. Only a very large photo that cannot fit 200 KB even at low quality is made smaller in pixels, and the tool tells you when that happens.' },
-      { q: 'Can I compress a multi-page PDF to 200 KB?', a: 'Yes. A PDF of a few pages usually stays readable at 200 KB. Very long PDFs get softer; use a higher limit if your form allows it.' },
+      { q: 'Does compressing change my image’s dimensions?', a: 'Not when it can be avoided. Only a very large photo that cannot fit 200 KB even at low quality is made smaller in pixels, and the tool tells you when that happens.' },
+      { q: 'Can I compress a multi-page PDF to 200 KB?', a: 'Yes. A PDF of a few pages usually stays readable at 200 KB. Very long PDFs get softer.' },
       { q: 'Why does my file show as 195 KB?', a: 'The tool counts 200 KB as 200,000 bytes so every website accepts it. Windows shows sizes in units of 1,024 bytes, so it displays about 195 KB.' },
       { q: 'Can I compress several images at once?', a: 'Yes. Add as many files as you like and download them one by one or together as a ZIP file.' },
       { q: 'Are my files uploaded?', a: 'No. Everything is compressed inside your browser and never leaves your device.' },
+    ],
+  },
+
+  'resize-image': {
+    title: 'Resize Image – Pixels and KB Online, Free',
+    description:
+      'Resize image online free: set the width and height in pixels and the file size in KB together. For exam forms, IDs and websites. No signup, no uploads.',
+    h1: 'Resize Image',
+    h1Sub: 'Set Pixels and KB in One Step',
+    lead: 'Resize image online: choose the width and height in pixels and a size limit in KB, and download a JPG or PDF that fits both.',
+    navLabel: 'Resize Image',
+    cardText: 'Set width, height and KB size together.',
+    howTo: {
+      title: 'How to resize an image',
+      steps: [
+        '<strong>Add your image.</strong> Drop it in, click “Choose files”, take a photo or paste it with Ctrl+V.',
+        '<strong>Set the size.</strong> Type the width and height in pixels or pick a preset, then choose the maximum KB.',
+        '<strong>Download.</strong> The resized JPG or PDF is ready straight away. Download one file or all of them as a ZIP.',
+      ],
+    },
+    features: {
+      title: 'Pixels and kilobytes, handled together',
+      items: [
+        { title: 'Exact width and height', text: 'Type the pixel size you need. A different shape is centre-cropped, so nothing is stretched or squashed.' },
+        { title: 'Size limit in KB', text: 'Pick 20, 50, 100 KB or any number, and the resized file lands just under it.' },
+        { title: 'Form presets', text: 'One click for common exam-form sizes: photo 200 × 230 and signature 140 × 60 pixels.' },
+        { title: 'Keep proportions', text: 'Fill in only the width or only the height and the other side follows the original shape.' },
+        { title: 'JPG or PDF', text: 'Save resized images as JPG, or as a one-page PDF when a form asks for PDF.' },
+        { title: 'Private and free', text: 'Resizing happens in your browser. Nothing is uploaded, and there are no limits or watermarks.' },
+      ],
+    },
+    sections: [
+      {
+        h2: 'Resize image online in pixels and KB',
+        paragraphs: [
+          'Online forms rarely ask for just one thing. A typical rule reads: “Photo 200 × 230 pixels, size 20–50 KB.” A picture from your phone is neither. This tool lets you <strong>resize image</strong> files to both rules at once: set the width and height in pixels, set the maximum size in KB, and download a file that meets both.',
+          'It is free, with no signup, no watermark and no daily limit. Everything happens in your browser, so your photos and documents are never uploaded to a server.',
+        ],
+      },
+      {
+        h2: 'How to set the pixel size',
+        paragraphs: [
+          'Type the width and the height into the two boxes. If your picture has a different shape, it is centre-cropped to fill the new size exactly — never stretched or squashed — so a face stays a face. If you fill in only the width or only the height, the other side is worked out from the original proportions, and nothing is cropped.',
+          'Leave both boxes empty, or click <strong>Original</strong>, to keep the image’s own dimensions and change only the file size. The presets fill in the sizes many bank and government exam forms use: <strong>Photo 200 × 230</strong> and <strong>Signature 140 × 60</strong> pixels. Always check your own notification, because the sizes vary from form to form.',
+        ],
+      },
+      {
+        h2: 'How to set the size in KB',
+        paragraphs: [
+          'Next to the pixel size, choose the maximum file size: 10, 20, 30, 50, 100, 200 or 500 KB, or type any number from 5 to 10,000. The image is saved as a JPG at the highest quality that still fits under the limit, so it is as clear as the size allows.',
+          'If the pixel size you asked for cannot fit under the KB limit even at low quality — a large size with a tiny limit — the tool makes the picture a little smaller and tells you. With the usual form sizes, such as 200 × 230 at 20–50 KB, this does not happen.',
+        ],
+      },
+      {
+        h2: 'Resize image to 20KB, 50KB or 100KB',
+        paragraphs: [
+          'These three limits come up most often, so each has its own page with the size fixed and the pixel options ready:',
+        ],
+        list: [
+          '<a href="/resize-image-to-20kb">Resize image to 20KB</a> — signatures and small photos.',
+          '<a href="/resize-image-to-50kb">Resize image to 50KB</a> — passport-size photos and small documents.',
+          '<a href="/resize-image-to-100kb">Resize image to 100KB</a> — certificates, ID proofs and clearer photos.',
+        ],
+      },
+      {
+        h2: 'Resize or compress?',
+        paragraphs: [
+          '<strong>Resizing</strong> changes the width and height of a picture in pixels. <strong>Compressing</strong> keeps the width and height and makes the file smaller. This page does both, because forms usually ask for both. If you only need a smaller file and want to keep the dimensions, the <a href="/image-compressor">image compressor</a> is simpler.',
+        ],
+      },
+      {
+        h2: 'Pixels, centimetres and DPI',
+        paragraphs: [
+          'Some forms describe the photo in centimetres, such as 3.5 × 4.5 cm. On a screen, size is measured in pixels, and the link between the two is the resolution in DPI (dots per inch): pixels = centimetres × DPI ÷ 2.54. At 200 DPI, for example, 3.5 × 4.5 cm works out to about 276 × 354 pixels. Most notifications also state the pixel size directly — when they do, use that, because the upload portal checks pixels and kilobytes, not centimetres.',
+        ],
+      },
+      {
+        h2: 'Resizing for websites and social media',
+        paragraphs: [
+          'Online shops, blogs and social networks look best when every picture has the same shape and size. Type the size once — 1200 × 1200 for square product photos, 1200 × 630 for a link preview, 400 × 400 for a profile picture — add all your images, and they are all cropped from the centre to that size. Set the KB limit to 200 or 500 to keep pages fast while the pictures stay sharp.',
+        ],
+      },
+      {
+        h2: 'Resize image online on your phone',
+        paragraphs: [
+          'Most applications are filled in on a phone, so the tool works in Chrome and Safari on Android and iPhone as well as on Windows, Mac and Chromebook. Tap <strong>Take a photo</strong> to use the camera, or choose a picture from your gallery. iPhone HEIC photos are converted automatically. The resized file goes to your Downloads folder, ready to choose in the form’s upload box.',
+        ],
+      },
+      {
+        h2: 'Resize images in bulk',
+        paragraphs: [
+          'Add several images at once — a photo, a signature and a thumb impression, or a whole folder of product pictures. Each one is resized to the same settings and listed with its old and new size and its dimensions. Download them one by one, or click <strong>Download all (ZIP)</strong>. Change a setting and every file is resized again automatically.',
+        ],
+      },
+      {
+        h2: 'Common uses',
+        list: [
+          '<strong>Exam and job forms:</strong> photo and signature at the exact pixel size and KB limit in the notification.',
+          '<strong>ID and document uploads:</strong> a scan resized to a readable size that stays under the portal’s limit.',
+          '<strong>Websites and online shops:</strong> product photos at one consistent size, such as 1200 × 1200 pixels.',
+          '<strong>Social media and profiles:</strong> a square photo for a profile picture or avatar.',
+          '<strong>Email:</strong> smaller pictures that send quickly and open fast.',
+        ],
+      },
+      {
+        h2: 'JPG or PDF output',
+        paragraphs: [
+          'Resized images are saved as JPG, the format almost every website accepts. PNG, WEBP and HEIC files are converted, and transparent backgrounds are filled with white. If a form wants a PDF, choose <strong>PDF</strong> under “Save images as” to get a one-page PDF of the resized picture. You can also drop a PDF in; it keeps its pages and is compressed to the KB limit.',
+        ],
+      },
+      {
+        h2: 'Tips for a sharp resized image',
+        list: [
+          'Start from the original photo, not a screenshot of it, so there is enough detail to work with.',
+          'Crop roughly to the subject first if the shape is very different from the target size.',
+          'Use the largest KB limit the form allows; more kilobytes means a clearer picture.',
+          'Rename the file before uploading if the form expects a name such as “photo.jpg”.',
+        ],
+      },
+      {
+        h2: 'Private by design',
+        paragraphs: [
+          'Your photos, signatures and ID documents are resized inside your browser. They are never sent to a server, never stored online, and they disappear when you close the tab. To pull the text out of a picture instead, use the <a href="/">image to text converter</a>.',
+        ],
+      },
+    ],
+    faq: [
+      { q: 'How do I resize an image online?', a: 'Add your image, type the width and height in pixels or pick a preset, choose the maximum size in KB, and click “Download”. Everything happens in your browser.' },
+      { q: 'Can I resize an image to a specific size in pixels and KB?', a: 'Yes. That is what this tool is for. Set the width and height in pixels and the limit in KB, and the file meets both.' },
+      { q: 'Will my image be stretched?', a: 'No. If the new size has a different shape, the picture is centre-cropped to fill it. Fill in only one side to keep the original shape without cropping.' },
+      { q: 'What pixel size do exam forms ask for?', a: 'Many bank and government exam forms ask for a photo of 200 × 230 pixels and a signature of 140 × 60 pixels, which are available as presets. Always check your own notification.' },
+      { q: 'How do I resize an image to 20KB, 50KB or 100KB?', a: 'Use the resize image to 20KB, 50KB or 100KB page, or choose the limit here. The resized image lands just under the limit you choose.' },
+      { q: 'What is the difference between resizing and compressing?', a: 'Resizing changes the width and height in pixels. Compressing keeps them and makes the file smaller. This tool does both; the image compressor only compresses.' },
+      { q: 'Can I keep the original dimensions?', a: 'Yes. Click “Original” or leave the width and height empty, and only the file size changes.' },
+      { q: 'Can I resize many images at once?', a: 'Yes. Add as many as you like; they are all resized with the same settings and can be downloaded as a ZIP.' },
+      { q: 'Is this resize image tool free?', a: 'Yes. It is free and unlimited, with no signup and no watermark.' },
+      { q: 'Are my images uploaded?', a: 'No. Images are resized inside your browser and never leave your device.' },
+    ],
+  },
+
+  'resize-image-to-20kb': {
+    title: 'Resize Image to 20KB – Photo & Signature, JPG Free',
+    description:
+      'Resize image to 20KB online free. Set the pixel size and get a JPG under 20 KB for exam and job forms — photos and signatures. No signup, no uploads.',
+    h1: 'Resize Image to 20KB',
+    h1Sub: 'Exact Pixel Size, Under 20 KB',
+    lead: 'Resize image to 20KB JPG with the exact pixel size your form asks for — photos and signatures in one click.',
+    navLabel: 'Resize Image to 20KB',
+    cardText: 'Resize photos and signatures to under 20 KB.',
+    howTo: {
+      title: 'How to resize an image to 20KB',
+      steps: [
+        '<strong>Add your photo or signature.</strong> Drop it in, click “Choose files”, take a photo or paste it with Ctrl+V.',
+        '<strong>Set the pixel size.</strong> Click the Photo or Signature preset, type the size from your notification, or keep the original.',
+        '<strong>Download.</strong> The file is resized and kept just under 20 KB. Click “Download” or download all as a ZIP.',
+      ],
+    },
+    features: {
+      title: 'Built for 20 KB form uploads',
+      items: [
+        { title: 'Pixels and KB together', text: 'Set the width and height, and the file is kept under 20 KB in the same step.' },
+        { title: 'Signature preset', text: 'One click for 140 × 60 pixels, a size many exam forms use for signatures.' },
+        { title: 'Photo preset', text: 'One click for 200 × 230 pixels, a common passport-style photo size.' },
+        { title: 'No stretching', text: 'A different shape is centre-cropped, so faces and signatures keep their natural proportions.' },
+        { title: 'JPG output', text: 'Every file is saved as a JPG, or as a PDF if your form asks for one.' },
+        { title: 'Private and free', text: 'Resized in your browser, never uploaded, no limits or watermark.' },
+      ],
+    },
+    sections: [
+      {
+        h2: 'Resize image to 20KB for exam and job forms',
+        paragraphs: [
+          'A typical upload rule on an Indian application form reads: “Signature: 140 × 60 pixels, 10–20 KB.” Your scan is neither the right size nor the right weight. This tool lets you <strong>resize image to 20KB</strong> and to the exact pixel size in one step. Add the picture, choose the size, and download a JPG the form will accept.',
+          'There is no signup, no watermark and no limit on how many images you resize. It all happens in your browser, so your photo and signature never leave your device.',
+        ],
+      },
+      {
+        h2: 'Set the width and height',
+        paragraphs: [
+          'Type the width and height from your notification into the two boxes, or click a preset: <strong>Photo 200 × 230</strong> or <strong>Signature 140 × 60</strong>. These are sizes many bank and government exam forms use, but always check your own notification. If your picture has a different shape, it is centre-cropped to fill the size exactly, so nothing is stretched. Fill in only one side and the other follows your picture’s proportions.',
+          'Click <strong>Original</strong> to keep the picture’s own dimensions and only bring the file under 20 KB.',
+        ],
+      },
+      {
+        h2: 'Resize image to 20KB JPG',
+        paragraphs: [
+          'Forms almost always want JPG or JPEG files, so every resized image is saved as a JPG. PNG scans, WEBP pictures and iPhone HEIC photos are converted on the way, and a transparent signature background becomes white instead of black. That is all it takes to <strong>resize image to 20KB JPG</strong>.',
+          'The tool picks the highest JPG quality that still fits under 20 KB. At form sizes such as 200 × 230 or 140 × 60 pixels there is plenty of room, so the result looks clean. 20 KB is counted as 20,000 bytes, the strict way, so the upload is never rejected for being a few bytes over; Windows shows the file as about 19.5 KB.',
+        ],
+      },
+      {
+        h2: 'Resize image to 20KB to 50KB',
+        paragraphs: [
+          'Many forms give a range for the photo: “20 KB to 50 KB”. A file under 20 KB can be rejected there for being too small. For a range, aim for the top: use <a href="/resize-image-to-50kb">resize image to 50KB</a>. The picture lands just under 50 KB — inside the range and clearer. So to resize image to 20KB to 50KB, think “50 KB maximum”, and keep this 20 KB page for limits like “below 20 KB” or “10–20 KB”.',
+        ],
+      },
+      {
+        h2: 'Resize image to 20KB to 100KB',
+        paragraphs: [
+          'Some portals accept anything from 20 KB to 100 KB, usually for documents. Again, aim for the top and use <a href="/resize-image-to-100kb">resize image to 100KB</a>: a larger file keeps small print readable. To resize image to 20KB to 100KB is really to resize it to under 100 KB.',
+        ],
+      },
+      {
+        h2: 'What the tool does, step by step',
+        paragraphs: [
+          'When you add a picture, the tool first applies the pixel size: it scales the picture so it covers the width and height you set, and trims any extra from the edges, keeping the centre. Then it saves the result as a JPG, trying different quality levels and keeping the highest one that still fits under 20 KB. At 140 × 60 or 200 × 230 pixels there is plenty of room, so the file usually comes out well under the limit at top quality. With no pixel size set, the picture keeps its own dimensions and only the quality is adjusted — unless it is too large to fit 20 KB at all, in which case it is made smaller and you are told.',
+        ],
+      },
+      {
+        h2: 'Common reasons a 20 KB upload is rejected',
+        list: [
+          '<strong>Wrong dimensions:</strong> the file is under 20 KB but still 3000 pixels wide. Set the pixel size from the notification.',
+          '<strong>Too small:</strong> the form wants 10–20 KB and a tiny file falls below the minimum. Use a larger pixel size so the file carries more detail.',
+          '<strong>Wrong format:</strong> the form wants JPG and you uploaded PNG or HEIC. Files from this page are always JPG unless you choose PDF.',
+          '<strong>Wrong orientation:</strong> a sideways phone photo. Phone photos are turned the right way up automatically here.',
+        ],
+      },
+      {
+        h2: 'Signature and photo: a quick guide',
+        list: [
+          '<strong>Signature:</strong> sign with a dark pen on white paper, photograph it in daylight, add it here and click the Signature preset.',
+          '<strong>Photo:</strong> use a recent photo with a plain light background, add it and click the Photo preset. The face is kept in the centre.',
+          '<strong>Thumb impression or declaration:</strong> type the size from the notification, or keep the original.',
+          '<strong>Check the result:</strong> the list shows the new size in KB and in pixels, so you can match it against the notification before uploading.',
+        ],
+      },
+      {
+        h2: 'Why not just shrink the photo?',
+        paragraphs: [
+          'If you only make the file smaller, the photo keeps its own shape and pixel size, and the form may reject it for the wrong dimensions. If you only change the pixels, the file may still be over 20 KB. Doing both together, in the right order, is what this page is for. If you only need a smaller file and the form gives no pixel size, the <a href="/image-compressor-to-20kb">image compressor to 20KB</a> is the simpler choice.',
+        ],
+      },
+      {
+        h2: 'Works on your phone',
+        paragraphs: [
+          'Open the page in Chrome or Safari on Android or iPhone. Tap <strong>Take a photo</strong> to use the camera, or pick a picture from your gallery. iPhone HEIC photos are handled automatically, and the resized JPG lands in your Downloads folder. It works the same way on Windows, Mac and Chromebook.',
+        ],
+      },
+      {
+        h2: 'Tips so the form accepts it',
+        list: [
+          'Copy the exact pixel size and KB range from the official notification; sizes differ between exams.',
+          'Crop extra background before adding the photo if the face is small in the frame.',
+          'Rename the file if the form expects a name like “photo.jpg” or “sign.jpg”.',
+          'Keep your original files, so you can resize again if the form changes its rules.',
+        ],
+      },
+      {
+        h2: 'Private, free and unlimited',
+        paragraphs: [
+          'Your photo, signature and ID never leave your device: they are resized in your browser and disappear when you close the tab. Add as many files as you like and download them together as a ZIP. To put scanned pages into one PDF, use <a href="/image-to-pdf">image to PDF</a>.',
+        ],
+      },
+    ],
+    faq: [
+      { q: 'How do I resize an image to 20KB?', a: 'Add your photo or signature, set the pixel size (or keep the original), and the file is kept under 20 KB automatically. Click “Download” to save the JPG.' },
+      { q: 'How do I resize an image to 20KB to 50KB?', a: 'Use resize image to 50KB. With a size range, aim for the top: the file lands just under 50 KB, inside the 20 KB to 50 KB range.' },
+      { q: 'Can I resize an image to 20KB JPG?', a: 'Yes. Every resized image is saved as a JPG. PNG, WEBP and iPhone HEIC files are converted automatically.' },
+      { q: 'How do I resize an image to 20KB to 100KB?', a: 'Use resize image to 100KB. The file lands just under 100 KB, which is inside the 20 KB to 100 KB range and keeps more detail.' },
+      { q: 'How do I resize a signature to 140 × 60 pixels and under 20 KB?', a: 'Add the signature and click the “Signature 140 × 60” preset. The signature is cropped to that size and saved as a JPG under 20 KB.' },
+      { q: 'Will my photo be stretched?', a: 'No. A different shape is centre-cropped to fill the new size, so the photo keeps its natural proportions.' },
+      { q: 'Can I keep the original pixel size?', a: 'Yes. Click “Original” or leave the width and height empty; only the file size is brought under 20 KB.' },
+      { q: 'Why does my file show 19.5 KB?', a: '20 KB is counted as 20,000 bytes so every website accepts it. Windows uses units of 1,024 bytes and shows about 19.5 KB.' },
+      { q: 'Is it free?', a: 'Yes. It is free and unlimited, with no signup and no watermark.' },
+      { q: 'Are my photos uploaded?', a: 'No. Everything is resized in your browser and never leaves your device.' },
+    ],
+  },
+
+  'resize-image-to-50kb': {
+    title: 'Resize Image to 50KB – Online, JPG & PDF, Free',
+    description:
+      'Resize image to 50KB online free. Set the exact pixel size and get a JPG or PDF under 50 KB for exam, job and admission forms. No signup, no uploads.',
+    h1: 'Resize Image to 50KB',
+    h1Sub: 'Exact Pixel Size, Under 50 KB',
+    lead: 'Resize image to 50KB online with the exact width and height your form needs — as a JPG or PDF.',
+    navLabel: 'Resize Image to 50KB',
+    cardText: 'Resize photos to a pixel size under 50 KB.',
+    howTo: {
+      title: 'How to resize an image to 50KB',
+      steps: [
+        '<strong>Add your image.</strong> Drop it in, click “Choose files”, take a photo or paste it with Ctrl+V.',
+        '<strong>Set the pixel size.</strong> Type the width and height, click a preset, or keep the original. Choose JPG or PDF.',
+        '<strong>Download.</strong> The resized file lands just under 50 KB. Save one file or all of them as a ZIP.',
+      ],
+    },
+    features: {
+      title: 'Everything a 50 KB upload needs',
+      items: [
+        { title: 'Width, height and KB', text: 'Set the pixel size and the file stays under 50 KB, both in one step.' },
+        { title: 'Passport-style photo preset', text: 'One click for 200 × 230 pixels, a size many exam forms use.' },
+        { title: 'JPG or PDF', text: 'Save the resized image as a JPG, or as a one-page PDF under 50 KB.' },
+        { title: 'Centre-crop, no stretching', text: 'A different shape is cropped from the centre, never squashed.' },
+        { title: 'Bulk resize', text: 'Resize a photo, signature and documents together and download one ZIP.' },
+        { title: 'Online and private', text: 'Runs in your browser: nothing to install, nothing uploaded.' },
+      ],
+    },
+    sections: [
+      {
+        h2: 'Resize image to 50KB for any form',
+        paragraphs: [
+          '“Photo: 3.5 × 4.5 cm, 200 × 230 pixels, 20–50 KB.” Rules like this are everywhere in Indian exam, admission and job forms, and a phone photo of several megabytes meets none of them. This tool lets you <strong>resize image to 50KB</strong> and to the right pixel size in one go. Add the photo, set the size, download.',
+          'It is free, with no signup and no watermark, and it handles PDFs as well as photos.',
+        ],
+      },
+      {
+        h2: 'Resize image to 50KB online',
+        paragraphs: [
+          'To <strong>resize image to 50KB online</strong>, you only need a browser — Chrome, Safari, Edge or Firefox on Android, iPhone, Windows, Mac or Chromebook. There is no app to install. The resizing runs on your own device, so it is quick even on mobile data and your files are never uploaded. On a phone, tap <strong>Take a photo</strong> to use the camera or pick a picture from your gallery.',
+        ],
+      },
+      {
+        h2: 'Choose the width and height',
+        paragraphs: [
+          'Type the pixel size from your notification, or click the <strong>Photo 200 × 230</strong> or <strong>Signature 140 × 60</strong> preset. If the picture’s shape is different, it is centre-cropped to fill the size exactly, so faces are never stretched. Fill in only the width or only the height and the other side follows the original proportions. Click <strong>Original</strong> to keep the picture’s own dimensions.',
+          'Some notifications give the size in centimetres, like 3.5 × 4.5 cm. The upload portal checks pixels and kilobytes, so use the pixel size stated in the same notification.',
+        ],
+      },
+      {
+        h2: 'Resize image to 50KB JPG',
+        paragraphs: [
+          'Every resized image is saved as a JPG, the format forms accept. PNG, WEBP and iPhone HEIC files are converted, and transparent backgrounds are filled with white. The tool picks the highest JPG quality that still fits under 50 KB, so the photo stays as clear as possible — at 200 × 230 pixels, 50 KB leaves plenty of room. That is how to <strong>resize image to 50KB JPG</strong> without any software.',
+        ],
+      },
+      {
+        h2: 'Resize image to 50KB PDF',
+        paragraphs: [
+          'If the form wants a PDF, choose <strong>PDF</strong> under “Save images as”. The resized picture is placed on a single page and the whole PDF stays under 50 KB. This is the easiest way to <strong>resize image to 50KB PDF</strong> for a certificate, mark sheet or ID card that you have as a photo.',
+          'You can also drop an existing PDF. It keeps its pages and is compressed to under 50 KB; if that needs the pages to be turned into images, the tool tells you that the text can no longer be selected.',
+        ],
+      },
+      {
+        h2: 'Resize image to 50KB to 100KB',
+        paragraphs: [
+          'When the form allows “50 KB to 100 KB”, a 50 KB file may be rejected for being too small. Aim for the top of the range with <a href="/resize-image-to-100kb">resize image to 100KB</a>; the file lands just under 100 KB, inside the range. So to resize image to 50KB to 100KB, think “100 KB maximum”.',
+          'For a photo between 20 KB and 50 KB, this page is right — the result lands just under 50 KB. For a signature under 20 KB, use <a href="/resize-image-to-20kb">resize image to 20KB</a>.',
+        ],
+      },
+      {
+        h2: 'What the tool does with your photo',
+        paragraphs: [
+          'First it applies the pixel size you set: the photo is scaled to cover the width and height, and any extra is trimmed from the edges so the centre — usually your face — stays in place. Then it saves a JPG at the highest quality that still fits under 50 KB. At 200 × 230 pixels the photo usually ends up well under the limit at top quality, because a small picture simply does not need 50 KB. If you keep the original dimensions, only the quality is adjusted, and a very large photo is made smaller only when it cannot fit at all.',
+        ],
+      },
+      {
+        h2: 'Common reasons a 50 KB upload is rejected',
+        list: [
+          '<strong>Dimensions do not match:</strong> the file is small enough but the pixel size is wrong. Set the width and height from the notification.',
+          '<strong>File below the minimum:</strong> some forms want at least 20 KB. Keep a reasonable pixel size so the file is not too tiny.',
+          '<strong>Wrong format:</strong> PNG or HEIC instead of JPG. Files from this page are JPG, or PDF if you choose.',
+          '<strong>Blurry or dark photo:</strong> retake it in daylight against a plain wall; no tool can add detail that was never there.',
+        ],
+      },
+      {
+        h2: 'Only need a smaller file?',
+        paragraphs: [
+          'If your form gives a KB limit but no pixel size, you do not need to resize at all. The <a href="/image-compressor-to-50kb">image compressor to 50KB</a> keeps your picture’s dimensions and only makes the file smaller. For a size other than 20, 50 or 100 KB, the main <a href="/resize-image">resize image</a> page lets you type any limit.',
+        ],
+      },
+      {
+        h2: 'Resize several files at once',
+        paragraphs: [
+          'Most applications need a photo, a signature and a few documents. Add them together — each file is resized with the current settings and listed with its old and new size and its pixel dimensions. Download them one at a time, or click <strong>Download all (ZIP)</strong>. Change the pixel size and every file is resized again.',
+        ],
+      },
+      {
+        h2: 'Tips for an accepted upload',
+        list: [
+          'Copy the pixel size and KB range exactly from the official notification.',
+          'Use a photo with a plain, light background and your face clearly in the centre.',
+          'Photograph documents flat and in daylight before turning them into a 50 KB PDF.',
+          'Check the size shown in the list before you upload, then rename the file if the form asks.',
+        ],
+      },
+      {
+        h2: 'Private and unlimited',
+        paragraphs: [
+          'Photos, signatures and ID cards are personal. This tool resizes them inside your browser and never uploads them; nothing is stored, and everything disappears when you close the tab. There is no daily limit and no watermark. 50 KB is counted as 50,000 bytes so every portal accepts the file; Windows shows it as about 48.8 KB.',
+        ],
+      },
+    ],
+    faq: [
+      { q: 'How do I resize an image to 50KB?', a: 'Add your image, set the pixel size or keep the original, and the file is kept under 50 KB automatically. Click “Download” to save it.' },
+      { q: 'How do I resize an image to 50KB online?', a: 'Open this page in any browser on your phone or computer, add the image and download the result. Nothing is installed or uploaded.' },
+      { q: 'Can I resize an image to 50KB JPG?', a: 'Yes. Resized images are saved as JPG. PNG, WEBP and iPhone HEIC files are converted automatically.' },
+      { q: 'How do I resize an image to 50KB PDF?', a: 'Choose PDF under “Save images as”. The resized picture is placed on one page and the PDF stays under 50 KB.' },
+      { q: 'How do I resize an image to 50KB to 100KB?', a: 'Use resize image to 100KB. The file lands just under 100 KB, inside the 50 KB to 100 KB range.' },
+      { q: 'How do I resize a photo to 200 × 230 pixels under 50 KB?', a: 'Add the photo and click the “Photo 200 × 230” preset. It is cropped to that size and saved as a JPG under 50 KB.' },
+      { q: 'Will the photo be stretched?', a: 'No. A different shape is centre-cropped to fill the new size, so proportions stay natural.' },
+      { q: 'My form gives the size in cm. What do I do?', a: 'Use the pixel size stated in the same notification; upload portals check pixels and kilobytes, not centimetres.' },
+      { q: 'Why does my 50 KB file show as 48.8 KB?', a: '50 KB is counted as 50,000 bytes so every website accepts it. Windows uses units of 1,024 bytes and shows about 48.8 KB.' },
+      { q: 'Are my files uploaded?', a: 'No. Everything is resized in your browser and never leaves your device.' },
+    ],
+  },
+
+  'resize-image-to-100kb': {
+    title: 'Resize Image to 100KB – Online, JPG & PDF Download',
+    description:
+      'Resize image to 100KB online free. Set the pixel size and download a clear JPG or PDF under 100 KB. Works on phone and PC. No app, no signup, no uploads.',
+    h1: 'Resize Image to 100KB',
+    h1Sub: 'Exact Pixel Size, Under 100 KB',
+    lead: 'Resize image to 100KB online and download a clear JPG or PDF at the pixel size you need — no app required.',
+    navLabel: 'Resize Image to 100KB',
+    cardText: 'Resize images to a pixel size under 100 KB.',
+    howTo: {
+      title: 'How to resize an image to 100KB',
+      steps: [
+        '<strong>Add your image or PDF.</strong> Drop it in, click “Choose files”, take a photo or paste with Ctrl+V.',
+        '<strong>Set the pixel size.</strong> Type the width and height, click a preset, or keep the original. Choose JPG or PDF.',
+        '<strong>Download.</strong> The file is resized and kept just under 100 KB. Download it, or all files as a ZIP.',
+      ],
+    },
+    features: {
+      title: 'Clear images at 100 KB',
+      items: [
+        { title: 'Pixels and KB in one step', text: 'Set the width and height and the file stays under 100 KB.' },
+        { title: 'Room for detail', text: '100 KB keeps documents readable and photos sharp at most form sizes.' },
+        { title: 'JPG or PDF download', text: 'Download a JPG, or a one-page PDF under 100 KB.' },
+        { title: 'No stretching', text: 'A different shape is centre-cropped; one side alone keeps the proportions.' },
+        { title: 'Batch and ZIP', text: 'Resize many files together and download them in one ZIP.' },
+        { title: 'No app needed', text: 'Works in your browser on any phone or computer, and nothing is uploaded.' },
+      ],
+    },
+    sections: [
+      {
+        h2: 'Resize image to 100KB at the size you need',
+        paragraphs: [
+          'A 100 KB limit gives a picture real room for detail, but forms often add a pixel size as well — for example a scanned certificate at 600 × 800 pixels, or a photo at 200 × 230. This tool lets you <strong>resize image to 100KB</strong> and to that pixel size together, so the file meets both rules on the first try.',
+          'It is free and unlimited, with no signup and no watermark, and works for photos and PDFs.',
+        ],
+      },
+      {
+        h2: 'Resize image to 100KB online',
+        paragraphs: [
+          'To <strong>resize image to 100KB online</strong>, open this page in Chrome, Safari, Edge or Firefox on Android, iPhone, Windows, Mac or Chromebook. The resizing happens on your own device, so your certificates and ID cards are never uploaded, and the result appears in a moment even on mobile data.',
+        ],
+      },
+      {
+        h2: 'Resize image to 100KB download — no app needed',
+        paragraphs: [
+          'Many people search for “resize image to 100KB download” expecting to install an app. You do not need one: everything happens on this page, and the only download is your resized file. Click <strong>Download</strong> next to a file, or <strong>Download all (ZIP)</strong> when you have several. On a phone, the file goes to your Downloads folder, where any upload box can find it.',
+        ],
+      },
+      {
+        h2: 'Set the width and height',
+        paragraphs: [
+          'Type the pixel size into the width and height boxes, or click a preset — <strong>Photo 200 × 230</strong> or <strong>Signature 140 × 60</strong>. A picture with a different shape is centre-cropped to fill the size exactly, so it is never stretched. Fill in only one side to keep the original proportions without cropping, or click <strong>Original</strong> to keep the picture’s own dimensions and only bring the file under 100 KB.',
+        ],
+      },
+      {
+        h2: 'Resize image to 100KB JPG',
+        paragraphs: [
+          'Resized images are saved as JPG, the format almost every website accepts for photos and scans. PNG, WEBP and iPhone HEIC files are converted automatically, and transparent backgrounds become white. The tool keeps the highest JPG quality that still fits under 100 KB, so text in a document and detail in a photo stay as clear as possible. That is all it takes to <strong>resize image to 100KB JPG</strong>.',
+        ],
+      },
+      {
+        h2: 'Resize image to 100KB PDF',
+        paragraphs: [
+          'When a portal asks for a PDF, choose <strong>PDF</strong> under “Save images as”. Your resized photo or scan is placed on a single page and the PDF stays under 100 KB — the quickest way to <strong>resize image to 100KB PDF</strong>.',
+          'You can also add an existing PDF. It keeps its pages and is compressed to under 100 KB; the tool first tries to keep the text selectable, and tells you if the pages had to be turned into images to fit.',
+        ],
+      },
+      {
+        h2: 'What fits in 100 KB',
+        paragraphs: [
+          'At 100 KB, a photo of roughly 700 to 900 pixels wide fits at good quality, and a one-page document photographed in daylight usually keeps its small print readable. Smaller form sizes, like 200 × 230 pixels, use only part of the budget and come out at top quality. If you ask for a very large pixel size, the tool may have to make it a little smaller to fit 100 KB, and it tells you when it does.',
+        ],
+      },
+      {
+        h2: 'Resizing scanned documents',
+        paragraphs: [
+          'Certificates and mark sheets are often asked for at a set width, such as 600 or 800 pixels, so the reviewer can read them without zooming. Type only the width and leave the height empty: the page keeps its proportions, nothing is cropped, and the file is kept under 100 KB. If the portal wants a PDF, switch “Save images as” to PDF and you get the same resized page as a one-page PDF.',
+        ],
+      },
+      {
+        h2: 'What the tool does, step by step',
+        paragraphs: [
+          'With a pixel size set, the picture is scaled to cover it and trimmed from the edges, keeping the centre. Then it is saved as a JPG at the highest quality that fits under 100 KB. Without a pixel size, the picture keeps its own dimensions and only the quality is adjusted; a very large photo is made smaller only when it cannot fit 100 KB at all, and the note under the file tells you. Every file in the list shows its old size, new size and dimensions, so you can check it against the notification before you upload.',
+        ],
+      },
+      {
+        h2: 'Common reasons an upload is rejected',
+        list: [
+          '<strong>Wrong pixel size:</strong> copy the width and height exactly from the notification.',
+          '<strong>Wrong format:</strong> the portal wants JPG or PDF; this page gives you either.',
+          '<strong>Unreadable document:</strong> photograph it again in daylight, flat and in focus, before resizing.',
+        ],
+      },
+      {
+        h2: 'Choosing between 20, 50 and 100 KB',
+        paragraphs: [
+          'Use the largest size the form allows, because a bigger file is a clearer file. For “50 KB to 100 KB” or “up to 100 KB”, this page is right. For smaller limits, use <a href="/resize-image-to-50kb">resize image to 50KB</a> or <a href="/resize-image-to-20kb">resize image to 20KB</a>, and for any other number, the main <a href="/resize-image">resize image</a> page. If the form gives no pixel size at all, the <a href="/image-compressor-to-100kb">image compressor to 100KB</a> keeps your dimensions and only shrinks the file.',
+        ],
+      },
+      {
+        h2: 'Tips for clear documents',
+        list: [
+          'Photograph documents flat, in daylight, from directly above, and crop away the table around them.',
+          'Combine multi-page documents with <a href="/image-to-pdf">image to PDF</a> first, then resize the PDF here.',
+          'Check the size and dimensions shown in the list against the notification before uploading.',
+          'To copy text out of a document instead, use the <a href="/">image to text converter</a>.',
+        ],
+      },
+      {
+        h2: 'Private, free and unlimited',
+        paragraphs: [
+          'Your files are resized inside your browser and never uploaded; nothing is stored, and closing the tab removes everything. There is no limit on how many files you resize. 100 KB is counted as 100,000 bytes so every portal accepts the file — Windows shows it as about 97 KB.',
+        ],
+      },
+    ],
+    faq: [
+      { q: 'How do I resize an image to 100KB?', a: 'Add your image, set the pixel size or keep the original, and the file is kept under 100 KB automatically. Click “Download” to save it.' },
+      { q: 'How do I resize an image to 100KB online?', a: 'Open this page in any browser on your phone or computer, add the image and download the result. Nothing is installed or uploaded.' },
+      { q: 'Do I need to download an app to resize an image to 100KB?', a: 'No. Everything works on this page; the only download is your resized file.' },
+      { q: 'Can I resize an image to 100KB JPG?', a: 'Yes. Resized images are saved as JPG. PNG, WEBP and iPhone HEIC files are converted automatically.' },
+      { q: 'How do I resize an image to 100KB PDF?', a: 'Choose PDF under “Save images as”. The resized picture is placed on one page and the PDF stays under 100 KB.' },
+      { q: 'Will my document be readable at 100 KB?', a: 'Usually, yes. 100 KB keeps one-page documents clear, and the tool uses the highest quality that fits.' },
+      { q: 'Will the image be stretched?', a: 'No. A different shape is centre-cropped to fill the new size. Fill in only one side to keep the proportions.' },
+      { q: 'Can I keep the original pixel size?', a: 'Yes. Click “Original” or leave the width and height empty; only the file size changes.' },
+      { q: 'Why does my file show as 97 KB?', a: '100 KB is counted as 100,000 bytes so every website accepts it. Windows uses units of 1,024 bytes and shows about 97 KB.' },
+      { q: 'Are my files uploaded?', a: 'No. Everything is resized in your browser and never leaves your device.' },
     ],
   },
 };

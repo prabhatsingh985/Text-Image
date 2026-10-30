@@ -18,12 +18,16 @@ export const TOOL_IDS = [
   'image-compressor-to-50kb',
   'image-compressor-to-100kb',
   'image-compressor-to-200kb',
+  'resize-image',
+  'resize-image-to-20kb',
+  'resize-image-to-50kb',
+  'resize-image-to-100kb',
 ] as const;
 export const STATIC_IDS = ['about', 'contact', 'privacy-policy', 'terms'] as const;
 
 export type ToolId = (typeof TOOL_IDS)[number];
 
-// Pages built only in English. The image compressor pages target Indian exam and job forms,
+// Pages built only in English. The image compressor and resize pages target Indian exam and job forms,
 // which are searched in English, so they are not translated.
 const ENGLISH_ONLY = [
   'image-compressor',
@@ -31,6 +35,10 @@ const ENGLISH_ONLY = [
   'image-compressor-to-50kb',
   'image-compressor-to-100kb',
   'image-compressor-to-200kb',
+  'resize-image',
+  'resize-image-to-20kb',
+  'resize-image-to-50kb',
+  'resize-image-to-100kb',
 ] as const satisfies readonly ToolId[];
 export type EnglishOnlyToolId = (typeof ENGLISH_ONLY)[number];
 const ONLY_IN: Partial<Record<PageId, string[]>> = Object.fromEntries(ENGLISH_ONLY.map((id) => [id, ['en']]));
@@ -63,6 +71,10 @@ const SLUGS: Record<PageId, Record<string, string>> = {
   'image-compressor-to-50kb': { en: 'image-compressor-to-50kb' },
   'image-compressor-to-100kb': { en: 'image-compressor-to-100kb' },
   'image-compressor-to-200kb': { en: 'image-compressor-to-200kb' },
+  'resize-image': { en: 'resize-image' },
+  'resize-image-to-20kb': { en: 'resize-image-to-20kb' },
+  'resize-image-to-50kb': { en: 'resize-image-to-50kb' },
+  'resize-image-to-100kb': { en: 'resize-image-to-100kb' },
   'ppt-to-text': { en: 'ppt-to-text', es: 'ppt-a-texto', pt: 'ppt-para-texto', fr: 'ppt-en-texte', de: 'ppt-zu-text', it: 'ppt-in-testo', ja: 'ppt-text-chushutsu', ko: 'ppt-text-chuchul' },
   about: { en: 'about', es: 'acerca-de', pt: 'sobre', fr: 'a-propos', de: 'ueber-uns', it: 'chi-siamo', ja: 'about', ko: 'about' },
   contact: { en: 'contact', es: 'contacto', pt: 'contato', fr: 'contact', de: 'kontakt', it: 'contatti', ja: 'contact', ko: 'contact' },

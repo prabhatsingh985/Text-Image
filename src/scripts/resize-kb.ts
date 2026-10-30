@@ -5,8 +5,8 @@ import { openPdf, renderPage } from '../lib/input/pdf';
 import { baseName, fmt } from '../lib/text';
 import { toast } from '../lib/ui/toast';
 
-// The "resize image to N KB" pages: every file is shrunk to the chosen limit as soon as it is added,
-// and again whenever an option changes.
+// The image compressor and resize image pages: every file is shrunk to the chosen limit as soon as
+// it is added, and again whenever an option changes. Only the resize pages have the pixel-size inputs.
 
 interface Entry {
   id: number;
@@ -29,8 +29,9 @@ export function initResizeKb(root: HTMLElement) {
   const camera = $<HTMLInputElement>('[data-camera]');
   const target = $<HTMLInputElement>('[data-target]');
   const format = $<HTMLSelectElement>('[data-format]');
-  const widthIn = $<HTMLInputElement>('[data-width]');
-  const heightIn = $<HTMLInputElement>('[data-height]');
+  const widthIn = root.querySelector<HTMLInputElement>('[data-width]');
+  const heightIn = root.querySelector<HTMLInputElement>('[data-height]');
+  const dimPresets = [...root.querySelectorAll<HTMLButtonElement>('[data-dims]')];
   const workspace = $('[data-workspace]');
   const list = $<HTMLUListElement>('[data-list]');
   const summary = $('[data-summary]');
@@ -85,10 +86,28 @@ export function initResizeKb(root: HTMLElement) {
   );
   syncPresets();
 
+  // The pixel-size chip that matches the typed width and height ("" is the original size).
+  const syncDims = () => {
+    const w = widthIn?.value ?? '';
+    const h = heightIn?.value ?? '';
+    const current = !w && !h ? '' : `${w}x${h}`;
+    dimPresets.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.dims === current)));
+  };
+  dimPresets.forEach((b) =>
+    b.addEventListener('click', () => {
+      const [w = '', h = ''] = b.dataset.dims ? b.dataset.dims.split('x') : [];
+      widthIn!.value = w;
+      heightIn!.value = h;
+      syncDims();
+      rerunAll();
+    }),
+  );
+
   let debounce: ReturnType<typeof setTimeout> | undefined;
   for (const el of [target, widthIn, heightIn]) {
-    el.addEventListener('input', () => {
+    el?.addEventListener('input', () => {
       syncPresets();
+      syncDims();
       clearTimeout(debounce);
       debounce = setTimeout(rerunAll, 600);
     });
@@ -166,8 +185,8 @@ export function initResizeKb(root: HTMLElement) {
     if (!decoded) throw new Error('decode failed');
     try {
       if (!entry.thumbUrl) entry.thumbUrl = URL.createObjectURL(await canvasToBlob(prepareCanvas(decoded, { maxSide: 320, upscaleSmall: false }), 'image/jpeg', 0.8));
-      const width = Number(widthIn.value) || undefined;
-      const height = Number(heightIn.value) || undefined;
+      const width = Number(widthIn?.value) || undefined;
+      const height = Number(heightIn?.value) || undefined;
       const asPdf = format.value === 'pdf';
       // A JPEG already under the limit, with no size asked for, is handed back untouched.
       const untouched = !asPdf && !width && !height && file.size <= limit && /jpe?g$/i.test(file.type || file.name);

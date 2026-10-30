@@ -40,13 +40,18 @@ const DOC_MODES: Partial<Record<ToolId, DocMode>> = {
   'ppt-to-text': 'slides',
 };
 
-// The size limit each image compressor page starts with.
-const RESIZE_KB: Partial<Record<ToolId, number>> = {
-  'image-compressor': 200,
-  'image-compressor-to-20kb': 20,
-  'image-compressor-to-50kb': 50,
-  'image-compressor-to-100kb': 100,
-  'image-compressor-to-200kb': 200,
+// The image compressor and resize pages: the size limit each starts with, whether it is fixed to that one
+// size (the "to 20KB" pages) and whether it also sets the pixel size (the resize pages).
+const RESIZE_KB: Partial<Record<ToolId, { kb: number; fixed?: boolean; resize?: boolean }>> = {
+  'image-compressor': { kb: 200 },
+  'image-compressor-to-20kb': { kb: 20, fixed: true },
+  'image-compressor-to-50kb': { kb: 50, fixed: true },
+  'image-compressor-to-100kb': { kb: 100, fixed: true },
+  'image-compressor-to-200kb': { kb: 200, fixed: true },
+  'resize-image': { kb: 100, resize: true },
+  'resize-image-to-20kb': { kb: 20, fixed: true, resize: true },
+  'resize-image-to-50kb': { kb: 50, fixed: true, resize: true },
+  'resize-image-to-100kb': { kb: 100, fixed: true, resize: true },
 };
 
 const tool = isTool ? tools[id as ToolId] : null;
@@ -74,7 +79,7 @@ const isHome = isTool && slugFor(id, locale) === '';
       {docMode && <DocTextTool mode={docMode} ui={ui} />}
       {id === 'image-to-pdf' && <ImageToPdfTool ui={ui} />}
       {id === 'text-to-pdf' && <TextToPdfTool ui={ui} />}
-      {resizeKb && <ResizeKbTool targetKb={resizeKb} ui={ui} />}
+      {resizeKb && <ResizeKbTool targetKb={resizeKb.kb} fixed={resizeKb.fixed} resize={resizeKb.resize} ui={ui} />}
       {isHome && <AllTools currentId={id as ToolId} ui={ui} locale={locale} />}
       <ToolArticle toolId={id as ToolId} content={tool} ui={ui} locale={locale} showRelated={!isHome} />
     </BaseLayout>

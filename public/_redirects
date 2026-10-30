@@ -1,4 +1,0 @@
-# Cloudflare: the KB pages moved to the "image compressor" URLs.
-/resize-image-to-20kb /image-compressor-to-20kb 301
-/resize-image-to-50kb /image-compressor-to-50kb 301
-/resize-image-to-100kb /image-compressor-to-100kb 301
