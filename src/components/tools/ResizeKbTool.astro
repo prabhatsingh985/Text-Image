@@ -91,10 +91,7 @@ const chip =
             </>
           )
         }
-        <label class="inline-flex items-center gap-2 sm:ms-3">
-          <span class="font-medium text-ink-muted">{t.saveImagesAs}</span>
-          <SelectField dataAttr="format" options={[{value:'jpg',label:'JPG'},{value:'pdf',label:'PDF'}]} />
-        </label>
+        <SelectField class="sm:ms-3" label={t.saveImagesAs} dataAttr="format" options={[{value:'jpg',label:'JPG'},{value:'pdf',label:'PDF'}]} />
       </div>
       {resize && <p class="text-xs text-ink-soft">{t.dimensionsHint}</p>}
     </div>

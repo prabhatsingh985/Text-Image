@@ -6,116 +6,136 @@ interface Option {
 }
 
 interface Props {
+  label: string;
   options: Option[];
   /** The data-* attribute name on the hidden select, e.g. "format" → data-format */
   dataAttr: string;
+  class?: string;
 }
 
-const { options, dataAttr } = Astro.props;
-const defaultOpt = options.find(o => o.selected) ?? options[0];
+const { label, options, dataAttr, class: className } = Astro.props;
+const current = options.find((o) => o.selected) ?? options[0];
+const id = `sel-${dataAttr}`;
 ---
 
-<div class="relative inline-block" data-sel-wrap>
-  <!-- Hidden native select kept so existing scripts can read .value unchanged -->
-  <select class="sr-only" {...{ [`data-${dataAttr}`]: '' }} tabindex="-1" aria-hidden="true">
-    {options.map(o => (
-      <option value={o.value} selected={o.selected}>{o.label}</option>
-    ))}
-  </select>
+<div class:list={['inline-flex items-center gap-2', className]} data-sel-wrap>
+  <span id={`${id}-name`} class="cursor-default font-medium text-ink-muted" data-sel-name>{label}</span>
+  <span class="relative inline-block">
+    <!-- The tool scripts read the chosen value from this select. -->
+    <select hidden {...{ [`data-${dataAttr}`]: '' }}>
+      {options.map((o) => <option value={o.value} selected={o === current}>{o.label}</option>)}
+    </select>
 
-  <button
-    type="button"
-    class="field inline-flex items-center gap-2 py-1.5 pr-3 text-sm"
-    data-sel-trigger
-    aria-haspopup="listbox"
-    aria-expanded="false"
-  >
-    <span data-sel-label>{defaultOpt?.label}</span>
-    <svg
-      class="h-3.5 w-3.5 shrink-0 text-ink-soft transition-transform duration-200"
-      data-sel-chevron
-      viewBox="0 0 20 20"
-      fill="currentColor"
-      aria-hidden="true"
+    <button
+      type="button"
+      id={`${id}-trigger`}
+      class="field inline-flex cursor-pointer items-center gap-2 py-1.5 pe-3"
+      data-sel-trigger
+      aria-haspopup="listbox"
+      aria-expanded="false"
+      aria-labelledby={`${id}-name ${id}-value`}
     >
-      <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-    </svg>
-  </button>
+      <span id={`${id}-value`} data-sel-label>{current?.label}</span>
+      <svg class="h-3.5 w-3.5 shrink-0 text-ink-soft transition-transform duration-200" data-sel-chevron viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"></path>
+      </svg>
+    </button>
 
-  <ul
-    role="listbox"
-    class="absolute left-0 top-full z-50 mt-1.5 min-w-full overflow-hidden rounded-2xl border-2 border-line-strong bg-surface py-1"
-    style="box-shadow: 0 8px 24px -4px rgb(0 0 0 / 0.12);"
-    data-sel-panel
-    hidden
-  >
-    {options.map((o, i) => {
-      const isSelected = o.selected || (!options.some(x => x.selected) && i === 0);
-      return (
-        <li
-          role="option"
-          data-sel-opt={String(o.value)}
-          aria-selected={isSelected ? 'true' : 'false'}
-          class="cursor-pointer whitespace-nowrap px-4 py-2 text-sm text-ink-muted transition hover:bg-surface-3 hover:text-ink aria-[selected=true]:font-semibold aria-[selected=true]:text-ink"
-        >
-          {o.label}
-        </li>
-      );
-    })}
-  </ul>
+    <ul
+      role="listbox"
+      aria-labelledby={`${id}-name`}
+      class="absolute start-0 top-full z-50 mt-1.5 min-w-full overflow-hidden rounded-2xl border-2 border-line-strong bg-surface py-1 shadow-[0_8px_24px_-4px_rgb(0_0_0/0.12)]"
+      data-sel-panel
+      hidden
+    >
+      {
+        options.map((o) => (
+          <li
+            role="option"
+            tabindex="-1"
+            data-sel-opt={String(o.value)}
+            aria-selected={o === current ? 'true' : 'false'}
+            class="cursor-pointer px-4 py-2 text-sm whitespace-nowrap text-ink-muted transition outline-none hover:bg-surface-3 hover:text-ink focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ink aria-selected:bg-brand-300 aria-selected:font-semibold aria-selected:text-[#202020] aria-selected:hover:bg-brand-300 aria-selected:hover:text-[#202020]"
+          >
+            {o.label}
+          </li>
+        ))
+      }
+    </ul>
+  </span>
 </div>
 
 <script>
-  function initSelects() {
-    document.querySelectorAll<HTMLElement>('[data-sel-wrap]:not([data-sel-init])').forEach((wrap) => {
-      wrap.dataset.selInit = '1';
-      const select = wrap.querySelector('select')!;
-      const trigger = wrap.querySelector<HTMLButtonElement>('[data-sel-trigger]')!;
-      const panel = wrap.querySelector<HTMLElement>('[data-sel-panel]')!;
-      const labelEl = wrap.querySelector('[data-sel-label]')!;
-      const chevron = wrap.querySelector<SVGElement>('[data-sel-chevron]')!;
-      const opts = [...wrap.querySelectorAll<HTMLElement>('[data-sel-opt]')];
+  const wraps = [...document.querySelectorAll<HTMLElement>('[data-sel-wrap]')];
+  const closers = new Map<HTMLElement, () => void>();
 
-      const open = () => {
-        panel.hidden = false;
-        trigger.setAttribute('aria-expanded', 'true');
-        chevron.style.transform = 'rotate(180deg)';
-      };
-      const close = () => {
-        panel.hidden = true;
-        trigger.setAttribute('aria-expanded', 'false');
-        chevron.style.transform = '';
-      };
+  wraps.forEach((wrap) => {
+    const select = wrap.querySelector('select')!;
+    const trigger = wrap.querySelector<HTMLButtonElement>('[data-sel-trigger]')!;
+    const panel = wrap.querySelector<HTMLElement>('[data-sel-panel]')!;
+    const value = wrap.querySelector<HTMLElement>('[data-sel-label]')!;
+    const chevron = wrap.querySelector<SVGElement>('[data-sel-chevron]')!;
+    const opts = [...wrap.querySelectorAll<HTMLElement>('[data-sel-opt]')];
 
-      trigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        panel.hidden ? open() : close();
-      });
+    const close = (refocus = false) => {
+      panel.hidden = true;
+      trigger.setAttribute('aria-expanded', 'false');
+      chevron.style.transform = '';
+      if (refocus) trigger.focus();
+    };
+    closers.set(wrap, close);
 
-      opts.forEach((opt) => {
-        opt.addEventListener('click', () => {
-          const val = opt.dataset.selOpt!;
-          select.value = val;
-          labelEl.textContent = opt.textContent!.trim();
-          opts.forEach(o => o.setAttribute('aria-selected', 'false'));
-          opt.setAttribute('aria-selected', 'true');
-          close();
-        });
-      });
+    const open = () => {
+      panel.hidden = false;
+      trigger.setAttribute('aria-expanded', 'true');
+      chevron.style.transform = 'rotate(180deg)';
+      (opts.find((o) => o.getAttribute('aria-selected') === 'true') ?? opts[0]).focus();
+    };
 
-      document.addEventListener('click', (e) => {
-        if (!wrap.contains(e.target as Node)) close();
-      });
+    const choose = (opt: HTMLElement) => {
+      select.value = opt.dataset.selOpt!;
+      value.textContent = opt.textContent!.trim();
+      opts.forEach((o) => o.setAttribute('aria-selected', String(o === opt)));
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+      close(true);
+    };
 
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !panel.hidden) {
-          close();
-          trigger.focus();
-        }
-      });
+    wrap.querySelector('[data-sel-name]')!.addEventListener('click', () => trigger.focus());
+    trigger.addEventListener('click', () => (panel.hidden ? open() : close()));
+    trigger.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        open();
+      }
     });
-  }
 
-  initSelects();
-  document.addEventListener('astro:page-load', initSelects);
+    opts.forEach((opt) => opt.addEventListener('click', () => choose(opt)));
+
+    panel.addEventListener('keydown', (e) => {
+      const i = opts.indexOf(document.activeElement as HTMLElement);
+      const next: Record<string, number> = {
+        ArrowDown: Math.min(i + 1, opts.length - 1),
+        ArrowUp: Math.max(i - 1, 0),
+        Home: 0,
+        End: opts.length - 1,
+      };
+      if (e.key in next) {
+        e.preventDefault();
+        opts[next[e.key]].focus();
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        if (opts[i]) choose(opts[i]);
+      } else if (e.key === 'Escape') {
+        close(true);
+      } else if (e.key === 'Tab') {
+        close();
+      }
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    closers.forEach((close, wrap) => {
+      if (!wrap.contains(e.target as Node)) close();
+    });
+  });
 </script>

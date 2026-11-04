@@ -17,22 +17,10 @@ const t = Astro.props.ui.tool;
         {t.openTxt}
         <input type="file" accept=".txt,text/plain" class="sr-only" data-file />
       </label>
-      <label class="inline-flex items-center gap-2">
-        <span class="font-medium text-ink-muted">{t.font}</span>
-        <SelectField dataAttr="font" options={[{value:'sans',label:t.fontSans},{value:'serif',label:t.fontSerif},{value:'mono',label:t.fontMono}]} />
-      </label>
-      <label class="inline-flex items-center gap-2">
-        <span class="font-medium text-ink-muted">{t.fontSize}</span>
-        <SelectField dataAttr="size" options={[10,11,12,14,16,18].map(s => ({value:s,label:`${s} pt`,selected:s===12}))} />
-      </label>
-      <label class="inline-flex items-center gap-2">
-        <span class="font-medium text-ink-muted">{t.pageSize}</span>
-        <SelectField dataAttr="page" options={[{value:'a4',label:t.sizeA4},{value:'letter',label:t.sizeLetter}]} />
-      </label>
-      <label class="inline-flex items-center gap-2">
-        <span class="font-medium text-ink-muted">{t.margin}</span>
-        <SelectField dataAttr="margin" options={[{value:'36',label:t.marginSmall},{value:'72',label:t.marginLarge,selected:true}]} />
-      </label>
+      <SelectField label={t.font} dataAttr="font" options={[{value:'sans',label:t.fontSans},{value:'serif',label:t.fontSerif},{value:'mono',label:t.fontMono}]} />
+      <SelectField label={t.fontSize} dataAttr="size" options={[10,11,12,14,16,18].map(s => ({value:s,label:`${s} pt`,selected:s===12}))} />
+      <SelectField label={t.pageSize} dataAttr="page" options={[{value:'a4',label:t.sizeA4},{value:'letter',label:t.sizeLetter}]} />
+      <SelectField label={t.margin} dataAttr="margin" options={[{value:'36',label:t.marginSmall},{value:'72',label:t.marginLarge,selected:true}]} />
     </div>
     <div class="mt-4 flex flex-wrap items-center gap-3 border-t border-line px-1 pt-4">
       <span class="me-auto text-xs text-ink-muted" data-count></span>

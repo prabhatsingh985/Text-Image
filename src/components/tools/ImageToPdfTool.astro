@@ -28,18 +28,9 @@ const t = Astro.props.ui.tool;
     </Dropzone>
 
     <div class="flex flex-wrap items-center gap-x-5 gap-y-3 px-3 pt-4 pb-2 text-sm">
-      <label class="inline-flex items-center gap-2">
-        <span class="font-medium text-ink-muted">{t.pageSize}</span>
-        <SelectField dataAttr="size" options={[{value:'a4',label:t.sizeA4},{value:'letter',label:t.sizeLetter},{value:'fit',label:t.sizeFit}]} />
-      </label>
-      <label class="inline-flex items-center gap-2">
-        <span class="font-medium text-ink-muted">{t.orientation}</span>
-        <SelectField dataAttr="orientation" options={[{value:'auto',label:t.orientAuto},{value:'portrait',label:t.orientPortrait},{value:'landscape',label:t.orientLandscape}]} />
-      </label>
-      <label class="inline-flex items-center gap-2">
-        <span class="font-medium text-ink-muted">{t.margin}</span>
-        <SelectField dataAttr="margin" options={[{value:'0',label:t.marginNone},{value:'18',label:t.marginSmall,selected:true},{value:'36',label:t.marginLarge}]} />
-      </label>
+      <SelectField label={t.pageSize} dataAttr="size" options={[{value:'a4',label:t.sizeA4},{value:'letter',label:t.sizeLetter},{value:'fit',label:t.sizeFit}]} />
+      <SelectField label={t.orientation} dataAttr="orientation" options={[{value:'auto',label:t.orientAuto},{value:'portrait',label:t.orientPortrait},{value:'landscape',label:t.orientLandscape}]} />
+      <SelectField label={t.margin} dataAttr="margin" options={[{value:'0',label:t.marginNone},{value:'18',label:t.marginSmall,selected:true},{value:'36',label:t.marginLarge}]} />
       <label class="opt">
         <input type="checkbox" data-smaller />
         {t.smaller}
