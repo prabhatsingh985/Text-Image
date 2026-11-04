@@ -16,11 +16,29 @@ interface Props {
 
 const { currentId, ui, locale } = Astro.props;
 const { tools } = contentFor(locale.code);
-const groups = TOOL_GROUPS.map((g) => ({
-  id: g.id,
-  label: ui.groups[g.id],
-  tools: toolIdsFor(locale).filter((id) => id !== currentId && TOOL_META[id].group === g.id),
-})).filter((g) => g.tools.length);
+const available = toolIdsFor(locale);
+
+// One size of a tool ("Image Compressor to 20KB") is shown as a chip on its parent tool's tile,
+// so ten near-identical rows become two tiles. A size whose parent isn't built here stays a tile.
+const sizeOf = (id: ToolId) => id.match(/-to-(\d+)kb$/)?.[1];
+const parentOf = (id: ToolId) => id.replace(/-to-\d+kb$/, '') as ToolId;
+const isChip = (id: ToolId) => Boolean(TOOL_META[id].compact && sizeOf(id) && available.includes(parentOf(id)));
+
+// Short groups first, so groups share a row and every row ends flush.
+const ORDER = ['image', 'office', 'pdf', 'compress'];
+const groups = [...TOOL_GROUPS]
+  .sort((a, b) => ORDER.indexOf(a.id) - ORDER.indexOf(b.id))
+  .map((g) => {
+    const ids = available.filter((id) => id !== currentId && TOOL_META[id].group === g.id);
+    return {
+      id: g.id,
+      label: ui.groups[g.id],
+      tools: ids
+        .filter((id) => !isChip(id))
+        .map((id) => ({ id, sizes: ids.filter((s) => isChip(s) && parentOf(s) === id) })),
+    };
+  })
+  .filter((g) => g.tools.length);
 ---
 
 <section class="mx-auto mt-24 max-w-6xl px-4" aria-labelledby="all-tools">
@@ -28,35 +46,46 @@ const groups = TOOL_GROUPS.map((g) => ({
     <p class="eyebrow">{ui.common.toolkit}</p>
     <h2 id="all-tools" class="mt-4 font-display text-[2.6rem] leading-none text-balance sm:text-[3.75rem]">{ui.common.allTools}</h2>
   </div>
-  <div class:list={['mt-10 grid gap-3 rounded-[2.5rem] bg-surface-3 p-3 sm:p-4', groups.length > 3 ? 'md:grid-cols-2 xl:grid-cols-4' : 'lg:grid-cols-3']}>
+  <div class="mt-10 flex flex-wrap gap-3 rounded-[2.5rem] bg-surface-3 p-3 sm:p-4">
     {
-      groups.map((g) => (
-        <div class="rounded-3xl bg-surface p-3">
-          <h3 class="px-3 pt-2 pb-1 text-xs font-bold tracking-wide text-ink-soft uppercase">{g.label}</h3>
-          <ul>
-            {g.tools.map((id) => (
-              <li>
-                <a href={urlFor(id, locale)} class="group flex items-start gap-3.5 rounded-2xl p-3 transition hover:bg-brand-300/20">
-                  <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-surface-3 text-ink transition group-hover:bg-brand-300 group-hover:text-[#202020]">
-                    <ToolIcon id={id} />
-                  </span>
-                  <span class="min-w-0 flex-1">
-                    <span class="flex items-center gap-2 font-semibold">
-                      {tools[id].navLabel}
-                      {TOOL_META[id].tag && (
-                        <span class="rounded-full bg-brand-300 px-2 py-px text-[0.62rem] font-bold tracking-wide text-[#202020] uppercase">
-                          {ui.tags[TOOL_META[id].tag!]}
-                        </span>
-                      )}
+      groups.map((g) => {
+        // Tools with size chips need room, so they count double and sit in wider columns.
+        const hasSizes = g.tools.some((t) => t.sizes.length);
+        const weight = g.tools.length * (hasSizes ? 2 : 1);
+        return (
+          <div class="flex min-w-0 flex-col rounded-3xl bg-surface p-3 sm:p-4" style={`flex: ${weight} 1 ${weight * 13}rem`}>
+            <h3 class="px-1 pb-3 text-sm font-bold text-ink-muted">{g.label}</h3>
+            <ul class="grid flex-1 gap-2" style={`grid-template-columns: repeat(auto-fit, minmax(min(100%, ${hasSizes ? '20rem' : '11.5rem'}), 1fr))`}>
+              {g.tools.map(({ id, sizes }) => (
+                <li class="relative flex flex-col rounded-2xl bg-surface-2 transition has-[a.tile:hover]:bg-brand-300/30">
+                  <a href={urlFor(id, locale)} class="tile group flex flex-1 flex-col rounded-2xl p-4">
+                    <span class="grid h-10 w-10 place-items-center rounded-full bg-surface text-ink transition group-hover:bg-brand-300 group-hover:text-[#202020]">
+                      <ToolIcon id={id} />
                     </span>
-                    <span class="mt-0.5 block text-sm leading-6 text-ink-muted">{tools[id].cardText}</span>
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))
+                    {TOOL_META[id].tag && (
+                      <span class="absolute end-4 top-4 rounded-full bg-brand-300 px-2 py-px text-[0.62rem] font-bold tracking-wide text-[#202020] uppercase">
+                        {ui.tags[TOOL_META[id].tag!]}
+                      </span>
+                    )}
+                    <span class="mt-3 font-semibold">{tools[id].navLabel}</span>
+                    <span class="mt-1 block text-sm leading-6 text-ink-muted">{tools[id].cardText}</span>
+                  </a>
+                  {sizes.length > 0 && (
+                    <div class="flex flex-wrap gap-2 px-4 pb-4">
+                      {sizes.map((s) => (
+                        <a href={urlFor(s, locale)} title={tools[s].navLabel} class="rounded-full bg-surface px-3.5 py-2 text-sm font-semibold transition hover:bg-brand-300 hover:text-[#202020]">
+                          <span class="sr-only">{tools[s].navLabel}</span>
+                          <span aria-hidden="true">{sizeOf(s)} KB</span>
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      })
     }
   </div>
 </section>
