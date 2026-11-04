@@ -56,7 +56,9 @@ const t = Astro.props.ui.tool;
 <script>
   import { downloadBlob } from '../../lib/export/download';
   import { textToPdf, type FontChoice } from '../../lib/export/pdf';
-  import { countWords, fmt } from '../../lib/text';
+  import { readTextFile } from '../../lib/input/text-file';
+  import { fmt, textStats } from '../../lib/text';
+  import { bindFileInput, keepDropsOnPage } from '../../lib/ui/dropzone';
   import { toast } from '../../lib/ui/toast';
 
   document.querySelectorAll<HTMLElement>('[data-text-pdf]').forEach((root) => {
@@ -69,16 +71,30 @@ const t = Astro.props.ui.tool;
     const btn = $<HTMLButtonElement>('[data-create]');
 
     const updateCount = () => {
-      count.textContent = text.value ? `${fmt(t.words, { n: countWords(text.value) })} · ${fmt(t.chars, { n: text.value.length })}` : '';
+      count.textContent = textStats(text.value, t);
     };
     text.addEventListener('input', updateCount);
-    file.addEventListener('change', async () => {
-      const f = file.files?.[0];
-      if (f) {
-        text.value = await f.text();
+
+    const openFile = async (f: File) => {
+      try {
+        text.value = await readTextFile(f);
         updateCount();
+      } catch (err) {
+        console.error(err);
+        toast(t.failed);
       }
-      file.value = '';
+    };
+    bindFileInput(file, ([f]) => f && openFile(f));
+
+    // A text file dropped on the tool is opened. Text dragged from elsewhere stays a normal drop into the box.
+    keepDropsOnPage();
+    root.addEventListener('dragover', (e) => e.preventDefault());
+    root.addEventListener('drop', (e) => {
+      const f = e.dataTransfer?.files[0];
+      if (!f) return;
+      e.preventDefault();
+      if (/^text\//.test(f.type) || /\.(txt|text|md|markdown|csv|tsv|log|json|xml|html?|ini|cfg|yml|yaml)$/i.test(f.name)) openFile(f);
+      else toast(t.unsupported);
     });
 
     btn.addEventListener('click', async () => {
@@ -89,6 +105,7 @@ const t = Astro.props.ui.tool;
       }
       btn.disabled = true;
       const label = btn.textContent;
+      btn.textContent = t.creating;
       try {
         const { bytes, replaced, fontsFailed } = await textToPdf(
           text.value,

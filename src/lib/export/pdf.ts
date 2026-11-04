@@ -4,6 +4,9 @@ export type PageSize = 'a4' | 'letter' | 'fit';
 export type Orientation = 'auto' | 'portrait' | 'landscape';
 
 const SIZES = { a4: [595.28, 841.89], letter: [612, 792] } as const;
+/** PDF viewers refuse pages over 200 inches, and many complain under 3 points. */
+const MAX_PAGE_POINTS = 14400;
+const MIN_PAGE_POINTS = 3;
 
 export interface ImagePdfOptions {
   size: PageSize;
@@ -26,8 +29,9 @@ export async function imagesToPdf(
     let ph: number;
     if (opts.size === 'fit') {
       // CSS pixels to points: 96 px per inch, 72 pt per inch.
-      pw = img.width * 0.75 + opts.margin * 2;
-      ph = img.height * 0.75 + opts.margin * 2;
+      const fit = Math.min(0.75, (MAX_PAGE_POINTS - opts.margin * 2) / Math.max(img.width, img.height));
+      pw = Math.max(MIN_PAGE_POINTS, img.width * fit + opts.margin * 2);
+      ph = Math.max(MIN_PAGE_POINTS, img.height * fit + opts.margin * 2);
     } else {
       const [a, b] = SIZES[opts.size];
       const landscape = opts.orientation === 'landscape' || (opts.orientation === 'auto' && img.width > img.height);
@@ -68,8 +72,16 @@ const BREAK_ANY = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Scrip
 const NO_START = new Set('、。，．・：；？！ー）」』】〕〉》〙〗｝］’”ぁぃぅぇぉっゃゅょゎゕゖァィゥェォッャュョヮヵヶ々〻ゝゞヽヾ〜～…‥');
 const NO_END = new Set('（「『【〔〈《〘〖｛［‘“');
 
+const PLAIN_ASCII = /^[\x20-\x7e]*$/;
+const INVISIBLE = /\p{Default_Ignorable_Code_Point}/u;
+/** Enough for the distinct words of a large document, without growing without end. */
+const MAX_MEASURED = 200_000;
+/** Lines drawn between pauses that let the page repaint. */
+const BREATHE_EVERY = 3000;
+
 /** Splits a line into pieces that must stay together: words, runs of spaces, and single CJK characters. */
 function breakUnits(line: string): string[] {
+  if (PLAIN_ASCII.test(line)) return line.match(/ +|[^ ]+/g) ?? [];
   const units: string[] = [];
   let kind = '';
   for (const ch of line) {
@@ -118,10 +130,19 @@ export async function textToPdf(
 
   // NFC turns letters typed as base + combining accent into the single character the fonts have.
   // Split before cleaning: line breaks are not drawable characters and must not be replaced.
-  const sources = text.normalize('NFC').replace(/\t/g, '    ').replace(/\r\n?/g, '\n').split('\n');
+  // Every kind of line break counts (form feeds, the separators Word uses …); other control characters and soft hyphens draw nothing.
+  const sources = text
+    .normalize('NFC')
+    .replace(/\t/g, '    ')
+    .split(/\r\n?|[\n\f\v\x85\p{Zl}\p{Zp}]/u)
+    .map((line) => line.replace(/[\p{Cc}\xad]/gu, ''));
 
   const missing = new Set<string>();
-  for (const source of sources) for (const ch of source) if (!standard(ch)) missing.add(ch);
+  for (const source of sources) {
+    if (PLAIN_ASCII.test(source)) continue;
+    // Invisible characters such as zero-width joiners are simply left out, so they need no font.
+    for (const ch of source) if (!standard(ch) && !INVISIBLE.test(ch)) missing.add(ch);
+  }
   let fallback = new Map<string, PDFFont>();
   let fontsFailed = false;
   if (missing.size) {
@@ -133,15 +154,16 @@ export async function textToPdf(
 
   let replaced = 0;
   const clean = (s: string) =>
-    [...s]
-      .map((ch) => {
-        if (standard(ch) || fallback.has(ch)) return ch;
-        // Invisible characters such as zero-width joiners and variation selectors are simply left out.
-        if (/\p{Default_Ignorable_Code_Point}/u.test(ch)) return '';
-        replaced++;
-        return '?';
-      })
-      .join('');
+    PLAIN_ASCII.test(s)
+      ? s
+      : [...s]
+          .map((ch) => {
+            if (standard(ch) || fallback.has(ch)) return ch;
+            if (INVISIBLE.test(ch)) return '';
+            replaced++;
+            return '?';
+          })
+          .join('');
 
   /** Consecutive characters that share a font. */
   const runs = (s: string) => {
@@ -158,7 +180,16 @@ export async function textToPdf(
   const [pw, ph] = SIZES[opts.size];
   const maxW = pw - opts.margin * 2;
   const lineH = opts.fontSize * 1.4;
-  const width = (s: string) => runs(s).reduce((w, r) => w + r.font.widthOfTextAtSize(r.text, opts.fontSize), 0);
+  // Words repeat, so measuring each only once matters: long documents have millions of them.
+  const measured = new Map<string, number>();
+  const width = (s: string) => {
+    let w = measured.get(s);
+    if (w === undefined) {
+      w = runs(s).reduce((sum, r) => sum + r.font.widthOfTextAtSize(r.text, opts.fontSize), 0);
+      if (measured.size < MAX_MEASURED) measured.set(s, w);
+    }
+    return w;
+  };
 
   // Wrap every source line to the page width; units too long for a line are broken by character.
   const lines: string[] = [];
@@ -169,19 +200,31 @@ export async function textToPdf(
       continue;
     }
     let current = '';
+    let currentW = 0;
     for (const unit of breakUnits(raw)) {
-      if (width(current + unit) <= maxW) {
+      const unitW = width(unit);
+      if (currentW + unitW <= maxW) {
         current += unit;
+        currentW += unitW;
         continue;
       }
       if (current.trim()) lines.push(current.trimEnd());
       current = unit.trimStart();
-      while (width(current) > maxW) {
-        const chars = [...current];
-        let cut = chars.length;
-        while (cut > 1 && width(chars.slice(0, cut).join('')) > maxW) cut--;
-        lines.push(chars.slice(0, cut).join(''));
-        current = chars.slice(cut).join('');
+      currentW = width(current);
+      if (currentW > maxW) {
+        // One long run, such as a URL or a line of code. Each character is measured once: it can be 100 000 characters long.
+        current = '';
+        currentW = 0;
+        for (const ch of unit.trimStart()) {
+          const charW = width(ch);
+          if (current && currentW + charW > maxW) {
+            lines.push(current);
+            current = '';
+            currentW = 0;
+          }
+          current += ch;
+          currentW += charW;
+        }
       }
     }
     lines.push(current.trimEnd());
@@ -189,7 +232,7 @@ export async function textToPdf(
 
   let page = pdf.addPage([pw, ph]);
   let y = ph - opts.margin - opts.fontSize;
-  for (const line of lines) {
+  for (const [i, line] of lines.entries()) {
     if (y < opts.margin) {
       page = pdf.addPage([pw, ph]);
       y = ph - opts.margin - opts.fontSize;
@@ -200,6 +243,7 @@ export async function textToPdf(
       x += run.font.widthOfTextAtSize(run.text, opts.fontSize);
     }
     y -= lineH;
+    if (i % BREATHE_EVERY === BREATHE_EVERY - 1) await new Promise((resolve) => setTimeout(resolve));
   }
   return { bytes: await pdf.save(), replaced, fontsFailed };
 }
