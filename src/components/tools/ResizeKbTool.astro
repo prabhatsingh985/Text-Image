@@ -1,5 +1,6 @@
 ---
 import Dropzone from '../Dropzone.astro';
+import SelectField from '../SelectField.astro';
 import { IMAGE_ACCEPT } from '../../lib/input/images';
 import type { UiStrings } from '../../content/types';
 
@@ -92,10 +93,7 @@ const chip =
         }
         <label class="inline-flex items-center gap-2 sm:ms-3">
           <span class="font-medium text-ink-muted">{t.saveImagesAs}</span>
-          <select class="field py-1.5" data-format>
-            <option value="jpg">JPG</option>
-            <option value="pdf">PDF</option>
-          </select>
+          <SelectField dataAttr="format" options={[{value:'jpg',label:'JPG'},{value:'pdf',label:'PDF'}]} />
         </label>
       </div>
       {resize && <p class="text-xs text-ink-soft">{t.dimensionsHint}</p>}

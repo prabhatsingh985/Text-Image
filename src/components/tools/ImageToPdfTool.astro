@@ -1,5 +1,6 @@
 ---
 import Dropzone from '../Dropzone.astro';
+import SelectField from '../SelectField.astro';
 import { IMAGE_ACCEPT } from '../../lib/input/images';
 import type { UiStrings } from '../../content/types';
 
@@ -29,27 +30,15 @@ const t = Astro.props.ui.tool;
     <div class="flex flex-wrap items-center gap-x-5 gap-y-3 px-3 pt-4 pb-2 text-sm">
       <label class="inline-flex items-center gap-2">
         <span class="font-medium text-ink-muted">{t.pageSize}</span>
-        <select class="field py-1.5" data-size>
-          <option value="a4">{t.sizeA4}</option>
-          <option value="letter">{t.sizeLetter}</option>
-          <option value="fit">{t.sizeFit}</option>
-        </select>
+        <SelectField dataAttr="size" options={[{value:'a4',label:t.sizeA4},{value:'letter',label:t.sizeLetter},{value:'fit',label:t.sizeFit}]} />
       </label>
       <label class="inline-flex items-center gap-2">
         <span class="font-medium text-ink-muted">{t.orientation}</span>
-        <select class="field py-1.5" data-orientation>
-          <option value="auto">{t.orientAuto}</option>
-          <option value="portrait">{t.orientPortrait}</option>
-          <option value="landscape">{t.orientLandscape}</option>
-        </select>
+        <SelectField dataAttr="orientation" options={[{value:'auto',label:t.orientAuto},{value:'portrait',label:t.orientPortrait},{value:'landscape',label:t.orientLandscape}]} />
       </label>
       <label class="inline-flex items-center gap-2">
         <span class="font-medium text-ink-muted">{t.margin}</span>
-        <select class="field py-1.5" data-margin>
-          <option value="0">{t.marginNone}</option>
-          <option value="18" selected>{t.marginSmall}</option>
-          <option value="36">{t.marginLarge}</option>
-        </select>
+        <SelectField dataAttr="margin" options={[{value:'0',label:t.marginNone},{value:'18',label:t.marginSmall,selected:true},{value:'36',label:t.marginLarge}]} />
       </label>
       <label class="opt">
         <input type="checkbox" data-smaller />

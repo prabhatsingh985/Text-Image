@@ -1,4 +1,5 @@
 ---
+import SelectField from '../SelectField.astro';
 import type { UiStrings } from '../../content/types';
 
 interface Props {
@@ -18,31 +19,19 @@ const t = Astro.props.ui.tool;
       </label>
       <label class="inline-flex items-center gap-2">
         <span class="font-medium text-ink-muted">{t.font}</span>
-        <select class="field py-1.5" data-font>
-          <option value="sans">{t.fontSans}</option>
-          <option value="serif">{t.fontSerif}</option>
-          <option value="mono">{t.fontMono}</option>
-        </select>
+        <SelectField dataAttr="font" options={[{value:'sans',label:t.fontSans},{value:'serif',label:t.fontSerif},{value:'mono',label:t.fontMono}]} />
       </label>
       <label class="inline-flex items-center gap-2">
         <span class="font-medium text-ink-muted">{t.fontSize}</span>
-        <select class="field py-1.5" data-size>
-          {[10, 11, 12, 14, 16, 18].map((s) => <option value={s} selected={s === 12}>{s} pt</option>)}
-        </select>
+        <SelectField dataAttr="size" options={[10,11,12,14,16,18].map(s => ({value:s,label:`${s} pt`,selected:s===12}))} />
       </label>
       <label class="inline-flex items-center gap-2">
         <span class="font-medium text-ink-muted">{t.pageSize}</span>
-        <select class="field py-1.5" data-page>
-          <option value="a4">{t.sizeA4}</option>
-          <option value="letter">{t.sizeLetter}</option>
-        </select>
+        <SelectField dataAttr="page" options={[{value:'a4',label:t.sizeA4},{value:'letter',label:t.sizeLetter}]} />
       </label>
       <label class="inline-flex items-center gap-2">
         <span class="font-medium text-ink-muted">{t.margin}</span>
-        <select class="field py-1.5" data-margin>
-          <option value="36">{t.marginSmall}</option>
-          <option value="72" selected>{t.marginLarge}</option>
-        </select>
+        <SelectField dataAttr="margin" options={[{value:'36',label:t.marginSmall},{value:'72',label:t.marginLarge,selected:true}]} />
       </label>
     </div>
     <div class="mt-4 flex flex-wrap items-center gap-3 border-t border-line px-1 pt-4">

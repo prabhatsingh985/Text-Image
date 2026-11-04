@@ -1,0 +1,121 @@
+---
+interface Option {
+  value: string | number;
+  label: string;
+  selected?: boolean;
+}
+
+interface Props {
+  options: Option[];
+  /** The data-* attribute name on the hidden select, e.g. "format" → data-format */
+  dataAttr: string;
+}
+
+const { options, dataAttr } = Astro.props;
+const defaultOpt = options.find(o => o.selected) ?? options[0];
+---
+
+<div class="relative inline-block" data-sel-wrap>
+  <!-- Hidden native select kept so existing scripts can read .value unchanged -->
+  <select class="sr-only" {...{ [`data-${dataAttr}`]: '' }} tabindex="-1" aria-hidden="true">
+    {options.map(o => (
+      <option value={o.value} selected={o.selected}>{o.label}</option>
+    ))}
+  </select>
+
+  <button
+    type="button"
+    class="field inline-flex items-center gap-2 py-1.5 pr-3 text-sm"
+    data-sel-trigger
+    aria-haspopup="listbox"
+    aria-expanded="false"
+  >
+    <span data-sel-label>{defaultOpt?.label}</span>
+    <svg
+      class="h-3.5 w-3.5 shrink-0 text-ink-soft transition-transform duration-200"
+      data-sel-chevron
+      viewBox="0 0 20 20"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+    </svg>
+  </button>
+
+  <ul
+    role="listbox"
+    class="absolute left-0 top-full z-50 mt-1.5 min-w-full overflow-hidden rounded-2xl border-2 border-line-strong bg-surface py-1"
+    style="box-shadow: 0 8px 24px -4px rgb(0 0 0 / 0.12);"
+    data-sel-panel
+    hidden
+  >
+    {options.map((o, i) => {
+      const isSelected = o.selected || (!options.some(x => x.selected) && i === 0);
+      return (
+        <li
+          role="option"
+          data-sel-opt={String(o.value)}
+          aria-selected={isSelected ? 'true' : 'false'}
+          class="cursor-pointer whitespace-nowrap px-4 py-2 text-sm text-ink-muted transition hover:bg-surface-3 hover:text-ink aria-[selected=true]:font-semibold aria-[selected=true]:text-ink"
+        >
+          {o.label}
+        </li>
+      );
+    })}
+  </ul>
+</div>
+
+<script>
+  function initSelects() {
+    document.querySelectorAll<HTMLElement>('[data-sel-wrap]:not([data-sel-init])').forEach((wrap) => {
+      wrap.dataset.selInit = '1';
+      const select = wrap.querySelector('select')!;
+      const trigger = wrap.querySelector<HTMLButtonElement>('[data-sel-trigger]')!;
+      const panel = wrap.querySelector<HTMLElement>('[data-sel-panel]')!;
+      const labelEl = wrap.querySelector('[data-sel-label]')!;
+      const chevron = wrap.querySelector<SVGElement>('[data-sel-chevron]')!;
+      const opts = [...wrap.querySelectorAll<HTMLElement>('[data-sel-opt]')];
+
+      const open = () => {
+        panel.hidden = false;
+        trigger.setAttribute('aria-expanded', 'true');
+        chevron.style.transform = 'rotate(180deg)';
+      };
+      const close = () => {
+        panel.hidden = true;
+        trigger.setAttribute('aria-expanded', 'false');
+        chevron.style.transform = '';
+      };
+
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        panel.hidden ? open() : close();
+      });
+
+      opts.forEach((opt) => {
+        opt.addEventListener('click', () => {
+          const val = opt.dataset.selOpt!;
+          select.value = val;
+          labelEl.textContent = opt.textContent!.trim();
+          opts.forEach(o => o.setAttribute('aria-selected', 'false'));
+          opt.setAttribute('aria-selected', 'true');
+          close();
+        });
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!wrap.contains(e.target as Node)) close();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !panel.hidden) {
+          close();
+          trigger.focus();
+        }
+      });
+    });
+  }
+
+  initSelects();
+  document.addEventListener('astro:page-load', initSelects);
+</script>
