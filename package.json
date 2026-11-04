@@ -19,6 +19,7 @@
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.4.2",
     "docx": "^9.15.0",
+    "harfbuzzjs": "^1.6.4",
     "heic2any": "^0.0.4",
     "jszip": "^3.10.2",
     "pdf-lib": "^1.17.1",

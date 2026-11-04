@@ -546,7 +546,7 @@ export const tools: Record<ToolId, ToolContent> = {
       {
         h2: 'Choose the layout of your PDF',
         list: [
-          '<strong>Font:</strong> sans-serif (Helvetica) for a clean modern look, serif (Times) for letters and formal documents, or monospace (Courier) for code and tables made of spaces. Text in other scripts, such as Japanese, Korean, Chinese, Greek or Cyrillic, is set in the matching Noto font: Noto Serif when you choose serif, Noto Sans otherwise.',
+          '<strong>Font:</strong> sans-serif (Helvetica) for a clean modern look, serif (Times) for letters and formal documents, or monospace (Courier) for code and tables made of spaces. Text in other scripts, such as Hindi, Japanese, Korean, Chinese, Greek or Cyrillic, is set in the matching Noto font: Noto Serif when you choose serif, Noto Sans otherwise.',
           '<strong>Font size:</strong> from 10 to 18 pt. 12 pt is the standard for most documents; choose 14–18 pt for large print.',
           '<strong>Page size:</strong> A4, the standard in India, the UK and most of the world, or Letter for the US and Canada.',
           '<strong>Margins:</strong> small (half an inch) to fit more text on each page, or large (one inch), the usual margin for printed documents.',
@@ -580,9 +580,9 @@ export const tools: Record<ToolId, ToolContent> = {
       {
         h2: 'Supported languages and characters',
         paragraphs: [
-          'Text to PDF supports English and other languages written with the Latin alphabet, including Spanish, French, German, Portuguese, Italian, Dutch, Polish, Czech, Turkish, Romanian and Vietnamese, as well as <strong>Japanese, Korean, Chinese (Simplified and Traditional), Russian and other Cyrillic languages, and Greek</strong>. You can mix them freely in one document.',
-          'English and Western European text uses the standard PDF fonts. For everything else, your browser downloads only the parts of the free Noto fonts that your text needs, from the public jsDelivr network, the first time they are needed, and the PDF embeds just the characters you used. Chinese and Japanese lines wrap between characters, with closing punctuation kept off the start of a line.',
-          'Hindi and other Indian scripts, Arabic, Hebrew, Thai and emoji are not supported yet. Characters the PDF cannot show are replaced with “?”, and the tool tells you how many were replaced so you can check the result.',
+          'Text to PDF supports English and other languages written with the Latin alphabet, including Spanish, French, German, Portuguese, Italian, Dutch, Polish, Czech, Turkish, Romanian and Vietnamese, as well as <strong>Hindi, Marathi, Nepali and Sanskrit, Japanese, Korean, Chinese (Simplified and Traditional), Russian and other Cyrillic languages, and Greek</strong>. You can mix them freely in one document.',
+          'English and Western European text uses the standard PDF fonts. For everything else, your browser downloads only the parts of the free Noto fonts that your text needs, from the public jsDelivr network, the first time they are needed, and the PDF embeds just the characters you used (Hindi and other Devanagari text embeds its complete font, so conjuncts and matras draw correctly). Chinese and Japanese lines wrap between characters, with closing punctuation kept off the start of a line.',
+          'Other Indian scripts such as Bengali and Tamil, Arabic, Hebrew, Thai and emoji are not supported yet. Characters the PDF cannot show are replaced with “?”, and the tool tells you how many were replaced so you can check the result.',
         ],
       },
       {
@@ -621,7 +621,7 @@ export const tools: Record<ToolId, ToolContent> = {
       { q: 'Will my line breaks be kept in the PDF?', a: 'Yes. Every line break and empty line in your text is kept exactly where it is. Long lines wrap neatly and new pages are added automatically.' },
       { q: 'Can I search and copy the text in the PDF?', a: 'Yes. The PDF contains real text, not an image, so you can search it, select it and copy from it.' },
       { q: 'Can I convert code or log files to PDF?', a: 'Yes. Choose the monospace font so code, logs and tables made of spaces line up the same way they do in your editor.' },
-      { q: 'Which languages can I convert to PDF?', a: 'English and other Latin-alphabet languages (including Polish, Turkish and Vietnamese), Japanese, Korean, Chinese, Russian and other Cyrillic languages, and Greek. Hindi, Arabic, Hebrew, Thai and emoji are not supported yet; those characters are replaced with “?”, and the tool tells you how many.' },
+      { q: 'Which languages can I convert to PDF?', a: 'English and other Latin-alphabet languages (including Polish, Turkish and Vietnamese), Hindi, Marathi and other Devanagari languages, Japanese, Korean, Chinese, Russian and other Cyrillic languages, and Greek. Other Indian scripts, Arabic, Hebrew, Thai and emoji are not supported yet; those characters are replaced with “?”, and the tool tells you how many.' },
       { q: 'Can I convert Japanese, Korean or Chinese text to PDF?', a: 'Yes. Paste the text and click “Create PDF”. Those characters are set in Noto Sans or Noto Serif, so the PDF shows them correctly and the text can still be searched and copied. The first time, the font files take a few seconds to download.' },
       { q: 'Is my text uploaded?', a: 'No. The PDF is generated in your browser and your text stays on your device.' },
     ],
@@ -673,7 +673,7 @@ export const tools: Record<ToolId, ToolContent> = {
         h2: 'Image PDF to text PDF in two steps',
         paragraphs: [
           'A scanned PDF looks like text, but you cannot search it, copy from it or let a screen reader read it aloud. To turn an image PDF into text, open it here: the OCR engine reads every scanned page and gives you the words as plain text that you can edit and correct.',
-          'Want a clean text PDF again afterwards? Copy the result into our <a href="/text-to-pdf">Text to PDF converter</a>, choose a font and page size, and download a new PDF made of real text (Text to PDF handles Latin-alphabet languages, Japanese, Korean, Chinese, Cyrillic and Greek, but not yet Hindi, Arabic or Thai). That is the quickest way to go from image PDF to text PDF without paid software.',
+          'Want a clean text PDF again afterwards? Copy the result into our <a href="/text-to-pdf">Text to PDF converter</a>, choose a font and page size, and download a new PDF made of real text (Text to PDF handles Latin-alphabet languages, Hindi, Japanese, Korean, Chinese, Cyrillic and Greek, but not yet Arabic or Thai). That is the quickest way to go from image PDF to text PDF without paid software.',
         ],
       },
       {

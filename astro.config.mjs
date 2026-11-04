@@ -23,7 +23,8 @@ export default defineConfig({
     // Pre-bundle the lazily imported libraries so the dev server never re-optimizes mid-session.
     optimizeDeps: {
       include: ['tesseract.js', 'pdfjs-dist', 'pdf-lib', '@pdf-lib/fontkit', 'docx', 'jszip', 'xlsx'],
-      exclude: ['heic2any'],
+      // harfbuzzjs finds its .wasm next to its own file, which pre-bundling would move.
+      exclude: ['heic2any', 'harfbuzzjs'],
     },
   },
 });

@@ -56,7 +56,7 @@ const content: ToolContent = {
     {
       h2: 'Scegli l’impaginazione del PDF',
       list: [
-        '<strong>Carattere:</strong> senza grazie (Helvetica) per un aspetto pulito e moderno, con grazie (Times) per lettere e documenti formali, o monospaziato (Courier) per codice e tabelle fatte di spazi. Il testo in altri alfabeti, come giapponese, coreano, cinese, greco o cirillico, usa il carattere Noto corrispondente: Noto Serif se scegli quello con grazie, altrimenti Noto Sans.',
+        '<strong>Carattere:</strong> senza grazie (Helvetica) per un aspetto pulito e moderno, con grazie (Times) per lettere e documenti formali, o monospaziato (Courier) per codice e tabelle fatte di spazi. Il testo in altri alfabeti, come hindi, giapponese, coreano, cinese, greco o cirillico, usa il carattere Noto corrispondente: Noto Serif se scegli quello con grazie, altrimenti Noto Sans.',
         '<strong>Dimensione del testo:</strong> da 10 a 18 pt. 12 pt è lo standard per la maggior parte dei documenti; scegli 14–18 pt per caratteri grandi.',
         '<strong>Formato pagina:</strong> A4, lo standard in Italia e nella maggior parte del mondo, oppure Lettera USA per Stati Uniti e Canada.',
         '<strong>Margini:</strong> piccolo (mezzo pollice) per far stare più testo in ogni pagina, o grande (un pollice), il margine abituale dei documenti stampati.',
@@ -90,9 +90,9 @@ const content: ToolContent = {
     {
       h2: 'Lingue e caratteri supportati',
       paragraphs: [
-        'Lo strumento supporta l’italiano e le altre lingue scritte con l’alfabeto latino, come inglese, spagnolo, francese, tedesco, portoghese, polacco, ceco, turco, rumeno e vietnamita, con lettere accentate, virgolette tipografiche, trattini e il simbolo €, oltre a <strong>giapponese, coreano, cinese (semplificato e tradizionale), russo e altre lingue in cirillico, e greco</strong>. Puoi mescolarle nello stesso documento.',
-        'Il testo in italiano e nelle altre lingue dell’Europa occidentale usa i caratteri PDF standard. Per tutto il resto, il browser scarica solo le parti dei caratteri gratuiti Noto che servono al tuo testo, dalla rete pubblica jsDelivr e la prima volta che servono, e il PDF incorpora solo i caratteri usati. Le righe in cinese e giapponese vanno a capo tra un carattere e l’altro, senza lasciare la punteggiatura di chiusura a inizio riga.',
-        'L’hindi e gli altri alfabeti indiani, l’arabo, l’ebraico, il thailandese e le emoji non sono ancora supportati. I caratteri che il PDF non può mostrare vengono sostituiti con «?», e lo strumento ti dice quanti ne ha sostituiti per farti controllare il risultato.',
+        'Lo strumento supporta l’italiano e le altre lingue scritte con l’alfabeto latino, come inglese, spagnolo, francese, tedesco, portoghese, polacco, ceco, turco, rumeno e vietnamita, con lettere accentate, virgolette tipografiche, trattini e il simbolo €, oltre a <strong>hindi, marathi, nepalese e sanscrito, giapponese, coreano, cinese (semplificato e tradizionale), russo e altre lingue in cirillico, e greco</strong>. Puoi mescolarle nello stesso documento.',
+        'Il testo in italiano e nelle altre lingue dell’Europa occidentale usa i caratteri PDF standard. Per tutto il resto, il browser scarica solo le parti dei caratteri gratuiti Noto che servono al tuo testo, dalla rete pubblica jsDelivr e la prima volta che servono, e il PDF incorpora solo i caratteri usati (l’hindi e gli altri testi in devanagari incorporano il font completo, per disegnare bene legature e segni vocalici). Le righe in cinese e giapponese vanno a capo tra un carattere e l’altro, senza lasciare la punteggiatura di chiusura a inizio riga.',
+        'Gli altri alfabeti indiani, come bengalese e tamil, l’arabo, l’ebraico, il thailandese e le emoji non sono ancora supportati. I caratteri che il PDF non può mostrare vengono sostituiti con «?», e lo strumento ti dice quanti ne ha sostituiti per farti controllare il risultato.',
       ],
     },
     {
@@ -131,7 +131,7 @@ const content: ToolContent = {
     { q: 'Gli a capo vengono mantenuti nel PDF?', a: 'Sì. Ogni a capo e ogni riga vuota restano esattamente dove sono. Le righe lunghe vanno a capo da sole e le nuove pagine si aggiungono in automatico.' },
     { q: 'Posso cercare e copiare il testo del PDF?', a: 'Sì. Il PDF contiene testo vero, non un’immagine, quindi puoi cercarci dentro, selezionarlo e copiarlo.' },
     { q: 'Posso convertire codice o file di log in PDF?', a: 'Sì. Scegli il carattere monospaziato così codice, log e tabelle fatte di spazi restano allineati come nel tuo editor.' },
-    { q: 'Quali lingue posso convertire in PDF?', a: 'L’italiano e le altre lingue con alfabeto latino (anche polacco, turco e vietnamita), giapponese, coreano, cinese, russo e altre lingue in cirillico, e greco. Hindi, arabo, ebraico, thailandese ed emoji non sono ancora supportati; questi caratteri vengono sostituiti con «?» e lo strumento ti dice quanti.' },
+    { q: 'Quali lingue posso convertire in PDF?', a: 'L’italiano e le altre lingue con alfabeto latino (anche polacco, turco e vietnamita), hindi, marathi e altre lingue in devanagari, giapponese, coreano, cinese, russo e altre lingue in cirillico, e greco. Altri alfabeti indiani, arabo, ebraico, thailandese ed emoji non sono ancora supportati; questi caratteri vengono sostituiti con «?» e lo strumento ti dice quanti.' },
     { q: 'Posso convertire in PDF un testo in giapponese, coreano o cinese?', a: 'Sì. Incolla il testo e clicca su «Crea PDF». Questi caratteri usano Noto Sans o Noto Serif, quindi il PDF li mostra correttamente e il testo resta ricercabile e copiabile. La prima volta il download dei font richiede qualche secondo.' },
     { q: 'Il mio testo viene caricato?', a: 'No. Il PDF viene generato nel browser e il tuo testo resta sul tuo dispositivo.' },
   ],

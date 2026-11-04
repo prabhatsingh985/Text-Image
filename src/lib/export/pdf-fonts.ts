@@ -1,6 +1,6 @@
 // Noto fonts for Text to PDF (PLAN.md §13, Phase 1b). The standard PDF fonts only cover
 // Latin text (Windows-1252), so for anything else (Japanese, Korean, Chinese, Cyrillic, Greek,
-// Devanagari, extended Latin) we fall back to Noto. Fontsource publishes each Noto family in
+// Devanagari, extended Latin) we fall back to Noto (pdf-shaping.ts draws Devanagari). Fontsource publishes each Noto family in
 // small slices, one per Unicode range, the way Google Fonts serves them. The browser downloads
 // only the slices that hold characters in the text, from jsDelivr like the OCR engine, and the
 // PDF embeds only the glyphs it uses. Requests name font slices; the text never leaves the device.
@@ -46,14 +46,9 @@ function chain(text: string, choice: FontChoice): Family[] {
       ? ['ko', 'sc', 'tc', 'ja']
       : ['sc', 'tc', 'ja', 'ko'];
   const sans = [SANS, ...order.map((k) => CJK_SANS[k])];
-  // Serif first when asked for, then sans for scripts the serif families lack (such as Devanagari).
+  // Serif first when asked for, then sans for scripts the serif families lack.
   return choice === 'serif' ? [SERIF, ...order.map((k) => CJK_SERIF[k]), ...sans] : sans;
 }
-
-// Devanagari (Hindi) needs complex shaping: fontkit's shaper for it fails in the browser build,
-// and pdf-lib ignores the mark positions it would compute. Noto Sans has the glyphs, but we leave
-// these characters unsupported rather than draw them wrongly.
-const COMPLEX = /\p{Script=Devanagari}/u;
 
 const base = (f: Family) => `${CDN}/${f.id}@${f.version}`;
 
@@ -180,6 +175,14 @@ async function woffToTtf(woff: Uint8Array): Promise<Uint8Array> {
   return out;
 }
 
+/** The Devanagari font as plain TrueType, in the chosen style (monospace has no Devanagari, so sans). */
+export function devanagariFontBytes(choice: FontChoice): Promise<Uint8Array> {
+  const id = choice === 'serif' ? 'noto-serif-devanagari' : 'noto-sans-devanagari';
+  return fetchOk(`${CDN}/${id}@5.3.0/files/${id}-devanagari-400-normal.woff`)
+    .then((r) => r.arrayBuffer())
+    .then((buf) => woffToTtf(new Uint8Array(buf)));
+}
+
 function loadSlice(fontkit: Fontkit, f: Family, slice: string) {
   // WOFF rather than WOFF2: fontkit's subsetter copies glyph data as stored, and WOFF2 transforms it.
   const url = `${base(f)}/files/${f.id}-${slice}-400-normal.woff`;
@@ -212,7 +215,7 @@ export async function embedFallbackFonts(
 
   const fonts = new Map<string, PDFFont>();
   let failed = false;
-  let left = [...chars].filter((ch) => !COMPLEX.test(ch));
+  let left = [...chars];
 
   for (const f of chain(text, choice)) {
     if (!left.length) break;

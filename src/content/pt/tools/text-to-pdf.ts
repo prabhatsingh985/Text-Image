@@ -56,7 +56,7 @@ const content: ToolContent = {
     {
       h2: 'Escolha o layout do seu PDF',
       list: [
-        '<strong>Fonte:</strong> sem serifa (Helvetica) para um visual limpo e moderno, com serifa (Times) para cartas e documentos formais, ou monoespaçada (Courier) para código e tabelas feitas com espaços. Texto em outros alfabetos, como japonês, coreano, chinês, grego ou cirílico, usa a fonte Noto correspondente: Noto Serif se você escolher com serifa e Noto Sans nos outros casos.',
+        '<strong>Fonte:</strong> sem serifa (Helvetica) para um visual limpo e moderno, com serifa (Times) para cartas e documentos formais, ou monoespaçada (Courier) para código e tabelas feitas com espaços. Texto em outros alfabetos, como hindi, japonês, coreano, chinês, grego ou cirílico, usa a fonte Noto correspondente: Noto Serif se você escolher com serifa e Noto Sans nos outros casos.',
         '<strong>Tamanho da letra:</strong> de 10 a 18 pt. 12 pt é o padrão para a maioria dos documentos; escolha 14–18 pt para letra grande.',
         '<strong>Tamanho da página:</strong> A4, o padrão no Brasil, em Portugal e na maior parte do mundo, ou Carta para os Estados Unidos e o Canadá.',
         '<strong>Margens:</strong> pequena (meia polegada) para caber mais texto por página, ou grande (uma polegada), a margem comum em documentos impressos.',
@@ -90,9 +90,9 @@ const content: ToolContent = {
     {
       h2: 'Idiomas e caracteres compatíveis',
       paragraphs: [
-        'A ferramenta aceita português e os outros idiomas escritos com o alfabeto latino, como inglês, espanhol, francês, alemão, italiano, polonês, tcheco, turco, romeno e vietnamita, com acentos, cedilha, aspas curvas, travessões e o símbolo €, além de <strong>japonês, coreano, chinês (simplificado e tradicional), russo e outros idiomas com alfabeto cirílico, e grego</strong>. Dá para misturar todos no mesmo documento.',
-        'Texto em português e outros idiomas da Europa Ocidental usa as fontes PDF padrão. Para o resto, o navegador baixa só as partes das fontes gratuitas Noto de que o seu texto precisa, da rede pública jsDelivr e na primeira vez em que são necessárias, e o PDF incorpora apenas os caracteres usados. Linhas em chinês e japonês quebram entre caracteres, sem deixar sinais de fechamento no começo de uma linha.',
-        'Hindi e outros alfabetos da Índia, árabe, hebraico, tailandês e emojis ainda não são compatíveis. Os caracteres que o PDF não consegue mostrar são trocados por “?”, e a ferramenta avisa quantos foram trocados para você conferir o resultado.',
+        'A ferramenta aceita português e os outros idiomas escritos com o alfabeto latino, como inglês, espanhol, francês, alemão, italiano, polonês, tcheco, turco, romeno e vietnamita, com acentos, cedilha, aspas curvas, travessões e o símbolo €, além de <strong>hindi, marata, nepalês e sânscrito, japonês, coreano, chinês (simplificado e tradicional), russo e outros idiomas com alfabeto cirílico, e grego</strong>. Dá para misturar todos no mesmo documento.',
+        'Texto em português e outros idiomas da Europa Ocidental usa as fontes PDF padrão. Para o resto, o navegador baixa só as partes das fontes gratuitas Noto de que o seu texto precisa, da rede pública jsDelivr e na primeira vez em que são necessárias, e o PDF incorpora apenas os caracteres usados (hindi e outros textos em devanágari incorporam a fonte completa, para desenhar bem as ligaduras e os sinais vocálicos). Linhas em chinês e japonês quebram entre caracteres, sem deixar sinais de fechamento no começo de uma linha.',
+        'Outros alfabetos da Índia, como bengali e tâmil, árabe, hebraico, tailandês e emojis ainda não são compatíveis. Os caracteres que o PDF não consegue mostrar são trocados por “?”, e a ferramenta avisa quantos foram trocados para você conferir o resultado.',
       ],
     },
     {
@@ -131,7 +131,7 @@ const content: ToolContent = {
     { q: 'As quebras de linha são mantidas no PDF?', a: 'Sim. Cada quebra de linha e linha vazia fica exatamente onde está. Linhas longas quebram sozinhas e novas páginas são adicionadas automaticamente.' },
     { q: 'Dá para pesquisar e copiar o texto do PDF?', a: 'Sim. O PDF tem texto de verdade, não uma imagem, então você pode pesquisar, selecionar e copiar.' },
     { q: 'Posso converter código ou arquivos de log em PDF?', a: 'Sim. Escolha a fonte monoespaçada para código, logs e tabelas feitas com espaços ficarem alinhados como no seu editor.' },
-    { q: 'Quais idiomas posso converter em PDF?', a: 'Português e os outros idiomas com alfabeto latino (incluindo polonês, turco e vietnamita), japonês, coreano, chinês, russo e outros idiomas com alfabeto cirílico, e grego. Hindi, árabe, hebraico, tailandês e emojis ainda não são compatíveis; esses caracteres são trocados por “?”, e a ferramenta avisa quantos.' },
+    { q: 'Quais idiomas posso converter em PDF?', a: 'Português e os outros idiomas com alfabeto latino (incluindo polonês, turco e vietnamita), hindi, marata e outros idiomas em devanágari, japonês, coreano, chinês, russo e outros idiomas com alfabeto cirílico, e grego. Outros alfabetos da Índia, árabe, hebraico, tailandês e emojis ainda não são compatíveis; esses caracteres são trocados por “?”, e a ferramenta avisa quantos.' },
     { q: 'Posso converter texto em japonês, coreano ou chinês em PDF?', a: 'Sim. Cole o texto e clique em “Criar PDF”. Esses caracteres usam Noto Sans ou Noto Serif, então o PDF os mostra corretamente e o texto continua pesquisável e copiável. Na primeira vez, as fontes levam alguns segundos para baixar.' },
     { q: 'Meu texto é enviado?', a: 'Não. O PDF é gerado no navegador e seu texto fica no seu aparelho.' },
   ],

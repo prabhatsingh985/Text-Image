@@ -1,5 +1,8 @@
 // PDF creation with pdf-lib (PLAN.md §8.6 and §8.7). Loaded only when someone creates a PDF.
 
+import { JOINER, SHAPED_SCRIPT } from './shaping-chars';
+import type { Shaper } from './pdf-shaping';
+
 export type PageSize = 'a4' | 'letter' | 'fit';
 export type Orientation = 'auto' | 'portrait' | 'landscape';
 
@@ -100,8 +103,8 @@ function breakUnits(line: string): string[] {
 
 /**
  * Plain text → PDF. Latin text (Windows-1252) uses the standard PDF fonts. Other scripts use Noto
- * fonts, downloaded only when the text needs them (see pdf-fonts.ts). Characters no font covers
- * are replaced with "?" and counted, so the page can warn the user.
+ * fonts, downloaded only when the text needs them (see pdf-fonts.ts), and Devanagari is shaped by
+ * HarfBuzz (see pdf-shaping.ts). Characters no font covers are replaced with "?" and counted, so the page can warn the user.
  */
 export async function textToPdf(
   text: string,
@@ -138,44 +141,67 @@ export async function textToPdf(
     .map((line) => line.replace(/[\p{Cc}\xad]/gu, ''));
 
   const missing = new Set<string>();
+  let needsShaping = false;
   for (const source of sources) {
     if (PLAIN_ASCII.test(source)) continue;
     // Invisible characters such as zero-width joiners are simply left out, so they need no font.
-    for (const ch of source) if (!standard(ch) && !INVISIBLE.test(ch)) missing.add(ch);
+    for (const ch of source) {
+      if (standard(ch) || INVISIBLE.test(ch)) continue;
+      if (SHAPED_SCRIPT.test(ch)) needsShaping = true;
+      else missing.add(ch);
+    }
   }
   let fallback = new Map<string, PDFFont>();
   let fontsFailed = false;
+  let shaper: Shaper | null = null;
+  if (missing.size || needsShaping) onFontsLoading?.();
+  if (needsShaping) {
+    try {
+      shaper = await (await import('./pdf-shaping')).loadShaper(pdf, opts.font);
+    } catch {
+      fontsFailed = true;
+    }
+  }
   if (missing.size) {
-    onFontsLoading?.();
     const { embedFallbackFonts } = await import('./pdf-fonts');
     ({ fonts: fallback, failed: fontsFailed } = await embedFallbackFonts(pdf, missing, text, opts.font));
   }
   const fontOf = (ch: string) => fallback.get(ch) ?? font;
+  const isShaped = (ch: string) => !!shaper && (JOINER.test(ch) || (SHAPED_SCRIPT.test(ch) && shaper.covers(ch)));
 
   let replaced = 0;
-  const clean = (s: string) =>
-    PLAIN_ASCII.test(s)
-      ? s
-      : [...s]
-          .map((ch) => {
-            if (standard(ch) || fallback.has(ch)) return ch;
-            if (INVISIBLE.test(ch)) return '';
-            replaced++;
-            return '?';
-          })
-          .join('');
-
-  /** Consecutive characters that share a font. */
-  const runs = (s: string) => {
-    const out: { text: string; font: PDFFont }[] = [];
+  const clean = (s: string) => {
+    if (PLAIN_ASCII.test(s)) return s;
+    let out = '';
+    let previous = '';
     for (const ch of s) {
-      const f = fontOf(ch);
+      // A joiner only means something right after a Devanagari letter.
+      if (JOINER.test(ch)) {
+        if (isShaped(previous)) out += ch;
+      } else if (isShaped(ch) || standard(ch) || fallback.has(ch)) out += ch;
+      else if (!INVISIBLE.test(ch)) {
+        replaced++;
+        out += '?';
+      }
+      previous = ch;
+    }
+    return out;
+  };
+
+  /** Consecutive characters that share a font; `font` is null for text the shaper draws. */
+  const runs = (s: string) => {
+    const out: { text: string; font: PDFFont | null }[] = [];
+    for (const ch of s) {
+      const f = isShaped(ch) ? null : fontOf(ch);
       const last = out[out.length - 1];
-      if (last?.font === f) last.text += ch;
+      if (last && last.font === f) last.text += ch;
       else out.push({ text: ch, font: f });
     }
     return out;
   };
+  /** Whole letters with their marks, so a long Devanagari word never breaks inside one. */
+  const pieces = (s: string): Iterable<string> =>
+    SHAPED_SCRIPT.test(s) ? Array.from(new Intl.Segmenter(undefined, { granularity: 'grapheme' }).segment(s), (g) => g.segment) : s;
 
   const [pw, ph] = SIZES[opts.size];
   const maxW = pw - opts.margin * 2;
@@ -185,7 +211,7 @@ export async function textToPdf(
   const width = (s: string) => {
     let w = measured.get(s);
     if (w === undefined) {
-      w = runs(s).reduce((sum, r) => sum + r.font.widthOfTextAtSize(r.text, opts.fontSize), 0);
+      w = runs(s).reduce((sum, r) => sum + (r.font ? r.font.widthOfTextAtSize(r.text, opts.fontSize) : shaper!.width(r.text, opts.fontSize)), 0);
       if (measured.size < MAX_MEASURED) measured.set(s, w);
     }
     return w;
@@ -215,7 +241,7 @@ export async function textToPdf(
         // One long run, such as a URL or a line of code. Each character is measured once: it can be 100 000 characters long.
         current = '';
         currentW = 0;
-        for (const ch of unit.trimStart()) {
+        for (const ch of pieces(unit.trimStart())) {
           const charW = width(ch);
           if (current && currentW + charW > maxW) {
             lines.push(current);
@@ -239,11 +265,16 @@ export async function textToPdf(
     }
     let x = opts.margin;
     for (const run of runs(line)) {
-      page.drawText(run.text, { x, y, size: opts.fontSize, font: run.font, color: rgb(0.07, 0.07, 0.1) });
-      x += run.font.widthOfTextAtSize(run.text, opts.fontSize);
+      if (run.font) {
+        page.drawText(run.text, { x, y, size: opts.fontSize, font: run.font, color: rgb(0.07, 0.07, 0.1) });
+        x += run.font.widthOfTextAtSize(run.text, opts.fontSize);
+      } else {
+        x += shaper!.draw(page, run.text, x, y, opts.fontSize, rgb(0.07, 0.07, 0.1));
+      }
     }
     y -= lineH;
     if (i % BREATHE_EVERY === BREATHE_EVERY - 1) await new Promise((resolve) => setTimeout(resolve));
   }
+  shaper?.finish();
   return { bytes: await pdf.save(), replaced, fontsFailed };
 }
