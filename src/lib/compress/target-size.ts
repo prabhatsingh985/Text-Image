@@ -10,12 +10,26 @@ const BYTES_PER_PIXEL = 0.15;
 const TOP_QUALITY = 0.92;
 
 /**
+ * Lets the page repaint between long encodes. A message is used because timers are held back
+ * to about once a second in a background tab, which would make the search crawl.
+ */
+function breathe(): Promise<void> {
+  return new Promise((resolve) => {
+    const { port1, port2 } = new MessageChannel();
+    port1.onmessage = () => resolve();
+    port2.postMessage(0);
+  });
+}
+
+/**
  * JPEG bytes of a canvas. The search encodes many times, and toBlob's callback is held back
  * to about once a second in a background tab, so this uses the synchronous toDataURL.
+ * Empty when the browser could not make a canvas that large.
  */
 function encodeJpeg(canvas: HTMLCanvasElement, quality: number): Uint8Array<ArrayBuffer> {
-  const b64 = canvas.toDataURL('image/jpeg', quality).split(',')[1];
-  const bin = atob(b64);
+  const url = canvas.toDataURL('image/jpeg', quality);
+  if (!url.startsWith('data:image/jpeg')) return new Uint8Array(0);
+  const bin = atob(url.slice(url.indexOf(',') + 1));
   const bytes = new Uint8Array(bin.length);
   for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
   return bytes;
@@ -28,10 +42,15 @@ interface Attempt<T> {
   quality: number;
 }
 
+/** Stop refining the quality once this close to the limit, or once the steps are too small to matter. */
+const CLOSE_ENOUGH = 0.97;
+const QUALITY_STEP = 0.012;
+
 /**
  * Finds the best (scale, quality) whose encoded size is at most `maxBytes`.
  * `scale` is relative to the full size and never goes above `maxScale`.
  * Returns the smallest attempt seen when nothing fits, so the caller can still offer it.
+ * A size of 0 means the browser could not make the canvas: that scale is too large, whatever the limit.
  */
 async function fitToSize<T>(
   encode: (scale: number, quality: number) => Promise<{ out: T; size: number }>,
@@ -44,7 +63,7 @@ async function fitToSize<T>(
   let shrunk = false;
   const tryAt = async (s: number, q: number) => {
     const a = { ...(await encode(s, q)), scale: s, quality: q };
-    if (!smallest || a.size < smallest.size) smallest = a;
+    if (a.size && (!smallest || a.size < smallest.size)) smallest = a;
     return a;
   };
 
@@ -52,6 +71,11 @@ async function fitToSize<T>(
     let found: Attempt<T> | null = null;
     // The lowest quality first: when even that is too big, this size is out and the costly top-quality encode is skipped.
     const bottom = await tryAt(scale, minQuality);
+    if (!bottom.size) {
+      shrunk = true;
+      scale /= 2;
+      continue;
+    }
     const floorSize = bottom.size;
     if (bottom.size <= maxBytes) {
       const top = await tryAt(scale, TOP_QUALITY);
@@ -60,8 +84,8 @@ async function fitToSize<T>(
         let lo = minQuality;
         let hi = TOP_QUALITY;
         found = bottom;
-        // The highest quality that still fits, to within a few percent.
-        for (let i = 0; i < 5; i++) {
+        // The highest quality that still fits.
+        while (hi - lo > QUALITY_STEP && found.size < maxBytes * CLOSE_ENOUGH) {
           const mid = (lo + hi) / 2;
           const a = await tryAt(scale, mid);
           if (a.size <= maxBytes) {
@@ -89,7 +113,9 @@ async function fitToSize<T>(
     scale *= Math.min(0.85, Math.max(0.3, Math.sqrt(maxBytes / floorSize) * 0.95));
     if (scale < 0.01) break;
   }
-  return fitting ? { best: fitting, fits: true } : { best: smallest!, fits: false };
+  if (fitting) return { best: fitting, fits: true };
+  if (!smallest) throw new Error('The browser could not draw this image');
+  return { best: smallest, fits: false };
 }
 
 export interface ImageTargetOptions {
@@ -135,7 +161,12 @@ export async function compressImage(img: Decoded, opts: ImageTargetOptions): Pro
   const encode = async (scale: number, quality: number) => {
     const w = Math.max(1, Math.round(baseW * scale));
     const h = Math.max(1, Math.round(baseH * scale));
-    if (!cached || cached.w !== w || cached.h !== h) cached = { w, h, canvas: drawCover(img, w, h) };
+    if (!cached || cached.w !== w || cached.h !== h) {
+      // Give the memory of the previous size back before asking for the next one.
+      if (cached) cached.canvas.width = cached.canvas.height = 0;
+      cached = { w, h, canvas: drawCover(img, w, h) };
+    }
+    await breathe();
     const blob = new Blob([encodeJpeg(cached.canvas, quality)], { type: 'image/jpeg' });
     return { out: { blob, width: w, height: h }, size: blob.size };
   };
@@ -172,20 +203,25 @@ export async function compressPdf(file: File, maxBytes: number, onProgress?: (do
   const { PDFDocument } = await import('pdf-lib');
 
   // A lossless re-save (compressed object streams) keeps the text; try it first.
-  let pages = 0;
+  let resaved: Blob | null = null;
   try {
     const doc = await PDFDocument.load(new Uint8Array(await file.arrayBuffer()), { ignoreEncryption: true });
-    pages = doc.getPageCount();
-    if (file.size <= maxBytes) return { blob: file, pages, rasterized: false, fits: true };
-    const saved = await doc.save({ useObjectStreams: true });
-    if (saved.length <= maxBytes) return { blob: new Blob([saved as BlobPart], { type: 'application/pdf' }), pages, rasterized: false, fits: true };
+    if (file.size <= maxBytes) return { blob: file, pages: doc.getPageCount(), rasterized: false, fits: true };
+    // pdf-lib cannot decrypt, so a re-save of an encrypted file would lose its password info and come out unreadable.
+    if (!doc.isEncrypted) {
+      const saved = await doc.save({ useObjectStreams: true });
+      resaved = new Blob([saved as BlobPart], { type: 'application/pdf' });
+      if (saved.length <= maxBytes) return { blob: resaved, pages: doc.getPageCount(), rasterized: false, fits: true };
+    }
   } catch {
-    // pdf-lib cannot open some PDFs (for example encrypted ones); pdf.js below usually can.
+    // pdf-lib cannot open some PDFs; pdf.js below usually can.
   }
 
   const { doc, close } = await openPdf(file);
+  const rendered: HTMLCanvasElement[] = [];
   try {
-    pages = doc.numPages;
+    const pages = doc.numPages;
+    if (file.size <= maxBytes) return { blob: file, pages, rasterized: false, fits: true };
     const sizes: { w: number; h: number }[] = [];
     for (let n = 1; n <= pages; n++) {
       const vp = (await doc.getPage(n)).getViewport({ scale: 1 });
@@ -195,7 +231,6 @@ export async function compressPdf(file: File, maxBytes: number, onProgress?: (do
     const perPage = Math.max(500, (maxBytes - 600 - 500 * pages) / pages);
     const area = sizes.reduce((a, s) => a + s.w * s.h, 0) / pages;
     const renderScale = Math.min(3, Math.max(0.5, Math.sqrt((perPage / BYTES_PER_PIXEL) * 2 / area)));
-    const rendered: HTMLCanvasElement[] = [];
     for (let n = 1; n <= pages; n++) {
       rendered.push(await renderPage(await doc.getPage(n), renderScale));
       onProgress?.(n, pages);
@@ -204,6 +239,7 @@ export async function compressPdf(file: File, maxBytes: number, onProgress?: (do
     const build = async (scale: number, quality: number) => {
       const pdf = await PDFDocument.create();
       for (let i = 0; i < pages; i++) {
+        await breathe();
         const src = rendered[i];
         const canvas = document.createElement('canvas');
         canvas.width = Math.max(1, Math.round(src.width * scale));
@@ -212,6 +248,7 @@ export async function compressPdf(file: File, maxBytes: number, onProgress?: (do
         ctx.imageSmoothingQuality = 'high';
         ctx.drawImage(src, 0, 0, canvas.width, canvas.height);
         const img = await pdf.embedJpg(encodeJpeg(canvas, quality));
+        canvas.width = canvas.height = 0;
         // Same page size in points as the original, whatever the image resolution.
         const page = pdf.addPage([sizes[i].w, sizes[i].h]);
         page.drawImage(img, { x: 0, y: 0, width: sizes[i].w, height: sizes[i].h });
@@ -220,8 +257,13 @@ export async function compressPdf(file: File, maxBytes: number, onProgress?: (do
       return { out: new Blob([bytes as BlobPart], { type: 'application/pdf' }), size: bytes.length };
     };
     const { best, fits } = await fitToSize(build, maxBytes, { startScale: Math.SQRT1_2, minQuality: 0.3 });
-    return { blob: best.out, pages, rasterized: true, fits };
+    if (fits) return { blob: best.out, pages, rasterized: true, fits };
+    // Out of reach. Images of so many pages can even be larger than the original, so offer whichever
+    // file is smallest, and do not give up the selectable text for nothing.
+    const textFile = resaved && resaved.size < file.size ? resaved : file;
+    return best.out.size < textFile.size ? { blob: best.out, pages, rasterized: true, fits: false } : { blob: textFile, pages, rasterized: false, fits: false };
   } finally {
+    for (const canvas of rendered) canvas.width = canvas.height = 0;
     await close();
   }
 }

@@ -1,8 +1,9 @@
-import { canvasToBlob, decodeImage, filesFromClipboard, isImage, isPdf, prepareCanvas } from '../lib/input/images';
+import { canvasToBlob, decodeImage, filesFromClipboard, isImage, isPdf, prepareCanvas, sizeOf, type Decoded } from '../lib/input/images';
 import { downloadBlob, downloadZip } from '../lib/export/download';
 import { PDF_OVERHEAD, compressImage, compressPdf, jpegToPdf } from '../lib/compress/target-size';
-import { openPdf, renderPage } from '../lib/input/pdf';
+import { isPasswordError, openPdf, renderPage } from '../lib/input/pdf';
 import { baseName, fmt } from '../lib/text';
+import { bindDropzone, bindFileInput } from '../lib/ui/dropzone';
 import { toast } from '../lib/ui/toast';
 
 // The image compressor and resize image pages: every file is shrunk to the chosen limit as soon as
@@ -20,6 +21,12 @@ interface Entry {
 
 /** Shown like Windows Explorer does (1 KB = 1024 bytes). */
 const kb = (bytes: number) => `${bytes < 1024 * 1000 ? (bytes / 1024).toFixed(1) : Math.round(bytes / 1024)} KB`;
+
+const MIN_KB = 5;
+const MAX_KB = 10000;
+const MIN_PX = 16;
+const MAX_PX = 8000;
+const clamp = (n: number, min: number, max: number) => Math.min(max, Math.max(min, n));
 
 export function initResizeKb(root: HTMLElement) {
   const t: Record<string, string> = JSON.parse(root.dataset.i18n || '{}');
@@ -44,37 +51,23 @@ export function initResizeKb(root: HTMLElement) {
 
   if (matchMedia('(pointer: coarse)').matches) $('[data-camera-wrap]').classList.remove('hidden');
 
-  dropzone.addEventListener('click', (e) => {
-    if (!(e.target as HTMLElement).closest('label')) input.click();
-  });
-  dropzone.addEventListener('keydown', (e) => {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target === dropzone) {
-      e.preventDefault();
-      input.click();
-    }
-  });
-  for (const el of [input, camera]) {
-    el.addEventListener('change', () => {
-      add([...(el.files ?? [])]);
-      el.value = '';
-    });
-  }
-  dropzone.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    dropzone.dataset.over = '';
-  });
-  dropzone.addEventListener('dragleave', () => delete dropzone.dataset.over);
-  dropzone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    delete dropzone.dataset.over;
-    add([...(e.dataTransfer?.files ?? [])]);
-  });
-  window.addEventListener('dragover', (e) => e.preventDefault());
-  window.addEventListener('drop', (e) => e.preventDefault());
+  bindDropzone(dropzone, input, add);
+  bindFileInput(camera, add);
   document.addEventListener('paste', (e) => {
     const files = filesFromClipboard(e);
     if (files.length) add(files);
   });
+
+  /** The limit in use: what was typed, within range. An empty or invalid box falls back to the page's own size. */
+  const limitKb = () => {
+    const typed = Number(target.value);
+    return typed > 0 ? clamp(typed, MIN_KB, MAX_KB) : Number(target.defaultValue);
+  };
+  /** A typed pixel size, within range. Empty, zero, negative or invalid means no size was asked for. */
+  const pixels = (el: HTMLInputElement | null) => {
+    const typed = Math.round(Number(el?.value));
+    return typed > 0 ? clamp(typed, MIN_PX, MAX_PX) : undefined;
+  };
 
   const syncPresets = () => presets.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.preset === target.value)));
   presets.forEach((b) =>
@@ -102,6 +95,8 @@ export function initResizeKb(root: HTMLElement) {
       rerunAll();
     }),
   );
+  // Browsers can bring back typed values on reload.
+  syncDims();
 
   let debounce: ReturnType<typeof setTimeout> | undefined;
   for (const el of [target, widthIn, heightIn]) {
@@ -110,6 +105,17 @@ export function initResizeKb(root: HTMLElement) {
       syncDims();
       clearTimeout(debounce);
       debounce = setTimeout(rerunAll, 600);
+    });
+  }
+  // On leaving a box, show the value actually in use. Not while typing: on the way to "200", "2" is not a mistake.
+  target.addEventListener('change', () => {
+    target.value = String(limitKb());
+    syncPresets();
+  });
+  for (const el of [widthIn, heightIn]) {
+    el?.addEventListener('change', () => {
+      el.value = pixels(el)?.toString() ?? '';
+      syncDims();
     });
   }
   format.addEventListener('change', rerunAll);
@@ -121,7 +127,7 @@ export function initResizeKb(root: HTMLElement) {
   });
   zipBtn.addEventListener('click', () => {
     const done = entries.filter((e) => e.result);
-    if (done.length) downloadZip(done.map((e) => ({ name: e.result!.name, data: e.result!.blob })), `resized-${target.value}kb.zip`);
+    if (done.length) downloadZip(done.map((e) => ({ name: e.result!.name, data: e.result!.blob })), `resized-${limitKb()}kb.zip`);
   });
 
   function add(files: File[]) {
@@ -140,11 +146,8 @@ export function initResizeKb(root: HTMLElement) {
     entries.forEach(process);
   }
 
-  function maxBytes(): number {
-    // A limit "in KB" is read as 1000 bytes, the stricter of the two meanings, so every form accepts the file.
-    const n = Math.min(10000, Math.max(5, Number(target.value) || 20));
-    return Math.floor(n * 1000);
-  }
+  /** A limit "in KB" is read as 1000 bytes, the stricter of the two meanings, so every form accepts the file. */
+  const maxBytes = () => Math.floor(limitKb() * 1000);
 
   function process(entry: Entry) {
     const run = ++entry.run;
@@ -156,7 +159,10 @@ export function initResizeKb(root: HTMLElement) {
         await compress(entry, run);
       } catch (err) {
         console.error(err);
-        if (run === entry.run) setStatus(entry, t.failed, true);
+        if (run === entry.run) {
+          setStatus(entry, t.failed, true);
+          if (isPasswordError(err)) $('[data-note]', entry.el).textContent = t.pdfPassword;
+        }
       }
       render();
     });
@@ -164,6 +170,7 @@ export function initResizeKb(root: HTMLElement) {
 
   async function compress(entry: Entry, run: number) {
     const limit = maxBytes();
+    const limitLabel = limitKb();
     const { file } = entry;
     const stem = baseName(file.name);
 
@@ -171,7 +178,7 @@ export function initResizeKb(root: HTMLElement) {
       const out = await compressPdf(file, limit, (n, total) => run === entry.run && setStatus(entry, fmt(t.pageOf, { n, total })));
       if (run !== entry.run) return;
       if (!entry.thumbUrl) entry.thumbUrl = await pdfThumb(file);
-      entry.result = { blob: out.blob, name: `${stem}-${target.value}kb.pdf` };
+      entry.result = { blob: out.blob, name: `${stem}-${limitLabel}kb.pdf` };
       showResult(entry, {
         size: out.blob.size,
         detail: out.pages === 1 ? t.pageOne : fmt(t.pages, { n: out.pages }),
@@ -184,33 +191,43 @@ export function initResizeKb(root: HTMLElement) {
     const decoded = await decodeImage(file);
     if (!decoded) throw new Error('decode failed');
     try {
-      if (!entry.thumbUrl) entry.thumbUrl = URL.createObjectURL(await canvasToBlob(prepareCanvas(decoded, { maxSide: 320, upscaleSmall: false }), 'image/jpeg', 0.8));
-      const width = Number(widthIn?.value) || undefined;
-      const height = Number(heightIn?.value) || undefined;
+      if (!entry.thumbUrl) entry.thumbUrl = await imageThumb(decoded);
+      const width = pixels(widthIn);
+      const height = pixels(heightIn);
       const asPdf = format.value === 'pdf';
       // A JPEG already under the limit, with no size asked for, is handed back untouched.
       const untouched = !asPdf && !width && !height && file.size <= limit && /jpe?g$/i.test(file.type || file.name);
       const img = untouched ? null : await compressImage(decoded, { maxBytes: asPdf ? limit - PDF_OVERHEAD : limit, width, height });
       if (run !== entry.run) return;
       const blob = untouched ? file : asPdf ? await jpegToPdf(img!.blob, img!.width, img!.height) : img!.blob;
-      const dims = untouched ? sizeText(decoded) : `${img!.width} × ${img!.height} px`;
-      entry.result = { blob, name: `${stem}-${target.value}kb.${asPdf ? 'pdf' : 'jpg'}` };
-      const want = width || height ? { w: width ?? img?.width, h: height ?? img?.height } : { w: decodedW(decoded), h: decodedH(decoded) };
+      const source = sizeOf(decoded);
+      const dims = untouched ? `${source.width} × ${source.height} px` : `${img!.width} × ${img!.height} px`;
+      entry.result = { blob, name: `${stem}-${limitLabel}kb.${asPdf ? 'pdf' : 'jpg'}` };
+      // The size the visitor expects: with one side typed, the other follows the image's shape.
+      const want = {
+        w: width ?? (height ? Math.round((source.width * height) / source.height) : source.width),
+        h: height ?? (width ? Math.round((source.height * width) / source.width) : source.height),
+      };
       const resized = img && (img.width !== want.w || img.height !== want.h);
       showResult(entry, {
         size: blob.size,
         detail: dims,
         fits: blob.size <= limit && (img?.fits ?? true),
-        note: untouched ? t.alreadySmall : resized ? fmt(t.dimsChanged, { w: want.w!, h: want.h!, kb: target.value }) : '',
+        note: untouched ? t.alreadySmall : resized ? fmt(t.dimsChanged, { w: want.w, h: want.h, kb: limitLabel }) : '',
       });
     } finally {
       if ('close' in decoded) decoded.close();
     }
   }
 
-  const decodedW = (d: ImageBitmap | HTMLImageElement) => ('naturalWidth' in d ? d.naturalWidth : d.width);
-  const decodedH = (d: ImageBitmap | HTMLImageElement) => ('naturalHeight' in d ? d.naturalHeight : d.height);
-  const sizeText = (d: ImageBitmap | HTMLImageElement) => `${decodedW(d)} × ${decodedH(d)} px`;
+  /** A thumbnail is only a nicety: a problem making one must not stop the file itself. */
+  async function imageThumb(decoded: Decoded): Promise<string | undefined> {
+    try {
+      return URL.createObjectURL(await canvasToBlob(prepareCanvas(decoded, { maxSide: 320, upscaleSmall: false }), 'image/jpeg', 0.8));
+    } catch {
+      return undefined;
+    }
+  }
 
   async function pdfThumb(file: File): Promise<string | undefined> {
     try {
@@ -226,15 +243,15 @@ export function initResizeKb(root: HTMLElement) {
 
   function buildItem(entry: Entry) {
     const li = entry.el;
-    li.className = 'card flex items-center gap-4 p-3 sm:p-4';
+    li.className = 'card flex flex-wrap items-center gap-x-4 gap-y-2 p-3 sm:flex-nowrap sm:p-4';
     li.innerHTML = `
       <div class="grid h-16 w-16 shrink-0 place-items-center overflow-hidden rounded-xl bg-surface-2 text-xs font-bold text-ink-soft" data-thumb></div>
-      <div class="min-w-0 flex-1">
+      <div class="min-w-0 flex-1 basis-[calc(100%-5rem)] sm:basis-0">
         <p class="truncate font-semibold" data-name></p>
         <p class="mt-0.5 text-sm text-ink-muted" data-sizes></p>
         <p class="mt-0.5 text-xs text-ink-soft" data-note></p>
       </div>
-      <div class="flex shrink-0 items-center gap-1">
+      <div class="ms-auto flex shrink-0 items-center gap-1">
         <button type="button" class="btn-primary btn-sm" data-dl disabled></button>
         <button type="button" class="btn-ghost btn-sm px-2" data-del>✕</button>
       </div>`;
@@ -267,7 +284,7 @@ export function initResizeKb(root: HTMLElement) {
       img.className = 'max-h-full max-w-full object-contain';
       img.src = entry.thumbUrl;
       thumb.replaceChildren(img);
-    } else if (!entry.thumbUrl) thumb.textContent = 'PDF';
+    } else if (!entry.thumbUrl) thumb.textContent = isPdf(entry.file) ? 'PDF' : '';
     const sizes = $('[data-sizes]', entry.el);
     sizes.classList.remove('text-red-600');
     sizes.innerHTML = '';
@@ -279,7 +296,7 @@ export function initResizeKb(root: HTMLElement) {
     const rest = document.createElement('span');
     rest.textContent = ` · ${r.detail}`;
     sizes.append(before, after, rest);
-    $('[data-note]', entry.el).textContent = r.fits ? r.note : fmt(t.tooBig, { kb: target.value });
+    $('[data-note]', entry.el).textContent = r.fits ? r.note : fmt(t.tooBig, { kb: limitKb() });
     $<HTMLButtonElement>('[data-dl]', entry.el).disabled = false;
   }
 
