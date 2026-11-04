@@ -1,4 +1,5 @@
 import type Tesseract from 'tesseract.js';
+import { closeCjkGaps } from '../text';
 import type { OcrParagraph, OcrResult } from './types';
 
 // A small pool of Tesseract workers (PLAN.md §7.5). Each worker reads one image at a time;
@@ -42,13 +43,22 @@ function stageOf(status: string): ProgressStage {
   return 'engine';
 }
 
+/** The engine or a language file could not be downloaded, as opposed to an image that cannot be read. */
+export class EngineDownloadError extends Error {}
+
 /** `reportTo` receives the download progress while the worker starts up. */
 async function createSlot(langs: string, reportTo: Job | null = null): Promise<Slot> {
-  const T = await loadTesseract();
   const slot: Slot = { worker: null as unknown as Tesseract.Worker, langs, busy: false, current: reportTo };
-  slot.worker = await T.createWorker(langs.split('+'), T.OEM.LSTM_ONLY, {
-    logger: (m) => slot.current?.onProgress?.(stageOf(m.status), m.progress ?? 0),
-  });
+  try {
+    const T = await loadTesseract();
+    slot.worker = await T.createWorker(langs.split('+'), T.OEM.LSTM_ONLY, {
+      logger: (m) => slot.current?.onProgress?.(stageOf(m.status), m.progress ?? 0),
+      // Failed jobs already reject their promise. Without a handler the library also throws an uncaught error.
+      errorHandler: () => {},
+    });
+  } catch (e) {
+    throw new EngineDownloadError(String(e));
+  }
   slot.current = null;
   return slot;
 }
@@ -94,7 +104,11 @@ async function run(slot: Slot, job: Job) {
   try {
     if (slot.langs !== job.langs) {
       job.onProgress?.('language', 0);
-      await slot.worker.reinitialize(job.langs);
+      // A failed switch leaves the worker without a language, so the next job must switch again.
+      slot.langs = '';
+      await slot.worker.reinitialize(job.langs).catch((e) => {
+        throw new EngineDownloadError(String(e));
+      });
       slot.langs = job.langs;
     }
     const { data } = await slot.worker.recognize(job.image, { rotateAuto: true }, { text: true, blocks: true });
@@ -114,9 +128,10 @@ function normalize(page: Tesseract.Page, lang: string): OcrResult {
     for (const para of block.paragraphs) {
       const lines = para.lines
         .map((line) => ({
-          text: line.text.replace(/\s+$/, ''),
+          text: closeCjkGaps(line.text.replace(/\s+$/, '')),
           conf: line.confidence,
           box: line.bbox,
+          rowHeight: line.rowAttributes?.rowHeight,
           words: line.words
             .filter((w) => w.text.trim())
             .map((w) => ({ text: w.text, conf: w.confidence, box: w.bbox })),

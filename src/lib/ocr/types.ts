@@ -15,6 +15,8 @@ export interface OcrLine {
   text: string;
   conf: number;
   box: Box;
+  /** Height of the text row. Unlike the box, it does not shrink when a line has no letters with tails (g, p, y). */
+  rowHeight?: number;
   words: OcrWord[];
 }
 

@@ -1,5 +1,5 @@
 import type { OcrLine, OcrResult } from '../ocr/types';
-import { joinLines } from '../text';
+import { fixBullet, joinLines } from '../text';
 
 // Rebuilds document structure from OCR boxes for the Word export (PLAN.md §8.3).
 // Tesseract's own paragraph grouping is unreliable (it often returns a whole page as one
@@ -22,7 +22,8 @@ function median(values: number[]): number {
   return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
 }
 
-const height = (l: OcrLine) => l.box.y1 - l.box.y0;
+// The row height, not the box: a line with no g, p or y has a box about a quarter shorter, which looked like a change of text size.
+const height = (l: OcrLine) => l.rowHeight || l.box.y1 - l.box.y0;
 
 export function buildStructure(result: OcrResult): DocBlock[] {
   // Keep Tesseract's reading order, but remember where its paragraphs end.
@@ -53,7 +54,7 @@ export function buildStructure(result: OcrResult): DocBlock[] {
   for (let i = 0; i < lines.length; i++) {
     const { line, paraStart } = lines[i];
     const prev = lines[i - 1]?.line;
-    const t = line.text.trim();
+    const t = fixBullet(line.text).trim();
     const ratio = prev ? height(line) / height(prev) : 1;
     const newGroup =
       !prev ||
@@ -71,8 +72,8 @@ export function buildStructure(result: OcrResult): DocBlock[] {
   // 2. Turn each group into a block.
   const blocks: DocBlock[] = [];
   for (const group of groups) {
-    const first = group[0].text.trim();
-    const text = joinLines(group.map((l) => l.text));
+    const first = fixBullet(group[0].text).trim();
+    const text = joinLines(group.map((l, i) => (i ? l.text : first)));
     if (BULLET.test(first)) {
       blocks.push({ kind: 'bullet', text: text.replace(BULLET, '') });
       continue;

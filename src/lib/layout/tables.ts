@@ -1,4 +1,5 @@
 import type { OcrResult, OcrWord } from '../ocr/types';
+import { closeCjkGaps } from '../text';
 
 // Table detection for the Excel export (PLAN.md §8.4, method B: tables without ruling lines).
 // 1. Words whose vertical centres line up form a row.
@@ -20,6 +21,7 @@ export function detectTable(result: OcrResult): Grid {
   if (!words.length) return [];
 
   const medH = median(words.map((w) => w.box.y1 - w.box.y0)) || 10;
+  const minGap = medH * 0.9;
 
   // 1. Rows
   const sorted = [...words].sort((a, b) => cy(a) - cy(b));
@@ -38,19 +40,29 @@ export function detectTable(result: OcrResult): Grid {
   }
   rows.forEach((r) => r.sort((a, b) => a.box.x0 - b.box.x0));
 
+  // A title or a footnote above or below a table has no gap in it. It says nothing about the columns,
+  // and a long one would hide them, so only rows that do have gaps decide where the columns are.
+  const hasGap = (row: OcrWord[]) => {
+    // The spaces in a big title are wider than a column gap in small print, so the row's own text size counts too.
+    const rowGap = Math.max(minGap, 0.9 * Math.max(...row.map((w) => w.box.y1 - w.box.y0)));
+    return row.some((w, i) => i > 0 && w.box.x0 - row[i - 1].box.x1 >= rowGap);
+  };
+  const tabular = rows.filter(hasGap);
+  const basis = tabular.length >= 2 ? tabular : rows;
+
   // 2. Column borders from a horizontal coverage profile
   const minX = Math.floor(Math.min(...words.map((w) => w.box.x0)));
   const maxX = Math.ceil(Math.max(...words.map((w) => w.box.x1)));
   const width = maxX - minX + 1;
   const coverage = new Uint16Array(width);
-  for (const row of rows) {
+  for (const row of basis) {
     const seen = new Uint8Array(width);
-    for (const w of row) for (let x = Math.max(0, w.box.x0 - minX); x <= Math.min(width - 1, w.box.x1 - minX); x++) seen[x] = 1;
+    // Whole pixels: PDF text has fractional positions, and a typed array ignores a fractional index.
+    for (const w of row) for (let x = Math.max(0, Math.floor(w.box.x0 - minX)); x <= Math.min(width - 1, Math.ceil(w.box.x1 - minX)); x++) seen[x] = 1;
     for (let x = 0; x < width; x++) coverage[x] += seen[x];
   }
-  // A gap may be crossed by a few rows (titles, merged cells) and still count as a border.
-  const allowed = Math.floor(rows.length * 0.12);
-  const minGap = medH * 0.9;
+  // A gap may be crossed by a few rows (merged cells) and still count as a border.
+  const allowed = Math.floor(basis.length * 0.12);
   const borders: number[] = [];
   let start = -1;
   for (let x = 0; x <= width; x++) {
@@ -64,15 +76,18 @@ export function detectTable(result: OcrResult): Grid {
 
   // 3. Cells
   const cols = borders.length + 1;
+  const columnOf = (w: OcrWord) => {
+    const mid = (w.box.x0 + w.box.x1) / 2;
+    let c = 0;
+    while (c < borders.length && mid > borders[c]) c++;
+    return c;
+  };
   const grid: Grid = rows.map((row) => {
     const cells: string[][] = Array.from({ length: cols }, () => []);
-    for (const w of row) {
-      const mid = (w.box.x0 + w.box.x1) / 2;
-      let c = 0;
-      while (c < borders.length && mid > borders[c]) c++;
-      cells[c].push(w.text);
-    }
-    return cells.map((c) => c.join(' ').trim());
+    // A row without gaps stays in one piece, in the column where it starts.
+    const whole = basis === tabular && !hasGap(row);
+    for (const w of row) cells[whole ? columnOf(row[0]) : columnOf(w)].push(w.text);
+    return cells.map((c) => closeCjkGaps(c.join(' ').trim()));
   });
 
   // Drop columns that ended up empty everywhere.
@@ -91,13 +106,18 @@ export function looksLikeTable(grid: Grid): boolean {
   return (grid[0]?.length ?? 0) >= 2 && multi / grid.length >= 0.6;
 }
 
-/** "1,250.50" → 1250.5. Values with letters, currency or units stay text. */
+/** Excel keeps 15 significant digits. Longer numbers are IDs (card, account, Aadhaar-style) and would lose digits. */
+const EXCEL_DIGITS = 15;
+
+/**
+ * "1,250.50" and the Indian "12,50,000.50" → numbers. Values with letters, currency or units stay text,
+ * and so do values where the digits matter more than the amount: leading zeros, "+91…" phone numbers, very long IDs.
+ */
 export function toCellValue(text: string): string | number {
   const t = text.trim();
-  if (/^[-+]?(\d{1,3}(,\d{3})+|\d+)(\.\d+)?$/.test(t)) {
+  if (/^-?(\d{1,3}(,\d{3})+|\d{1,2}(,\d{2})+,\d{3}|\d+)(\.\d+)?$/.test(t)) {
     const n = Number(t.replace(/,/g, ''));
-    // Keep leading zeros such as phone numbers or IDs as text.
-    if (Number.isFinite(n) && !/^[-+]?0\d/.test(t)) return n;
+    if (Number.isFinite(n) && !/^-?0\d/.test(t) && t.replace(/\D/g, '').length <= EXCEL_DIGITS) return n;
   }
   return t;
 }

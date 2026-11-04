@@ -1,13 +1,14 @@
-import { recognize, setLanguages, warmUp, isReady, type ProgressStage } from '../lib/ocr/engine';
+import { EngineDownloadError, recognize, setLanguages, warmUp, isReady, type ProgressStage } from '../lib/ocr/engine';
 import { defaultLangs, isRtl, recognizeAuto } from '../lib/ocr/languages';
 import { allLines, allWords, type OcrResult } from '../lib/ocr/types';
 import { decodeImage, filesFromClipboard, isImage, isPdf, prepareCanvas } from '../lib/input/images';
-import { openPdf, pageText, pageWords, parseRange, renderPage } from '../lib/input/pdf';
-import { buildText, countWords, fmt, baseName } from '../lib/text';
+import { isPasswordError, openPdf, pageText, pageWords, parseRange, renderPage } from '../lib/input/pdf';
+import { buildText, counted, fmt, baseName, textStats } from '../lib/text';
 import { buildStructure, type DocBlock } from '../lib/layout/structure';
 import { detectTable, looksLikeTable, type Grid } from '../lib/layout/tables';
 import { copyText, downloadBlob, downloadText, downloadZip } from '../lib/export/download';
 import { renderOverlay, flash, UNCERTAIN_BELOW } from '../lib/ui/overlay';
+import { bindDropzone, bindFileInput } from '../lib/ui/dropzone';
 import { toast } from '../lib/ui/toast';
 
 type Mode = 'text' | 'screenshot' | 'word' | 'excel' | 'pdf' | 'pdf-excel';
@@ -25,6 +26,8 @@ interface Item {
   generated: string;
   rtl: boolean;
   done: boolean;
+  /** Bumped on every start, so a slow older read cannot overwrite a newer one (after Rotate, for example). */
+  run: number;
   /** PDF: text per page. */
   pdfPages?: { page: number; text: string; ocr: boolean }[];
   /** PDF to Excel: one table per page. */
@@ -35,6 +38,11 @@ const PREVIEW_MAX = 1400;
 /** Results below this confidence get a second read with image clean-up turned on. */
 const ENHANCE_BELOW = 65;
 const CONCURRENCY = 2;
+
+/** Words that look properly read. On a faded page the engine can return one odd sign with a high confidence. */
+function readableWords(result: OcrResult): number {
+  return allWords(result).filter((w) => w.conf >= UNCERTAIN_BELOW && /[\p{L}\p{N}]{2}|\p{Script=Han}/u.test(w.text)).length;
+}
 
 export function initOcrTool(root: HTMLElement) {
   const mode = root.dataset.mode as Mode;
@@ -70,48 +78,12 @@ export function initOcrTool(root: HTMLElement) {
   dropzone.addEventListener('touchstart', () => warmUp(), { once: true, passive: true });
 
   // ---------- input ----------
-  const openPicker = () => input.click();
-  dropzone.addEventListener('click', (e) => {
-    if (!(e.target as HTMLElement).closest('label')) openPicker();
-  });
-  dropzone.addEventListener('keydown', (e) => {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target === dropzone) {
-      e.preventDefault();
-      openPicker();
-    }
-  });
-  input.addEventListener('change', () => {
-    addFiles([...(input.files ?? [])]);
-    input.value = '';
-  });
-  camera?.addEventListener('change', () => {
-    addFiles([...(camera.files ?? [])]);
-    camera.value = '';
-  });
-
-  let dragDepth = 0;
-  dropzone.addEventListener('dragenter', (e) => {
-    e.preventDefault();
-    dragDepth++;
-    dropzone.dataset.over = '';
-  });
-  dropzone.addEventListener('dragleave', () => {
-    if (--dragDepth <= 0) delete dropzone.dataset.over;
-  });
-  dropzone.addEventListener('dragover', (e) => e.preventDefault());
-  dropzone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    dragDepth = 0;
-    delete dropzone.dataset.over;
-    addFiles([...(e.dataTransfer?.files ?? [])]);
-  });
-  // Files dropped outside the box should not make the browser navigate away.
-  window.addEventListener('dragover', (e) => e.preventDefault());
-  window.addEventListener('drop', (e) => e.preventDefault());
+  bindDropzone(dropzone, input, addFiles);
+  if (camera) bindFileInput(camera, addFiles);
 
   document.addEventListener('paste', (e) => {
-    const target = e.target as HTMLElement | null;
-    if (target?.closest('textarea, input, [contenteditable="true"]')) return;
+    const target = e.target;
+    if (target instanceof Element && target.closest('textarea, input, [contenteditable="true"]')) return;
     const files = filesFromClipboard(e);
     if (files.length) {
       e.preventDefault();
@@ -129,7 +101,7 @@ export function initOcrTool(root: HTMLElement) {
     const ok = files.filter(accepts);
     if (ok.length < files.length) toast(t.unsupported);
     for (const file of ok) {
-      const item: Item = { id: nextId++, file, el: createItemEl(file), rotate: 0, generated: '', rtl: false, done: false };
+      const item: Item = { id: nextId++, file, el: createItemEl(file), rotate: 0, generated: '', rtl: false, done: false, run: 0 };
       items.push(item);
       list.appendChild(item.el);
       wireItem(item);
@@ -142,9 +114,15 @@ export function initOcrTool(root: HTMLElement) {
   // ---------- queue ----------
   function enqueue(item: Item) {
     item.done = false;
+    item.run++;
+    delete item.el.dataset.state;
+    resetLayout(item);
+    setNote(item, '');
+    syncActions(item);
     setStatus(item, isReady() ? t.queued : t.loadingEngine, 0);
-    queue.push(item);
+    if (!queue.includes(item)) queue.push(item);
     drain();
+    updateToolbar();
   }
 
   function drain() {
@@ -152,11 +130,11 @@ export function initOcrTool(root: HTMLElement) {
       const item = queue.shift()!;
       if (!items.includes(item)) continue;
       running++;
-      process(item)
+      const { run } = item;
+      process(item, () => run !== item.run || !items.includes(item))
         .catch((err) => {
           console.error(err);
-          setStatus(item, t.failed, 0);
-          item.el.dataset.state = 'error';
+          if (run === item.run) showFailure(item, err);
         })
         .finally(() => {
           running--;
@@ -166,110 +144,182 @@ export function initOcrTool(root: HTMLElement) {
     }
   }
 
-  async function process(item: Item) {
-    if (isPdf(item.file)) return mode === 'pdf-excel' ? processPdfTables(item) : processPdf(item);
+  async function process(item: Item, stale: () => boolean) {
+    if (isPdf(item.file)) return mode === 'pdf-excel' ? processPdfTables(item, stale) : processPdf(item, stale);
 
     setStatus(item, t.preparing, 0.02);
     const decoded = await decodeImage(item.file);
-    let image: HTMLCanvasElement | File = item.file;
-    if (decoded) {
-      image = prepareCanvas(decoded, { rotate: item.rotate });
-      showPreview(item, image);
-    }
-
-    const progress = (stage: ProgressStage, p: number) => onProgress(item, stage, p);
-    let result = await recognizeAuto(image, pageLang, progress);
-    if (image instanceof HTMLCanvasElement) {
-      result.width = image.width;
-      result.height = image.height;
-      // Free the full-size canvas; the preview keeps a smaller copy.
-      image.width = image.height = 0;
-    }
-    // Faded scans and dim photos: clean the image up and read it again, keeping the better result.
-    if (decoded && result.confidence < ENHANCE_BELOW) {
-      const enhanced = prepareCanvas(decoded, { rotate: item.rotate, enhance: true });
-      const retry = await recognize(enhanced, progress, result.lang);
-      if (retry.confidence > result.confidence) {
-        retry.width = enhanced.width;
-        retry.height = enhanced.height;
-        result = retry;
+    try {
+      if (stale()) return;
+      let image: HTMLCanvasElement | File = item.file;
+      if (decoded) {
+        image = prepareCanvas(decoded, { rotate: item.rotate });
+        showPreview(item, image);
       }
-      enhanced.width = enhanced.height = 0;
+
+      const progress = (stage: ProgressStage, p: number) => {
+        if (!stale()) onProgress(item, stage, p);
+      };
+      let result = await recognizeAuto(image, pageLang, progress);
+      if (image instanceof HTMLCanvasElement) {
+        result.width = image.width;
+        result.height = image.height;
+        // Free the full-size canvas; the preview keeps a smaller copy.
+        image.width = image.height = 0;
+      }
+      if (stale()) return;
+      // Faded scans and dim photos: clean the image up and read it again, keeping the better result.
+      if (decoded && (result.confidence < ENHANCE_BELOW || readableWords(result) < 3)) {
+        const enhanced = prepareCanvas(decoded, { rotate: item.rotate, enhance: true });
+        const retry = await recognize(enhanced, progress, result.lang);
+        const before = readableWords(result);
+        const after = readableWords(retry);
+        if (after > before || (after === before && retry.confidence > result.confidence)) {
+          retry.width = enhanced.width;
+          retry.height = enhanced.height;
+          result = retry;
+        }
+        enhanced.width = enhanced.height = 0;
+      }
+      if (stale()) return;
+      item.rtl = isRtl(result.lang);
+      item.result = result;
+      item.blocks = mode === 'word' ? buildStructure(result) : undefined;
+      // Word: a page that is laid out as a table goes into the document as a real table.
+      item.grid = mode === 'excel' || mode === 'word' ? detectTable(result) : undefined;
+      item.done = true;
+      renderResult(item);
+      syncActions(item);
+      setStatus(item, t.done, 1);
+    } finally {
+      if (decoded && 'close' in decoded) decoded.close();
     }
-    if (decoded && 'close' in decoded) decoded.close();
-    item.rtl = isRtl(result.lang);
-    if (!items.includes(item)) return;
-    item.result = result;
-    item.blocks = mode === 'word' ? buildStructure(result) : undefined;
-    // Word: a page that is laid out as a table goes into the document as a real table.
-    item.grid = mode === 'excel' || mode === 'word' ? detectTable(result) : undefined;
-    item.done = true;
-    renderResult(item);
-    setStatus(item, t.done, 1);
   }
 
-  async function processPdf(item: Item) {
-    setStatus(item, t.readingPdf, 0.02);
+  function hidePreviewColumn(item: Item) {
     item.el.querySelector('[data-preview-col]')?.setAttribute('hidden', '');
     item.el.querySelector('[data-body]')?.classList.remove('lg:grid-cols-2');
-    const { doc, close } = await openPdf(item.file);
-    const pages = parseRange('', doc.numPages);
-    item.pdfPages = [];
-    for (const [i, n] of pages.entries()) {
-      if (!items.includes(item)) return;
-      const status = fmt(t.pageOf, { n, total: doc.numPages });
-      setStatus(item, status, i / pages.length);
-      const page = await doc.getPage(n);
-      let text = await pageText(page);
-      let ocr = false;
-      if (!text) {
-        const canvas = await renderPage(page, 2);
-        const result = await recognizeAuto(canvas, pageLang, (stage, p) =>
-          setStatus(item, stage === 'recognizing' ? status : stageLabel(stage), (i + (stage === 'recognizing' ? p : 0)) / pages.length),
-        );
-        canvas.width = canvas.height = 0;
-        text = buildText(result, textOptions());
-        ocr = true;
-      }
-      page.cleanup();
-      item.pdfPages.push({ page: n, text, ocr });
-    }
-    await close();
-    item.done = true;
-    renderPdfResult(item);
-    setStatus(item, t.done, 1);
   }
 
-  async function processPdfTables(item: Item) {
+  /** Runs OCR on a PDF page that is only an image. */
+  async function readScannedPage(page: Parameters<typeof renderPage>[0], item: Item, stale: () => boolean, status: string, done: number, total: number) {
+    const canvas = await renderPage(page, 2);
+    const result = await recognizeAuto(canvas, pageLang, (stage, p) => {
+      if (!stale()) setStatus(item, stage === 'recognizing' ? status : stageLabel(stage), Math.min(0.99, (done + (stage === 'recognizing' ? p : 0)) / total));
+    });
+    canvas.width = canvas.height = 0;
+    return result;
+  }
+
+  async function processPdf(item: Item, stale: () => boolean) {
     setStatus(item, t.readingPdf, 0.02);
-    item.el.querySelector('[data-preview-col]')?.setAttribute('hidden', '');
-    item.el.querySelector('[data-body]')?.classList.remove('lg:grid-cols-2');
+    hidePreviewColumn(item);
     const { doc, close } = await openPdf(item.file);
-    const pages = parseRange('', doc.numPages);
-    item.pdfGrids = [];
-    for (const [i, n] of pages.entries()) {
-      if (!items.includes(item)) return;
-      const status = fmt(t.pageOf, { n, total: doc.numPages });
-      setStatus(item, status, i / pages.length);
-      const page = await doc.getPage(n);
-      // Digital PDFs keep word positions in their text layer; scans go through OCR.
-      let words = await pageWords(page);
-      const ocr = !words;
-      if (!words) {
-        const canvas = await renderPage(page, 2);
-        words = await recognizeAuto(canvas, pageLang, (stage, p) =>
-          setStatus(item, stage === 'recognizing' ? status : stageLabel(stage), (i + (stage === 'recognizing' ? p : 0)) / pages.length),
-        );
-        canvas.width = canvas.height = 0;
+    try {
+      const pages = parseRange('', doc.numPages);
+      const out: NonNullable<Item['pdfPages']> = [];
+      for (const [i, n] of pages.entries()) {
+        if (stale()) return;
+        const status = fmt(t.pageOf, { n, total: doc.numPages });
+        setStatus(item, status, Math.min(0.99, i / pages.length));
+        const page = await doc.getPage(n);
+        const layer = await pageText(page);
+        let text = layer.text;
+        let ocr = false;
+        if (layer.scan) {
+          const read = buildText(await readScannedPage(page, item, stale, status, i, pages.length), textOptions());
+          // When OCR finds nothing, whatever little text the page has is still better than none.
+          if (read) {
+            text = read;
+            ocr = true;
+          }
+        }
+        page.cleanup();
+        out.push({ page: n, text, ocr });
       }
-      page.cleanup();
-      const grid = detectTable(words);
-      if (grid.length) item.pdfGrids.push({ page: n, grid, ocr });
+      if (stale()) return;
+      item.pdfPages = out;
+      item.done = true;
+      renderPdfResult(item);
+      syncActions(item);
+      setStatus(item, t.done, 1);
+    } finally {
+      await close();
     }
-    await close();
-    item.done = true;
-    renderPdfGrids(item);
-    setStatus(item, t.done, 1);
+  }
+
+  async function processPdfTables(item: Item, stale: () => boolean) {
+    setStatus(item, t.readingPdf, 0.02);
+    hidePreviewColumn(item);
+    const { doc, close } = await openPdf(item.file);
+    try {
+      const pages = parseRange('', doc.numPages);
+      const out: NonNullable<Item['pdfGrids']> = [];
+      for (const [i, n] of pages.entries()) {
+        if (stale()) return;
+        const status = fmt(t.pageOf, { n, total: doc.numPages });
+        setStatus(item, status, Math.min(0.99, i / pages.length));
+        const page = await doc.getPage(n);
+        // Digital PDFs keep word positions in their text layer; scans go through OCR.
+        const layer = await pageWords(page);
+        let words = layer.result;
+        let ocr = false;
+        if (layer.scan) {
+          const read = await readScannedPage(page, item, stale, status, i, pages.length);
+          if (allWords(read).length) {
+            words = read;
+            ocr = true;
+          }
+        }
+        page.cleanup();
+        const grid = detectTable(words);
+        if (grid.length) out.push({ page: n, grid, ocr });
+      }
+      if (stale()) return;
+      item.pdfGrids = out;
+      item.done = true;
+      renderPdfGrids(item);
+      syncActions(item);
+      setStatus(item, t.done, 1);
+    } finally {
+      await close();
+    }
+  }
+
+  function showFailure(item: Item, err: unknown) {
+    setStatus(item, t.failed, 0);
+    item.el.dataset.state = 'error';
+    const network = err instanceof EngineDownloadError;
+    const message = isPasswordError(err) ? t.pdfPassword : network ? t.engineFailed : '';
+    setNote(item, message);
+    // Only the message stays: there is no text to show or copy. A network problem is worth another try.
+    $('[data-body]', item.el).hidden = !message;
+    $('[data-text]', item.el).hidden = true;
+    $('[data-actions]', item.el).hidden = !network;
+    if (!network) $('[data-preview-col]', item.el).hidden = true;
+    // PDFs have no preview column, and with it no Run again button.
+    if (network && isPdf(item.file)) {
+      const again = button(t.retry, () => {
+        again.remove();
+        enqueue(item);
+      });
+      again.dataset.always = '';
+      $('[data-actions]', item.el).prepend(again);
+    }
+  }
+
+  /** Undoes showFailure for a new attempt. */
+  function resetLayout(item: Item) {
+    $('[data-body]', item.el).hidden = false;
+    $('[data-text]', item.el).hidden = tableLike;
+    $('[data-actions]', item.el).hidden = false;
+    if (!isPdf(item.file)) $('[data-preview-col]', item.el).hidden = false;
+  }
+
+  function setNote(item: Item, message: string) {
+    const note = $('[data-note]', item.el);
+    note.hidden = !message;
+    note.textContent = message;
   }
 
   // ---------- rendering ----------
@@ -305,8 +355,8 @@ export function initOcrTool(root: HTMLElement) {
     host.querySelector('svg[data-overlay]')?.remove();
     const scale = Math.min(1, PREVIEW_MAX / Math.max(full.width, full.height));
     const c = document.createElement('canvas');
-    c.width = Math.round(full.width * scale);
-    c.height = Math.round(full.height * scale);
+    c.width = Math.max(1, Math.round(full.width * scale));
+    c.height = Math.max(1, Math.round(full.height * scale));
     c.getContext('2d')!.drawImage(full, 0, 0, c.width, c.height);
     c.className = 'block h-auto w-full';
     host.prepend(c);
@@ -348,7 +398,7 @@ export function initOcrTool(root: HTMLElement) {
     const uncertain = allWords(result).filter((w) => w.conf < UNCERTAIN_BELOW).length;
     const u = $('[data-uncertain]', el);
     u.hidden = !uncertain || !host.querySelector('canvas');
-    u.textContent = fmt(t.uncertain, { n: uncertain });
+    u.textContent = counted(uncertain, t.uncertain, t.uncertainOne);
 
     if (mode === 'excel') renderGrid(item);
   }
@@ -359,14 +409,12 @@ export function initOcrTool(root: HTMLElement) {
     const text = pages.map((p) => (multi ? `— ${p.page} —\n\n${p.text}` : p.text)).join('\n\n');
     item.generated = text;
     const ta = $<HTMLTextAreaElement>('[data-text]', item.el);
-    ta.value = text;
-    ta.placeholder = text ? '' : t.noText;
+    const hasText = pages.some((p) => p.text);
+    ta.value = hasText ? text : '';
+    ta.placeholder = hasText ? '' : t.noTextFile;
     ta.readOnly = false;
     updateCount(item.el);
-    const note = $('[data-note]', item.el);
-    const usedOcr = pages.some((p) => p.ocr);
-    note.hidden = !pages.length;
-    note.textContent = usedOcr ? t.pdfOcr : t.pdfTextLayer;
+    setNote(item, !hasText ? '' : pages.some((p) => p.ocr) ? t.pdfOcr : t.pdfTextLayer);
   }
 
   function gridTable(grid: Grid, rtl: boolean): HTMLTableElement {
@@ -386,29 +434,28 @@ export function initOcrTool(root: HTMLElement) {
     return table;
   }
 
-  function showEmpty(wrap: HTMLElement) {
+  function showEmpty(item: Item, wrap: HTMLElement, message: string) {
     const p = document.createElement('p');
     p.className = 'p-4 text-sm text-ink-muted';
-    p.textContent = t.noText;
+    p.textContent = message;
     wrap.replaceChildren(p);
+    setNote(item, '');
   }
 
   function renderGrid(item: Item) {
     const wrap = $('[data-table-wrap]', item.el);
     wrap.hidden = false;
     const grid = item.grid ?? [];
-    if (!grid.length) return showEmpty(wrap);
+    if (!grid.length) return showEmpty(item, wrap, t.noText);
     wrap.replaceChildren(gridTable(grid, item.rtl));
-    const hint = $('[data-note]', item.el);
-    hint.hidden = false;
-    hint.textContent = t.tableHint;
+    setNote(item, t.tableHint);
   }
 
   function renderPdfGrids(item: Item) {
     const wrap = $('[data-table-wrap]', item.el);
     wrap.hidden = false;
     const pages = item.pdfGrids ?? [];
-    if (!pages.length) return showEmpty(wrap);
+    if (!pages.length) return showEmpty(item, wrap, t.noTextFile);
     wrap.replaceChildren(
       ...pages.map(({ page, grid }) => {
         const box = document.createElement('div');
@@ -420,9 +467,7 @@ export function initOcrTool(root: HTMLElement) {
         return box;
       }),
     );
-    const hint = $('[data-note]', item.el);
-    hint.hidden = false;
-    hint.textContent = `${t.pdfTablesHint}${pages.some((p) => p.ocr) ? ` ${t.pdfOcr}` : ''}`;
+    setNote(item, `${t.pdfTablesHint}${pages.some((p) => p.ocr) ? ` ${t.pdfOcr}` : ''}`);
   }
 
   function tableRows(table: HTMLTableElement): Grid {
@@ -449,8 +494,7 @@ export function initOcrTool(root: HTMLElement) {
   }
 
   function updateCount(el: HTMLElement) {
-    const text = $<HTMLTextAreaElement>('[data-text]', el).value;
-    $('[data-count]', el).textContent = text ? `${fmt(t.words, { n: countWords(text) })} · ${fmt(t.chars, { n: text.length })}` : '';
+    $('[data-count]', el).textContent = textStats($<HTMLTextAreaElement>('[data-text]', el).value, t);
   }
 
   function stageLabel(stage: ProgressStage): string {
@@ -460,9 +504,9 @@ export function initOcrTool(root: HTMLElement) {
   }
 
   function onProgress(item: Item, stage: ProgressStage, p: number) {
-    // Map stages onto one bar: downloads fill the first 30 %, reading the rest.
+    // Map stages onto one bar: downloads fill the first 30 %, reading the rest. It only reaches the end with the result.
     const value = stage === 'recognizing' ? 0.3 + p * 0.7 : stage === 'engine' ? p * 0.1 : 0.1 + p * 0.2;
-    setStatus(item, stageLabel(stage), value);
+    setStatus(item, stageLabel(stage), Math.min(0.99, value));
   }
 
   function setStatus(item: Item, label: string, progress: number) {
@@ -474,17 +518,31 @@ export function initOcrTool(root: HTMLElement) {
   }
 
   // ---------- actions ----------
-  function button(label: string, onClick: () => void, primary = false): HTMLButtonElement {
+  function button(label: string, onClick: () => void | Promise<void>, primary = false): HTMLButtonElement {
     const b = document.createElement('button');
     b.type = 'button';
     b.className = `${primary ? 'btn-primary' : 'btn-secondary'} btn-sm`;
     b.textContent = label;
-    b.addEventListener('click', onClick);
+    b.addEventListener('click', async () => {
+      try {
+        await onClick();
+      } catch (err) {
+        console.error(err);
+        toast(t.failed);
+      }
+    });
     return b;
   }
 
   async function copy(text: string) {
     if (text && (await copyText(text))) toast(t.copied);
+  }
+
+  /** Until there is a result, Copy and the downloads would only produce empty files. */
+  function syncActions(item: Item) {
+    $('[data-actions]', item.el)
+      .querySelectorAll<HTMLButtonElement>('button')
+      .forEach((b) => (b.disabled = !item.done && b.dataset.always === undefined));
   }
 
   function buildItemActions(item: Item) {
