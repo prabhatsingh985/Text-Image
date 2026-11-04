@@ -2,6 +2,10 @@
 
 export const IMAGE_ACCEPT = 'image/*,.heic,.heif,.tif,.tiff';
 
+function isTiffHeader(b: Uint8Array): boolean {
+  return (b[0] === 0x49 && b[1] === 0x49 && b[2] === 42 && b[3] === 0) || (b[0] === 0x4d && b[1] === 0x4d && b[2] === 0 && b[3] === 42);
+}
+
 const HEIC_BRANDS = ['heic', 'heix', 'hevc', 'heim', 'heis', 'mif1', 'msf1'];
 
 export async function isHeic(file: Blob & { name?: string }): Promise<boolean> {
@@ -43,10 +47,19 @@ function loadViaImgElement(blob: Blob): Promise<HTMLImageElement> {
 
 export type Decoded = ImageBitmap | HTMLImageElement;
 
+async function headerOf(file: Blob, length: number): Promise<Uint8Array> {
+  return new Uint8Array(await file.slice(0, length).arrayBuffer());
+}
+
+/** By the file's contents: a picture saved under the wrong extension is common. */
+export async function isPngData(file: Blob): Promise<boolean> {
+  const head = await headerOf(file, 8);
+  return [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a].every((byte, i) => head[i] === byte);
+}
+
 /**
  * Decode any supported image. EXIF orientation is applied by the browser.
- * Returns null when the browser cannot decode the format (for example TIFF in Chrome);
- * the caller can then hand the raw file to Tesseract, which reads TIFF itself.
+ * Returns null when it cannot be decoded here; the caller can then hand the raw file to Tesseract.
  */
 export async function decodeImage(file: Blob & { name?: string }): Promise<Decoded | null> {
   let blob: Blob = file;
@@ -54,6 +67,14 @@ export async function decodeImage(file: Blob & { name?: string }): Promise<Decod
     return await createImageBitmap(blob, { imageOrientation: 'from-image' });
   } catch {
     // fall through
+  }
+  if (isTiffHeader(await headerOf(file, 4))) {
+    try {
+      return await (await import('./tiff')).decodeTiff(file);
+    } catch (err) {
+      console.warn('TIFF decoding failed', err);
+      return null;
+    }
   }
   if (await isHeic(file)) {
     try {
@@ -93,8 +114,9 @@ export function prepareCanvas(img: Decoded, opts: PrepareOptions = {}): HTMLCanv
   let scale = upscaleSmall && longest < 1000 ? 2 : 1;
   if (longest * scale > maxSide) scale = maxSide / longest;
 
-  const w = Math.round(width * scale);
-  const h = Math.round(height * scale);
+  // At least one pixel: a very long, thin image can round down to nothing, and an empty canvas cannot be saved.
+  const w = Math.max(1, Math.round(width * scale));
+  const h = Math.max(1, Math.round(height * scale));
   const sideways = rotate === 90 || rotate === 270;
   const canvas = document.createElement('canvas');
   canvas.width = sideways ? h : w;
