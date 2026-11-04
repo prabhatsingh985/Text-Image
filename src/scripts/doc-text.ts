@@ -2,6 +2,7 @@ import { extractDocument, extractSlides, isDocFile, isLegacyOffice, isSlideFile,
 import { baseName, counted, fmt, textStats } from '../lib/text';
 import { copyText, downloadText, downloadZip } from '../lib/export/download';
 import { bindDropzone } from '../lib/ui/dropzone';
+import { revealResults } from '../lib/ui/reveal';
 import { toast } from '../lib/ui/toast';
 
 // Word to Text and PPT to Text. No OCR: the text is read straight out of the file.
@@ -38,6 +39,7 @@ export function initDocTool(root: HTMLElement) {
     // The old-format message says what to do about it, so it wins over the general one.
     if (files.some(isLegacyOffice)) toast(t.legacyFormat);
     else if (ok.length < files.length) toast(t.unsupported);
+    const firstBatch = toolbar.hidden;
     for (const file of ok) {
       const item: Item = { file, el: createEl(file), generated: '' };
       items.push(item);
@@ -45,7 +47,7 @@ export function initDocTool(root: HTMLElement) {
       process(item);
     }
     updateToolbar();
-    items[items.length - ok.length]?.el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    if (ok.length) revealResults(firstBatch ? toolbar : items[items.length - ok.length].el);
   }
 
   async function process(item: Item) {

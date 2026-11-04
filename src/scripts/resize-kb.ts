@@ -4,6 +4,7 @@ import { PDF_OVERHEAD, compressImage, compressPdf, jpegToPdf } from '../lib/comp
 import { isPasswordError, openPdf, renderPage } from '../lib/input/pdf';
 import { baseName, fmt } from '../lib/text';
 import { bindDropzone, bindFileInput } from '../lib/ui/dropzone';
+import { revealResults } from '../lib/ui/reveal';
 import { toast } from '../lib/ui/toast';
 
 // The image compressor and resize image pages: every file is shrunk to the chosen limit as soon as
@@ -133,6 +134,8 @@ export function initResizeKb(root: HTMLElement) {
   function add(files: File[]) {
     const ok = files.filter((f) => isImage(f) || isPdf(f));
     if (ok.length < files.length) toast(t.unsupported);
+    const firstBatch = workspace.hidden;
+    const firstNew = entries.length;
     for (const file of ok) {
       const entry: Entry = { id: nextId++, file, el: document.createElement('li'), run: 0 };
       entries.push(entry);
@@ -140,6 +143,7 @@ export function initResizeKb(root: HTMLElement) {
       process(entry);
     }
     render();
+    if (ok.length) revealResults(firstBatch ? workspace : entries[firstNew].el);
   }
 
   function rerunAll() {

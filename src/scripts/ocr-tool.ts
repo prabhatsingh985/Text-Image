@@ -9,6 +9,7 @@ import { detectTable, looksLikeTable, type Grid } from '../lib/layout/tables';
 import { copyText, downloadBlob, downloadText, downloadZip } from '../lib/export/download';
 import { renderOverlay, flash, UNCERTAIN_BELOW } from '../lib/ui/overlay';
 import { bindDropzone, bindFileInput } from '../lib/ui/dropzone';
+import { revealResults } from '../lib/ui/reveal';
 import { toast } from '../lib/ui/toast';
 
 type Mode = 'text' | 'screenshot' | 'word' | 'excel' | 'pdf' | 'pdf-excel';
@@ -100,6 +101,7 @@ export function initOcrTool(root: HTMLElement) {
   function addFiles(files: File[]) {
     const ok = files.filter(accepts);
     if (ok.length < files.length) toast(t.unsupported);
+    const firstBatch = toolbar.hidden;
     for (const file of ok) {
       const item: Item = { id: nextId++, file, el: createItemEl(file), rotate: 0, generated: '', rtl: false, done: false, run: 0 };
       items.push(item);
@@ -108,7 +110,7 @@ export function initOcrTool(root: HTMLElement) {
       enqueue(item);
     }
     updateToolbar();
-    items[items.length - ok.length]?.el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    if (ok.length) revealResults(firstBatch ? toolbar : items[items.length - ok.length].el);
   }
 
   // ---------- queue ----------

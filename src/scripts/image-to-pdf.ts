@@ -3,6 +3,7 @@ import { downloadBlob } from '../lib/export/download';
 import { imagesToPdf, type Orientation, type PageSize } from '../lib/export/pdf';
 import { fmt } from '../lib/text';
 import { bindDropzone, bindFileInput } from '../lib/ui/dropzone';
+import { revealResults } from '../lib/ui/reveal';
 import { toast } from '../lib/ui/toast';
 
 interface Entry {
@@ -72,6 +73,13 @@ export function initImageToPdf(root: HTMLElement) {
   async function readFiles(files: File[]) {
     let drawn = performance.now();
     const clearsBefore = clearCount;
+    let revealed = false;
+    const show = () => {
+      render();
+      // Once per batch, when its first pages are on screen.
+      if (!revealed && entries.length) revealResults(workspace);
+      revealed = true;
+    };
     for (const file of files) {
       if (clearCount !== clearsBefore) return;
       try {
@@ -91,11 +99,11 @@ export function initImageToPdf(root: HTMLElement) {
         toast(`${t.failed}: ${file.name}`);
       }
       if (performance.now() - drawn > REDRAW_MS) {
-        render();
+        show();
         drawn = performance.now();
       }
     }
-    render();
+    show();
   }
 
   function move(from: number, to: number) {
@@ -112,14 +120,14 @@ export function initImageToPdf(root: HTMLElement) {
     list.replaceChildren(
       ...entries.map((entry, i) => {
         const li = entry.el;
-        li.className = 'card group relative overflow-hidden p-2';
+        li.className = 'group relative cursor-grab overflow-hidden rounded-2xl bg-surface-2 p-2 transition hover:-translate-y-0.5 active:cursor-grabbing';
         li.draggable = true;
         li.innerHTML = `
-          <div class="flex aspect-[3/4] items-center justify-center overflow-hidden rounded-lg bg-surface-2">
+          <div class="flex aspect-[3/4] items-center justify-center overflow-hidden rounded-xl bg-surface">
             <img alt="" draggable="false" class="max-h-full max-w-full object-contain" />
           </div>
           <div class="mt-2 flex items-center gap-1">
-            <span class="me-auto rounded-md bg-surface-2 px-2 py-0.5 text-xs font-semibold"></span>
+            <span class="me-auto grid h-6 min-w-6 place-items-center rounded-full bg-brand-300 px-1.5 text-xs font-bold text-[#202020]"></span>
             <button type="button" class="btn-ghost btn-sm px-2" data-up>↑</button>
             <button type="button" class="btn-ghost btn-sm px-2" data-down>↓</button>
             <button type="button" class="btn-ghost btn-sm px-2" data-del>✕</button>
