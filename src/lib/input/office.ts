@@ -185,30 +185,70 @@ const RTF_SKIP = new Set([
   'footerr', 'footerf', 'themedata', 'colorschememapping', 'latentstyles', 'datastore', 'xmlnstbl', 'listtable', 'listoverridetable',
   'rsidtbl', 'generator', 'fldinst', 'filetbl', 'revtbl', 'mmathPr', 'pgdsctbl', 'operator', 'author',
 ]);
-const RTF_CHARS: Record<string, string> = {
+const RTF_CHARS = new Map(Object.entries({
   par: '\n', line: '\n', sect: '\n\n', page: '\n\n', row: '\n', cell: '\t', tab: '\t', emdash: '—', endash: '–', bullet: '•',
   lquote: '‘', rquote: '’', ldblquote: '“', rdblquote: '”', emspace: ' ', enspace: ' ',
+}));
+
+// \'xx bytes follow the code page of the document (\ansicpg) or of the current font (\fcharset).
+const RTF_CODE_PAGES: Record<number, string> = {
+  874: 'windows-874', 932: 'shift_jis', 936: 'gbk', 949: 'euc-kr', 950: 'big5', 1250: 'windows-1250', 1251: 'windows-1251',
+  1252: 'windows-1252', 1253: 'windows-1253', 1254: 'windows-1254', 1255: 'windows-1255', 1256: 'windows-1256', 1257: 'windows-1257',
+  1258: 'windows-1258', 10000: 'macintosh',
 };
+const RTF_CHARSETS: Record<number, number> = { 128: 932, 129: 949, 134: 936, 136: 950, 161: 1253, 162: 1254, 163: 1258, 177: 1255, 178: 1256, 186: 1257, 204: 1251, 222: 874, 238: 1250 };
+const DOUBLE_BYTE = new Set(['shift_jis', 'gbk', 'euc-kr', 'big5']);
+
+function isLeadByte(encoding: string, byte: number): boolean {
+  if (encoding === 'shift_jis') return (byte >= 0x81 && byte <= 0x9f) || (byte >= 0xe0 && byte <= 0xfc);
+  return DOUBLE_BYTE.has(encoding) && byte >= 0x81 && byte <= 0xfe;
+}
 
 export function rtfToText(rtf: string): string {
-  const cp1252 = new TextDecoder('windows-1252');
-  const stack: { skip: boolean; uc: number }[] = [];
+  const documentCodePage = RTF_CODE_PAGES[Number(/\\ansicpg(\d+)/.exec(rtf)?.[1])] ?? 'windows-1252';
+  const fontEncoding = new Map<string, string>();
+  for (const m of rtf.matchAll(/\\f(\d+)(?:\\(?!f\d)[a-z]+-?\d*\s*)*\\fcharset(\d+)/g)) {
+    const page = RTF_CODE_PAGES[RTF_CHARSETS[Number(m[2])]];
+    if (page) fontEncoding.set(m[1], page);
+  }
+  const decoders = new Map<string, TextDecoder>();
+  const decode = (encoding: string, bytes: number[]) => {
+    let d = decoders.get(encoding);
+    if (!d) decoders.set(encoding, (d = new TextDecoder(encoding)));
+    return d.decode(Uint8Array.from(bytes));
+  };
+
+  const stack: { skip: boolean; uc: number; encoding: string }[] = [];
   let skip = false;
   let uc = 1;
+  let encoding = documentCodePage;
   let fallback = 0; // characters still to drop after a \u escape
   let out = '';
+  // Consecutive \'xx bytes are decoded together: in Japanese or Chinese, two bytes make one character.
+  let bytes: number[] = [];
+  let needTrailByte = false;
+  const flush = () => {
+    if (bytes.length) out += decode(encoding, bytes);
+    bytes = [];
+    needTrailByte = false;
+  };
   const emit = (s: string) => {
     if (skip) return;
     if (fallback > 0) fallback--;
-    else out += s;
+    else {
+      flush();
+      out += s;
+    }
   };
   for (let i = 0; i < rtf.length; ) {
     const ch = rtf[i];
     if (ch === '{') {
-      stack.push({ skip, uc });
+      flush();
+      stack.push({ skip, uc, encoding });
       i++;
     } else if (ch === '}') {
-      ({ skip, uc } = stack.pop() ?? { skip: false, uc: 1 });
+      flush();
+      ({ skip, uc, encoding } = stack.pop() ?? { skip: false, uc: 1, encoding: documentCodePage });
       i++;
     } else if (ch === '\\') {
       const next = rtf[i + 1];
@@ -216,8 +256,15 @@ export function rtfToText(rtf: string): string {
         emit(next);
         i += 2;
       } else if (next === "'") {
-        emit(cp1252.decode(Uint8Array.of(parseInt(rtf.slice(i + 2, i + 4), 16) || 32)));
+        const byte = parseInt(rtf.slice(i + 2, i + 4), 16) || 32;
         i += 4;
+        if (skip) continue;
+        if (fallback > 0) {
+          fallback--;
+          continue;
+        }
+        bytes.push(byte);
+        needTrailByte = needTrailByte ? false : isLeadByte(encoding, byte);
       } else if (next === '*') {
         skip = true;
         i += 2;
@@ -225,7 +272,7 @@ export function rtfToText(rtf: string): string {
         emit(' ');
         i += 2;
       } else if (next === '\n' || next === '\r') {
-        if (!skip) out += '\n';
+        emit('\n');
         i += 2;
       } else {
         const m = /^([a-zA-Z]+)(-?\d+)? ?/.exec(rtf.slice(i + 1, i + 48));
@@ -239,16 +286,30 @@ export function rtfToText(rtf: string): string {
         if (RTF_SKIP.has(word)) skip = true;
         else if (skip) continue;
         else if (word === 'uc') uc = arg ?? 1;
-        else if (word === 'u' && arg !== undefined) {
+        else if (word === 'f' && arg !== undefined) {
+          flush();
+          encoding = fontEncoding.get(String(arg)) ?? documentCodePage;
+        } else if (word === 'u' && arg !== undefined) {
+          flush();
           out += String.fromCharCode(arg < 0 ? arg + 65536 : arg);
           fallback = uc;
-        } else if (RTF_CHARS[word]) out += RTF_CHARS[word];
+        } else if (RTF_CHARS.has(word)) {
+          flush();
+          out += RTF_CHARS.get(word);
+        }
       }
     } else {
-      if (ch !== '\r' && ch !== '\n') emit(ch);
+      if (ch !== '\r' && ch !== '\n') {
+        // In a double-byte code page, the second byte of a character may be written as a plain letter.
+        if (needTrailByte && !skip) {
+          bytes.push(ch.charCodeAt(0));
+          needTrailByte = false;
+        } else emit(ch);
+      }
       i++;
     }
   }
+  flush();
   return out;
 }
 
@@ -262,9 +323,9 @@ export async function extractSlides(file: File): Promise<Slide[]> {
   const xml = await readXml(zip, pres);
   if (!xml) throw new Error('Not a PowerPoint file');
   const rels = await relationships(zip, pres);
-  const R = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships';
+  // The r:id attribute, whichever namespace it is in: Strict Open XML files use a different one.
   const paths = byName(xml, 'sldId')
-    .map((s) => rels.get(s.getAttributeNS(R, 'id') ?? '')?.target)
+    .map((s) => rels.get([...s.attributes].find((a) => a.localName === 'id' && a.namespaceURI)?.value ?? '')?.target)
     .filter((p): p is string => !!p);
 
   const slides: Slide[] = [];

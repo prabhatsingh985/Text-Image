@@ -1,6 +1,7 @@
 import { extractDocument, extractSlides, isDocFile, isLegacyOffice, isSlideFile, type Slide } from '../lib/input/office';
-import { baseName, countWords, fmt } from '../lib/text';
+import { baseName, counted, fmt, textStats } from '../lib/text';
 import { copyText, downloadText, downloadZip } from '../lib/export/download';
+import { bindDropzone } from '../lib/ui/dropzone';
 import { toast } from '../lib/ui/toast';
 
 // Word to Text and PPT to Text. No OCR: the text is read straight out of the file.
@@ -30,42 +31,13 @@ export function initDocTool(root: HTMLElement) {
   const items: Item[] = [];
 
   // ---------- input ----------
-  dropzone.addEventListener('click', (e) => {
-    if (!(e.target as HTMLElement).closest('label')) input.click();
-  });
-  dropzone.addEventListener('keydown', (e) => {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target === dropzone) {
-      e.preventDefault();
-      input.click();
-    }
-  });
-  input.addEventListener('change', () => {
-    addFiles([...(input.files ?? [])]);
-    input.value = '';
-  });
-  let dragDepth = 0;
-  dropzone.addEventListener('dragenter', (e) => {
-    e.preventDefault();
-    dragDepth++;
-    dropzone.dataset.over = '';
-  });
-  dropzone.addEventListener('dragleave', () => {
-    if (--dragDepth <= 0) delete dropzone.dataset.over;
-  });
-  dropzone.addEventListener('dragover', (e) => e.preventDefault());
-  dropzone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    dragDepth = 0;
-    delete dropzone.dataset.over;
-    addFiles([...(e.dataTransfer?.files ?? [])]);
-  });
-  window.addEventListener('dragover', (e) => e.preventDefault());
-  window.addEventListener('drop', (e) => e.preventDefault());
+  bindDropzone(dropzone, input, addFiles);
 
   function addFiles(files: File[]) {
-    if (files.some(isLegacyOffice)) toast(t.legacyFormat);
     const ok = files.filter(slidesMode ? isSlideFile : isDocFile);
-    if (ok.length < files.filter((f) => !isLegacyOffice(f)).length) toast(t.unsupported);
+    // The old-format message says what to do about it, so it wins over the general one.
+    if (files.some(isLegacyOffice)) toast(t.legacyFormat);
+    else if (ok.length < files.length) toast(t.unsupported);
     for (const file of ok) {
       const item: Item = { file, el: createEl(file), generated: '' };
       items.push(item);
@@ -81,14 +53,18 @@ export function initDocTool(root: HTMLElement) {
     try {
       if (slidesMode) item.slides = await extractSlides(item.file);
       else item.text = await extractDocument(item.file);
-      $('[data-status]', item.el).textContent = slidesMode ? fmt(t.slidesCount, { n: item.slides!.length }) : t.done;
+      $('[data-status]', item.el).textContent = slidesMode ? counted(item.slides!.length, t.slidesCount, t.slideOne) : t.done;
       render(item);
     } catch (err) {
       console.error(err);
       $('[data-status]', item.el).textContent = t.failed;
+      item.el.dataset.state = 'error';
       const note = $('[data-note]', item.el);
       note.hidden = false;
       note.textContent = t.unsupported;
+      // Only the message stays: there is no text to show or copy.
+      $('[data-text]', item.el).hidden = true;
+      $('[data-file-actions]', item.el).hidden = true;
     }
     updateToolbar();
   }
@@ -137,13 +113,12 @@ export function initDocTool(root: HTMLElement) {
     ta.value = next;
     item.generated = next;
     ta.readOnly = false;
-    ta.placeholder = next ? '' : t.noText;
+    ta.placeholder = next ? '' : t.noTextFile;
     updateCount(item.el);
   }
 
   function updateCount(el: HTMLElement) {
-    const text = $<HTMLTextAreaElement>('[data-text]', el).value;
-    $('[data-count]', el).textContent = text ? `${fmt(t.words, { n: countWords(text) })} · ${fmt(t.chars, { n: text.length })}` : '';
+    $('[data-count]', el).textContent = textStats($<HTMLTextAreaElement>('[data-text]', el).value, t);
   }
 
   async function copy(text: string) {
